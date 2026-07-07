@@ -1,0 +1,103 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-ink: #16191A;
+  --color-paper: #FAFAF8;
+  --color-cream: #F4F2EC;
+  --color-white: #FFFFFF;
+  --color-sky-100: #E4F6FD;
+  --color-sky-300: #9FE1F8;
+  --color-sky: #35C5F0;
+  --color-eco: #2D9B6F;
+  --color-navy: #1F3A66;
+  --color-navy-600: #24477F;
+  --color-navy-700: #16294B;
+  --color-navy-900: #0F1E38;
+  --color-gold: #E8A33D;
+  --color-line: rgb(22 25 26 / 0.08);
+  --color-border: var(--color-line);
+  --color-input: var(--color-line);
+  --color-ring: var(--color-sky);
+  --color-background: var(--color-paper);
+  --color-foreground: var(--color-ink);
+  --color-primary: var(--color-navy);
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #FFFFFF;
+  --color-secondary-foreground: var(--color-ink);
+  --color-muted: var(--color-sky-100);
+  --color-muted-foreground: rgb(22 25 26 / 0.65);
+  --color-accent: var(--color-sky-100);
+  --color-accent-foreground: var(--color-ink);
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: var(--color-ink);
+  --color-destructive: #8A321D;
+  --color-destructive-foreground: #FFFFFF;
+  --font-display: "Fraunces Variable", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans Variable", system-ui, sans-serif;
+  --text-display: clamp(2.75rem, 6vw, 5.5rem);
+  --text-display--line-height: 1.02;
+  --text-h2: clamp(2.25rem, 4.2vw, 3.75rem);
+  --text-h2--line-height: 1.05;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+    background: #FAFAF8;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #FAFAF8;
+    color: #16191A;
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: #0F1E38;
+    color: #FFFFFF;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  section[id] {
+    scroll-margin-top: 88px;
+  }
+
+  :where(a, button, input, textarea, select, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid #35C5F0;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  @media (min-width: 1024px) {
+    .services-bento-grid {
+      grid-template-columns: 5fr 4fr 3fr;
+      grid-template-areas:
+        "featured deep deep"
+        "featured move vetted"
+        "easy eco eco";
+    }
+  }
+}
