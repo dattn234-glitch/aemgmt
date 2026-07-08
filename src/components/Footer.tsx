@@ -1,6 +1,6 @@
 import { Facebook, Instagram } from "lucide-react";
 import type { ReactNode } from "react";
-import aeLogo from "../assets/ae-logo.jpeg";
+import { BrandMark } from "./BrandMark";
 import { company } from "../lib/company";
 import type { BrandContent, ContactContent, NavItem } from "../lib/site-content";
 import { WhatsappLogo } from "./WhatsappLogo";
@@ -26,7 +26,7 @@ export function Footer({ brand, contact, navItems }: FooterProps) {
         <div className="mt-12 grid gap-10 border-t border-white/12 pt-12 lg:grid-cols-[5fr_3fr_4fr] lg:gap-8">
           <div className="grid content-start gap-5">
             <a className="inline-flex items-center gap-3" href="#home" aria-label={`${brand.name} home`}>
-              <img className="size-10 rounded-lg border border-white/15 object-cover" src={aeLogo} alt="" aria-hidden="true" />
+              <BrandMark className="size-10 rounded-lg border border-white/15" />
               <span>
                 <span className="block font-display text-xl font-medium leading-none">AE Management Services</span>
                 <span className="mt-1.5 block text-[11px] font-semibold uppercase tracking-[0.08em] text-white/45">

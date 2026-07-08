@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronDown, ChevronRight, LogOut, Menu, ShieldCheck } from "lucide-react";
-import aeLogo from "../assets/ae-logo.jpeg";
+import { BrandMark } from "./BrandMark";
 import { company } from "../lib/company";
 import { setPreferredBookingService } from "../lib/booking-preferences";
 import { forgetCustomerSession, getCurrentAuth, logoutAdmin } from "../lib/customer-api";
@@ -82,10 +82,8 @@ export function Header({ activeHref, brand, navItems, contact, view }: HeaderPro
         aria-label="Primary navigation"
       >
         <a className="inline-flex min-w-0 items-center xl:min-w-max" href="#home" aria-label={`${brand.name} home`}>
-          <img
-            className={`size-12 shrink-0 rounded-xl object-cover sm:size-[52px] ${solid ? "border border-line" : "ring-2 ring-white/60 shadow-[0_6px_18px_rgb(9_30_66_/_0.18)]"}`}
-            src={aeLogo}
-            alt={brand.name}
+          <BrandMark
+            className={`size-12 sm:size-[52px] ${solid ? "border border-line" : "ring-2 ring-white/60 shadow-[0_6px_18px_rgb(9_30_66_/_0.18)]"}`}
           />
         </a>
 
