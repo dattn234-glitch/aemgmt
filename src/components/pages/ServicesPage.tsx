@@ -48,6 +48,13 @@ const chapters = [
   { number: "03", label: "Post-renovation", href: "#chapter-renovation" }
 ] as const;
 
+function scrollToAnchor(event: { preventDefault: () => void }, href: string) {
+  // In-page anchors must not touch location.hash — the hash router treats unknown
+  // hashes as routes and falls back to #home.
+  event.preventDefault();
+  document.getElementById(href.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export function ServicesPage({ booking, pricing }: { booking: BookingContent; pricing: PricingContent }) {
   const recurring = getService(booking, "recurring");
   const move = getService(booking, "move");
@@ -83,7 +90,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
 
   return (
     <>
-      <section className="bg-navy-900 pb-28 pt-28 text-white lg:pb-32 lg:pt-36" id="services" aria-labelledby="services-title">
+      <section className="bg-navy-900 pb-36 pt-28 text-white lg:pb-44 lg:pt-36" id="services" aria-labelledby="services-title">
         <Container className="grid gap-6">
           <p className="m-0 text-[13px] font-semibold tracking-[0.08em] text-sky-200 uppercase">Services</p>
           <h1 id="services-title" className="m-0 max-w-3xl font-display text-display font-semibold">
@@ -104,8 +111,8 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
         </Container>
       </section>
 
-      <section className="bg-cream pb-4">
-        <Container className="-mt-16 grid gap-4 lg:-mt-20 lg:grid-cols-3">
+      <section className="bg-cream pb-8">
+        <Container className="-mt-20 grid gap-5 lg:-mt-24 lg:grid-cols-3">
           {[
             {
               service: recurring,
@@ -150,7 +157,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
                   </p>
                   <div className="flex items-center gap-2">
                     <Button asChild size="sm" variant="secondary">
-                      <a href={chapter.href}>Details</a>
+                      <a href={chapter.href} onClick={(event) => scrollToAnchor(event, chapter.href)}>Details</a>
                     </Button>
                     <Button asChild size="sm">
                       <a href="#booking" onClick={() => setPreferredBookingService(service.id)}>
@@ -177,6 +184,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
                 className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-primary-soft hover:text-primary-ink ${active ? "bg-primary-soft text-primary-ink" : "text-ink/65"}`}
                 href={chapter.href}
                 key={chapter.number}
+                onClick={(event) => scrollToAnchor(event, chapter.href)}
               >
                 <span className="font-display text-xs font-semibold text-gold-text">{chapter.number}</span>
                 {chapter.label}
@@ -346,8 +354,8 @@ function MoveOutSection({ service }: { service: BookingService }) {
             <img loading="lazy" className="h-full w-full rounded-[24px] object-cover" src={serviceImages.moveHero} alt="Bright empty apartment prepared for move-in or handover cleaning" />
           </div>
           <div className="grid gap-4 md:grid-cols-2">
-            <ProofImage image={serviceImages.moveBefore} label="Before" caption="Empty rooms can still hold cabinet dust, bathroom buildup, and floor residue from the move itself." />
-            <ProofImage image={serviceImages.moveAfter} label="After" caption="The space is clean and key-ready for the next resident or your final inspection." positive />
+            <ProofImage image={serviceImages.moveBefore} label="Before" caption="Boxes out — but the dust, wrap, and scuffs from the move stay behind." />
+            <ProofImage image={serviceImages.moveAfter} label="After" caption="The same room, clean and key-ready for the next resident or your final inspection." positive />
           </div>
           <div className="rounded-[24px] border border-line bg-white p-5">
             <div className="flex flex-wrap items-center justify-between gap-4">
