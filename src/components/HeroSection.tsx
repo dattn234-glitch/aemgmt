@@ -1,7 +1,7 @@
 import { BadgeCheck, Camera, ClipboardCheck, Users } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
-import heroImage from "../assets/ae-hero-living-room.png";
+import heroImage from "../assets/ae-hero-living-room.webp";
 import type { HeroContent } from "../lib/site-content";
 import { BookingOptionDialog } from "./BookingOptionDialog";
 import { Button } from "./ui/button";

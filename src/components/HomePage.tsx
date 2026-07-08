@@ -18,7 +18,7 @@ export function HomePage({ hero, pricing, trustRow }: HomePageProps) {
     <>
       <HeroSection hero={hero} />
       <ProofSection />
-      <ServicesBentoSection trustRow={trustRow} />
+      <ServicesBentoSection pricing={pricing} trustRow={trustRow} />
       <HowItWorksSection />
       <PricingSection pricing={pricing} teaser />
       <ReviewsSection />

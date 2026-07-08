@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Star } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
 import { Avatar } from "./Avatar";
@@ -57,6 +58,25 @@ export const reviewCards = [
 export function ReviewsSection() {
   const headerReveal = useReveal<HTMLDivElement>();
   const gridReveal = useReveal<HTMLDivElement>();
+  const marqueeRef = useRef<HTMLDivElement | null>(null);
+  const [marqueeActive, setMarqueeActive] = useState(true);
+
+  useEffect(() => {
+    const element = marqueeRef.current;
+
+    if (!element) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setMarqueeActive(entry.isIntersecting),
+      { rootMargin: "120px 0px" }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section className="scroll-mt-[88px] bg-paper py-20 lg:py-28" id="reviews" aria-labelledby="reviews-title">
@@ -72,7 +92,10 @@ export function ReviewsSection() {
           <p className="m-0 text-lg leading-8 text-ink/65">Real feedback from weekly cleans, move-in/out handovers, and post-renovation cleans across Singapore.</p>
         </div>
         <div ref={gridReveal.ref} className={`overflow-hidden transition duration-500 ${gridReveal.className}`}>
-          <div className="flex w-max gap-5 animate-[reviews-marquee_38s_linear_infinite] hover:[animation-play-state:paused]">
+          <div
+            ref={marqueeRef}
+            className={`flex w-max gap-5 will-change-transform animate-[reviews-marquee_38s_linear_infinite] hover:[animation-play-state:paused] ${marqueeActive ? "" : "[animation-play-state:paused]"}`}
+          >
             {[...reviewCards, ...reviewCards].map((review, index) => (
               <ReviewCard key={`${review.name}-${index}`} review={review} />
             ))}

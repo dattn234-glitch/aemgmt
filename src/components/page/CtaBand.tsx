@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import cleanerKitchen from "../../assets/ae-cleaner-kitchen.png";
+import cleanerKitchen from "../../assets/ae-cleaner-kitchen.webp";
 import { company } from "../../lib/company";
 import { BookingOptionDialog } from "../BookingOptionDialog";
 import { WhatsappLogo } from "../WhatsappLogo";

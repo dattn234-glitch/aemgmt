@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
 import { ArrowRight, Check, ShieldCheck, Star } from "lucide-react";
-import moveAfterImage from "../../assets/services/move-after.jpg";
-import moveBeforeImage from "../../assets/services/move-before.jpg";
-import moveHeroImage from "../../assets/services/move-hero.jpg";
-import renoAfterImage from "../../assets/services/reno-after.jpg";
-import renoBeforeImage from "../../assets/services/reno-before.jpg";
-import renoHeroImage from "../../assets/services/reno-hero.jpg";
-import renoReportImage from "../../assets/services/reno-report.jpg";
-import subscriptionAfterImage from "../../assets/services/subscription-after.jpg";
-import subscriptionBeforeImage from "../../assets/services/subscription-before.jpg";
-import subscriptionHeroImage from "../../assets/services/subscription-hero.jpg";
+import moveAfterImage from "../../assets/services/move-after.webp";
+import moveBeforeImage from "../../assets/services/move-before.webp";
+import moveHeroImage from "../../assets/services/move-hero.webp";
+import renoAfterImage from "../../assets/services/reno-after.webp";
+import renoBeforeImage from "../../assets/services/reno-before.webp";
+import renoHeroImage from "../../assets/services/reno-hero.webp";
+import renoReportImage from "../../assets/services/reno-report.webp";
+import subscriptionAfterImage from "../../assets/services/subscription-after.webp";
+import subscriptionBeforeImage from "../../assets/services/subscription-before.webp";
+import subscriptionHeroImage from "../../assets/services/subscription-hero.webp";
 import { formatMoney, formatSignedMoney, getWhatsappHref } from "../../lib/company";
 import { setPreferredBookingService } from "../../lib/booking-preferences";
 import type { BookingContent, BookingService, PricingContent } from "../../lib/site-content";
@@ -50,6 +51,34 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
   const recurring = getService(booking, "recurring");
   const move = getService(booking, "move");
   const renovation = getService(booking, "renovation");
+  const [activeChapter, setActiveChapter] = useState<string>(chapters[0].href);
+
+  useEffect(() => {
+    const elements = chapters
+      .map((chapter) => document.getElementById(chapter.href.slice(1)))
+      .filter((element): element is HTMLElement => Boolean(element));
+
+    if (elements.length === 0) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible?.target.id) {
+          setActiveChapter(`#${visible.target.id}`);
+        }
+      },
+      { rootMargin: "-30% 0px -55% 0px", threshold: [0.05, 0.2, 0.4] }
+    );
+
+    elements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -71,16 +100,21 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
 
       <nav className="sticky top-[72px] z-30 border-y border-line bg-paper/90 backdrop-blur-md" aria-label="Service chapters">
         <Container className="flex items-center gap-1 overflow-x-auto py-3 sm:gap-2">
-          {chapters.map((chapter) => (
-            <a
-              className="inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-ink/65 transition-colors hover:bg-primary-soft hover:text-primary-ink"
-              href={chapter.href}
-              key={chapter.number}
-            >
-              <span className="font-display text-xs font-semibold text-gold-text">{chapter.number}</span>
-              {chapter.label}
-            </a>
-          ))}
+          {chapters.map((chapter) => {
+            const active = chapter.href === activeChapter;
+
+            return (
+              <a
+                aria-current={active ? "true" : undefined}
+                className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-primary-soft hover:text-primary-ink ${active ? "bg-primary-soft text-primary-ink" : "text-ink/65"}`}
+                href={chapter.href}
+                key={chapter.number}
+              >
+                <span className="font-display text-xs font-semibold text-gold-text">{chapter.number}</span>
+                {chapter.label}
+              </a>
+            );
+          })}
         </Container>
       </nav>
 
@@ -157,7 +191,7 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
         <div className="grid gap-6">
           <div className="grid gap-6 rounded-[30px] border border-line bg-white p-5 shadow-[0_18px_48px_rgb(22_25_26_/_0.05)] lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:p-7">
             <div className="aspect-[4/3] h-full overflow-hidden rounded-[26px] bg-cream lg:min-h-[320px] lg:aspect-auto">
-              <img className="h-full w-full object-cover" src={serviceImages.subscriptionHero} alt="Professional cleaner preparing a bright residential kitchen" />
+              <img loading="lazy" className="h-full w-full object-cover" src={serviceImages.subscriptionHero} alt="Professional cleaner preparing a bright residential kitchen" />
             </div>
             <div className="grid content-center gap-5">
               <span className="inline-flex w-fit items-center gap-2 rounded-full bg-primary-soft px-4 py-2 text-xs font-semibold tracking-[0.08em] text-primary-ink uppercase">
@@ -241,7 +275,7 @@ function MoveOutSection({ service }: { service: BookingService }) {
 
         <div className="grid gap-5">
           <div className="aspect-[4/3] h-full overflow-hidden rounded-[30px] border border-line bg-white p-4 shadow-[0_18px_48px_rgb(22_25_26_/_0.06)] lg:min-h-[320px] lg:aspect-auto">
-            <img className="h-full w-full rounded-[24px] object-cover" src={serviceImages.moveHero} alt="Bright empty apartment prepared for move-in or handover cleaning" />
+            <img loading="lazy" className="h-full w-full rounded-[24px] object-cover" src={serviceImages.moveHero} alt="Bright empty apartment prepared for move-in or handover cleaning" />
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <ProofImage image={serviceImages.moveBefore} label="Before" caption="Empty rooms can still hold cabinet dust, bathroom buildup, and floor residue from the move itself." />
@@ -296,12 +330,12 @@ function PostRenovationSection({ service }: { service: BookingService }) {
 
           <div className="grid gap-4">
             <div className="aspect-[4/3] h-full overflow-hidden rounded-[26px] border border-line bg-cream lg:min-h-[320px] lg:aspect-auto">
-              <img className="h-full w-full object-cover" src={serviceImages.renovationHero} alt="Post-renovation residential room prepared for dust reset cleaning" />
+              <img loading="lazy" className="h-full w-full object-cover" src={serviceImages.renovationHero} alt="Post-renovation residential room prepared for dust reset cleaning" />
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               {proofItems.map((item) => (
                 <article className="overflow-hidden rounded-[22px] border border-line bg-white" key={item.label}>
-                  <img className="aspect-[1.15] w-full object-cover" src={item.image} alt={item.label} />
+                  <img loading="lazy" className="aspect-[1.15] w-full object-cover" src={item.image} alt={item.label} />
                   <div className="p-4">
                     <p className="m-0 text-sm font-semibold text-ink">{item.label}</p>
                     <p className="m-0 mt-2 text-sm leading-6 text-ink/62">{item.caption}</p>
@@ -412,7 +446,7 @@ function ProofImage({
   return (
     <article className="overflow-hidden rounded-[22px] border border-line bg-white">
       <div className="relative aspect-[1.28] overflow-hidden">
-        <img className="h-full w-full object-cover" src={image} alt={`${label} cleaning state`} />
+        <img loading="lazy" className="h-full w-full object-cover" src={image} alt={`${label} cleaning state`} />
         <span className={`absolute left-3 top-3 inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] ${positive ? "bg-primary text-white" : "bg-white/94 text-ink"}`}>
           {label}
         </span>

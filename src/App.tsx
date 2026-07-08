@@ -1,19 +1,28 @@
-import { useEffect, useState, type ReactElement } from "react";
-import { BookingPage } from "./components/BookingPage";
+import { Suspense, lazy, useEffect, useState, type ReactElement } from "react";
 import { FloatingWhatsapp } from "./components/FloatingWhatsapp";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { HomePage } from "./components/HomePage";
-import { AdminPage } from "./components/pages/AdminPage";
 import { AboutPage } from "./components/pages/AboutPage";
 import { ContactPage } from "./components/pages/ContactPage";
 import { HowItWorksPage } from "./components/pages/HowItWorksPage";
 import { PricingPage } from "./components/pages/PricingPage";
-import { PublicInvoicePage } from "./components/pages/PublicInvoicePage";
 import { ReviewsPage } from "./components/pages/ReviewsPage";
-import { SignInPage } from "./components/pages/SignInPage";
 import { ServicesPage } from "./components/pages/ServicesPage";
 import { fallbackSiteContent, type SiteContent } from "./lib/site-content";
+
+const BookingPage = lazy(() => import("./components/BookingPage").then((module) => ({ default: module.BookingPage })));
+const AdminPage = lazy(() => import("./components/pages/AdminPage").then((module) => ({ default: module.AdminPage })));
+const PublicInvoicePage = lazy(() => import("./components/pages/PublicInvoicePage").then((module) => ({ default: module.PublicInvoicePage })));
+const SignInPage = lazy(() => import("./components/pages/SignInPage").then((module) => ({ default: module.SignInPage })));
+
+function RouteFallback() {
+  return (
+    <div className="grid min-h-[60svh] place-items-center bg-paper pt-[72px]">
+      <span className="size-8 animate-spin rounded-full border-2 border-line border-t-primary" aria-label="Loading" />
+    </div>
+  );
+}
 
 const fallbackRoute = "#home";
 const legacyRoutes = new Map([["#testimonials", "#reviews"]]);
@@ -87,7 +96,9 @@ export function App() {
         view={view}
       />
       <main className={`route route--${view}`}>
-        {page}
+        <Suspense fallback={<RouteFallback />}>
+          {page}
+        </Suspense>
       </main>
       <Footer brand={content.brand} contact={content.contact} navItems={content.navItems} />
       <FloatingWhatsapp activeHref={activeHref} />

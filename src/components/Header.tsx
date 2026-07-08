@@ -81,13 +81,12 @@ export function Header({ activeHref, brand, navItems, contact, view }: HeaderPro
         className="mx-auto grid h-full w-[min(1440px,calc(100%-40px))] grid-cols-[minmax(0,auto)_minmax(0,1fr)_auto] items-center gap-5 xl:gap-8 2xl:gap-12"
         aria-label="Primary navigation"
       >
-        <a className="inline-flex min-w-0 items-center gap-2 sm:gap-3 xl:min-w-max" href="#home" aria-label={`${brand.name} home`}>
-          <img className="size-9 shrink-0 rounded-lg border border-line object-cover" src={aeLogo} alt="" aria-hidden="true" />
-          <span className={`block max-w-[calc(100vw-118px)] truncate font-display text-[17px] font-medium leading-none tracking-normal sm:max-w-none sm:text-[19px] xl:text-[20px] 2xl:text-[22px] ${solid ? "" : "rounded-full bg-white/92 px-2.5 py-1 text-ink ring-1 ring-white/35"}`}>
-            <span className={solid ? "text-ink" : "text-primary-ink"}>AE</span>
-            <span className="text-ink max-[360px]:hidden"> Management Services</span>
-            <span className="hidden text-ink max-[360px]:inline"> Management</span>
-          </span>
+        <a className="inline-flex min-w-0 items-center xl:min-w-max" href="#home" aria-label={`${brand.name} home`}>
+          <img
+            className={`size-12 shrink-0 rounded-xl object-cover sm:size-[52px] ${solid ? "border border-line" : "ring-2 ring-white/60 shadow-[0_6px_18px_rgb(9_30_66_/_0.18)]"}`}
+            src={aeLogo}
+            alt={brand.name}
+          />
         </a>
 
         <div className="hidden min-w-0 justify-center xl:flex">

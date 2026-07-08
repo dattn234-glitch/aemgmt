@@ -1,6 +1,6 @@
 import { Check, Leaf } from "lucide-react";
-import kitchenImage from "../../assets/ae-cleaner-kitchen.png";
-import livingRoomImage from "../../assets/ae-hero-living-room.png";
+import kitchenImage from "../../assets/ae-cleaner-kitchen.webp";
+import livingRoomImage from "../../assets/ae-hero-living-room.webp";
 import { Reveal } from "../Reveal";
 import { CtaBand } from "../page/CtaBand";
 import { Container } from "../ui";
@@ -67,8 +67,8 @@ export function AboutPage() {
       <section className="bg-cream py-20 lg:py-28">
         <Container className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <Reveal className="relative min-h-[440px]">
-            <img className="h-[390px] w-[78%] rounded-[20px] object-cover" src={kitchenImage} alt="Cleaner wiping a bright kitchen counter" />
-            <img className="absolute bottom-0 right-0 h-[220px] w-[48%] rounded-[20px] border-8 border-cream object-cover" src={livingRoomImage} alt="Bright tidy living room" />
+            <img className="h-[390px] w-[78%] rounded-[20px] object-cover" src={kitchenImage} alt="Cleaner wiping a bright kitchen counter" loading="lazy" />
+            <img className="absolute bottom-0 right-0 h-[220px] w-[48%] rounded-[20px] border-8 border-cream object-cover" src={livingRoomImage} alt="Bright tidy living room" loading="lazy" />
             <div className="absolute left-6 top-9 grid w-[min(72%,320px)] rounded-[26px] border border-white/70 bg-white/90 p-8 text-ink shadow-[0_14px_34px_rgb(9_30_66_/_0.10)] backdrop-blur-sm sm:left-10 sm:top-12 sm:p-9">
               <Leaf size={34} strokeWidth={1.8} aria-hidden="true" />
               <p className="mb-0 mt-7 font-display text-[32px] font-medium leading-[1.12] sm:text-[38px]">Clean home<br />Happy life</p>

@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState, type ComponentProps, type ReactNode } from "react";
-import { AlertCircle, ArrowLeft, ArrowRight, CalendarDays, Check, CheckCircle2, ChevronLeft, ChevronRight, ClipboardList, Home, Info, Loader2, MapPinHouse, Search, Send, Sparkles, TriangleAlert, UserRound } from "lucide-react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { AlertCircle, ArrowLeft, ArrowRight, CalendarDays, Check, CheckCircle2, ChevronLeft, ClipboardList, Home, Info, Loader2, MapPinHouse, Search, Send, Sparkles, TriangleAlert, UserRound } from "lucide-react";
 import { BookingStatusTimeline, type BookingStatusResponse } from "./BookingStatusTimeline";
 import { CustomerAccountPanel } from "./CustomerAccountDialog";
 import { Icon3D, type Icon3DName } from "./Icon3D";
@@ -228,7 +228,8 @@ export function BookingPage({ booking }: BookingPageProps) {
     setStepError("");
     setStatus({ state: "idle", message: "" });
     setDurationLocked(!needsDurationConfirm);
-    setDurationDialogOpen(needsDurationConfirm);
+    // Duration is confirmed when the user proceeds (validateStep opens the dialog),
+    // so selecting a plan no longer interrupts step 1 with a modal.
   }
 
   async function requestAvailability() {
@@ -588,7 +589,7 @@ export function BookingPage({ booking }: BookingPageProps) {
         ) : null}
 
         <div
-          className={`grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_420px] xl:items-start ${activeCustomerBooking ? "hidden" : ""}`}
+          className={`grid min-w-0 gap-4 pb-24 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start lg:pb-0 xl:grid-cols-[minmax(0,1fr)_420px] ${activeCustomerBooking ? "hidden" : ""}`}
         >
           <div className="grid min-w-0 gap-4">
 
@@ -620,10 +621,12 @@ export function BookingPage({ booking }: BookingPageProps) {
             </div>
           ) : null}
 
-          {stepError ? (
-            <div className="rounded-[18px] border border-destructive-border/40 bg-destructive-soft px-4 py-3 text-sm font-semibold text-destructive" role="alert">
-              {stepError}
-            </div>
+          {!customer && !bookingLocked ? (
+            <p className="m-0 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[16px] border border-line bg-white px-4 py-2.5 text-[13px] text-ink/60">
+              <UserRound className="size-3.5 shrink-0 text-primary-ink" aria-hidden="true" />
+              You'll need an account at step 4 to keep this booking attached to you.
+              <a className="font-semibold text-primary-ink underline-offset-2 hover:underline" href="#signin">Sign in now</a>
+            </p>
           ) : null}
 
           {currentStep === 0 ? (
@@ -645,7 +648,7 @@ export function BookingPage({ booking }: BookingPageProps) {
                 setAvailabilityUnlocked(false);
                 setAvailabilityStatus("idle");
                 setAvailabilityResult(null);
-                setAvailabilityMessage("");
+                setAvailabilityMessage(availabilityUnlocked ? "Address changed — click Find availability again to refresh the slots." : "");
                 setBookingsClosed(false);
                 setStepError("");
               }}
@@ -656,7 +659,7 @@ export function BookingPage({ booking }: BookingPageProps) {
                 setAvailabilityUnlocked(false);
                 setAvailabilityStatus("idle");
                 setAvailabilityResult(null);
-                setAvailabilityMessage("");
+                setAvailabilityMessage(availabilityUnlocked ? "Postal code changed — click Find availability again to refresh the slots." : "");
                 setBookingsClosed(false);
                 setStepError("");
               }}
@@ -820,7 +823,7 @@ export function BookingPage({ booking }: BookingPageProps) {
           ) : null}
         </div>
 
-        <aside className="min-w-0 xl:sticky xl:top-20" aria-labelledby="booking-summary-title">
+        <aside className="min-w-0 lg:sticky lg:top-20" aria-labelledby="booking-summary-title">
           <div className="rounded-[22px] border border-line bg-white p-5 xl:p-6">
             <div className="flex items-center justify-between gap-3">
               <div>
@@ -856,13 +859,13 @@ export function BookingPage({ booking }: BookingPageProps) {
             </div>
             <p className="mt-2 text-xs leading-5 text-ink/55">{estimate.note}</p>
 
-            {firstError ? (
+            {stepError || firstError ? (
               <div className="mt-5 rounded-[18px] border border-destructive-border/40 bg-destructive-soft px-4 py-3 text-destructive" role="alert">
                 <div className="flex items-start gap-2">
                   <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                   <div>
-                    <p className="m-0 text-sm font-semibold">Missing booking detail</p>
-                    <p className="m-0 mt-2 text-sm leading-5">{firstError.message}</p>
+                    <p className="m-0 text-sm font-semibold">Check this first</p>
+                    <p className="m-0 mt-2 text-sm leading-5">{stepError || firstError?.message}</p>
                   </div>
                 </div>
               </div>
@@ -926,6 +929,56 @@ export function BookingPage({ booking }: BookingPageProps) {
           </div>
         </aside>
         </div>
+
+        {!activeCustomerBooking ? (
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-4 pb-[max(env(safe-area-inset-bottom),12px)] pt-3 backdrop-blur-md lg:hidden">
+            <div className="mx-auto w-[min(640px,100%)]">
+              {stepError ? (
+                <p className="m-0 mb-2 text-xs font-semibold leading-4 text-destructive" role="alert">{stepError}</p>
+              ) : null}
+              <div className="flex items-center gap-3">
+                {currentStep > 0 && !bookingLocked ? (
+                  <Button aria-label="Back" size="icon" type="button" variant="secondary" onClick={goToPreviousStep}>
+                    <ArrowLeft className="size-4" aria-hidden="true" />
+                  </Button>
+                ) : null}
+                <div className="min-w-0 flex-1">
+                  <p className="m-0 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink/50">Est. total</p>
+                  <p className="m-0 font-display text-2xl font-semibold leading-none text-primary-ink">
+                    {estimate.customQuote ? "Custom" : formatMoney(estimatedTotal)}
+                  </p>
+                </div>
+                {bookingLocked ? (
+                  <Button className="flex-1" type="button" onClick={() => { window.location.hash = "#signin"; }}>
+                    View my bookings
+                  </Button>
+                ) : currentStep < wizardSteps.length - 1 ? (
+                  <Button className="flex-1" type="button" onClick={goToNextStep}>
+                    Proceed
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Button>
+                ) : (
+                  <Button
+                    className="flex-1"
+                    disabled={status.state === "submitting"}
+                    type="button"
+                    onClick={() => {
+                      if (!customer) {
+                        setAccountDialogOpen(true);
+                        return;
+                      }
+
+                      void createBookingRequest();
+                    }}
+                  >
+                    {status.state === "submitting" ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Send className="size-4" aria-hidden="true" />}
+                    {status.state === "submitting" ? "Creating..." : "Create booking"}
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <DurationModal
@@ -1308,17 +1361,11 @@ function AddressAndSlotStep({
             ) : null}
 
             <div className="grid gap-3 rounded-[20px] border border-line bg-white p-3">
-              <div className="flex items-center justify-between gap-3 rounded-[16px] border border-line bg-paper px-4 py-3">
-                <Button aria-label="Previous availability window" className="text-ink/30" disabled size="icon" type="button" variant="secondary">
-                  <ChevronLeft className="size-4" aria-hidden="true" />
-                </Button>
+              <div className="rounded-[16px] border border-line bg-paper px-4 py-3 text-center">
                 <strong className="text-sm font-semibold text-ink">{slotWeekLabel}</strong>
-                <Button aria-label="Next availability window" className="text-ink/30" disabled size="icon" type="button" variant="secondary">
-                  <ChevronRight className="size-4" aria-hidden="true" />
-                </Button>
               </div>
 
-              <div className="grid gap-4 lg:grid-cols-[auto_minmax(0,1fr)]">
+              <div className="grid justify-items-center gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start sm:justify-items-start">
                 <Calendar
                   mode="single"
                   selected={selectedCalendarDate}
@@ -1334,33 +1381,16 @@ function AddressAndSlotStep({
                     disabled: "text-ink/30 opacity-45 line-through"
                   }}
                 />
-                <div className="grid content-start gap-3 sm:grid-cols-2">
-                  {availabilityDates.map((date) => {
-                    const activeDate = date.date === selectedDate;
-                    const unavailableLabel = date.blocked ? "Unavailable" : "Fully booked";
-
-                    return (
-                      <Button
-                        className={cn(
-                          "[display:block] h-auto rounded-[18px] border px-4 py-4 text-left whitespace-normal transition",
-                          activeDate ? "border-primary bg-primary-soft" : "border-line bg-white hover:border-primary/60",
-                          !date.available && "cursor-not-allowed opacity-55"
-                        )}
-                        disabled={!date.available}
-                        key={date.date}
-                        onClick={() => onSelectDate(date.date)}
-                        type="button"
-                        variant="secondary"
-                      >
-                        <span className="block text-xs font-semibold uppercase tracking-[0.08em] text-ink/45">{formatSlotDayMeta(date.date)}</span>
-                        <span className="mt-2 block font-display text-xl font-medium text-ink">{formatSlotDayTitle(date.date)}</span>
-                        <span className="mt-2 block text-sm leading-6 text-ink/60">
-                          {!date.available ? unavailableLabel : date.surcharge > 0 ? `Weekend surcharge ${formatSignedMoney(date.surcharge)}` : "Weekday rate"}
-                        </span>
-                      </Button>
-                    );
-                  })}
-                </div>
+                {selectedAvailabilityDate ? (
+                  <div className="w-full rounded-[18px] border border-line bg-paper px-4 py-4 sm:max-w-xs">
+                    <span className="block text-xs font-semibold uppercase tracking-[0.08em] text-ink/45">{formatSlotDayMeta(selectedAvailabilityDate.date)}</span>
+                    <span className="mt-2 block font-display text-xl font-medium text-ink">{formatSlotDayTitle(selectedAvailabilityDate.date)}</span>
+                    <span className="mt-2 block text-sm leading-6 text-ink/60">
+                      {selectedAvailabilityDate.surcharge > 0 ? `Weekend surcharge ${formatSignedMoney(selectedAvailabilityDate.surcharge)}` : "Weekday rate"}
+                    </span>
+                    <span className="mt-2 block text-xs leading-5 text-ink/45">Crossed-out dates are fully booked or unavailable.</span>
+                  </div>
+                ) : null}
               </div>
             </div>
 
@@ -1372,10 +1402,6 @@ function AddressAndSlotStep({
                   : slot.total
                     ? formatFromMoney(slot.total)
                     : getServicePathPrice(selectedService, frequency);
-                const slotNote = selectedService.id === "recurring"
-                  ? "Summary updates with selected duration and rate."
-                  : "AE confirms the exact residential scope.";
-
                 return (
                   <Button
                     aria-pressed={slot.time === selectedTimeSlot}
@@ -1429,6 +1455,9 @@ function AddressAndSlotStep({
                   Enter the 6-digit postal code and full residential address above, then click{" "}
                   <strong className="font-semibold text-ink">Find availability</strong>. AE uses that address to load the date rail and arrival windows for this booking.
                 </p>
+                {availabilityMessage ? (
+                  <p className="m-0 mt-3 rounded-[14px] border border-gold/50 bg-gold-soft px-3 py-2 text-sm leading-5 text-gold-text">{availabilityMessage}</p>
+                ) : null}
               </div>
             </div>
           </section>
@@ -1650,81 +1679,7 @@ function SelectField({ label, value, onValueChange, options }: { label: string; 
   );
 }
 
-function TextInput({
-  label,
-  id,
-  error,
-  value,
-  onChange,
-  ...props
-}: {
-  label: string;
-  id: string;
-  error?: string;
-  value: string;
-  onChange: (value: string) => void;
-} & Omit<ComponentProps<typeof Input>, "onChange" | "value" | "id">) {
-  return (
-    <div>
-      <Label className="text-sm font-semibold text-ink/70" htmlFor={id}>{label}</Label>
-      <Input
-        aria-describedby={error ? `${id}-error` : undefined}
-        aria-invalid={Boolean(error)}
-        className={cn(
-          "mt-2 h-11 rounded-full bg-white px-4 focus-visible:ring-primary/30",
-          error ? "border-destructive-border bg-destructive-soft focus-visible:ring-destructive-border/30" : "border-input"
-        )}
-        id={id}
-        onChange={(event) => onChange(event.target.value)}
-        value={value}
-        {...props}
-      />
-      <FieldError id={`${id}-error`} message={error} />
-    </div>
-  );
-}
 
-function PhoneInput({
-  error,
-  value,
-  onChange
-}: {
-  error?: string;
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <div>
-      <Label className="text-sm font-semibold text-ink/70" htmlFor="customer-phone">Phone</Label>
-      <div
-        className={cn(
-          "mt-2 flex h-11 items-center overflow-hidden rounded-full border bg-white shadow-sm focus-within:ring-[3px] focus-within:ring-primary/30",
-          error ? "border-destructive-border bg-destructive-soft focus-within:ring-destructive-border/30" : "border-input"
-        )}
-      >
-        <span className="flex h-full shrink-0 items-center border-r border-line bg-paper px-4 text-sm font-semibold text-ink/70" aria-hidden="true">
-          +65
-        </span>
-        <Input
-          aria-describedby={error ? "customer-phone-error" : undefined}
-          aria-invalid={Boolean(error)}
-          autoComplete="tel-national"
-          className="h-full min-w-0 flex-1 rounded-none border-0 bg-transparent px-3 text-sm text-ink shadow-none outline-none placeholder:text-ink/35 focus-visible:border-transparent focus-visible:ring-0"
-          id="customer-phone"
-          inputMode="numeric"
-          maxLength={8}
-          onChange={(event) => onChange(toLocalSingaporeDigits(event.target.value))}
-          pattern="[0-9]*"
-          placeholder="90000000"
-          required
-          type="tel"
-          value={value}
-        />
-      </div>
-      <FieldError id="customer-phone-error" message={error} />
-    </div>
-  );
-}
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) {
@@ -1772,16 +1727,7 @@ function validateBookingFields({
   return errors;
 }
 
-function toLocalSingaporeDigits(value: string) {
-  const digits = value.replace(/\D/g, "");
-  const withoutCountryCode = digits.startsWith("65") ? digits.slice(2) : digits;
 
-  return withoutCountryCode.slice(0, 8);
-}
-
-function formatSingaporePhone(value: string) {
-  return `+65${toLocalSingaporeDigits(value)}`;
-}
 
 const bookingFieldOrder = ["postalCode", "address"] as const;
 const bookingFieldFocusIds: Record<keyof BookingFieldErrors, string> = {
@@ -1893,15 +1839,7 @@ function formatServiceAddress(postalCode: string, address: string) {
   return `${trimmedAddress}, Singapore ${trimmedPostalCode}`;
 }
 
-function shiftIsoDate(value: string, amount: number) {
-  const date = parseIsoDateLocal(value);
-  date.setDate(date.getDate() + amount);
-  return toIsoDateLocal(date);
-}
 
-function buildSlotDates(anchor: string) {
-  return Array.from({ length: 4 }, (_, index) => shiftIsoDate(anchor, index));
-}
 
 function formatSlotRangeLabel(slotDates: string[]) {
   if (slotDates.length === 0) {

@@ -171,11 +171,11 @@
 
   @media (min-width: 1200px) {
     .services-bento-grid {
-      grid-template-columns: 5fr 4fr 3fr;
+      grid-template-columns: 5fr 3.5fr 3.5fr;
       grid-template-areas:
-        "featured deep deep"
-        "featured move vetted"
-        "easy eco eco";
+        "featured deep move"
+        "featured vetted easy"
+        "eco eco eco";
     }
   }
 

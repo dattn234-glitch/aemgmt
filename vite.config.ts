@@ -22,11 +22,11 @@ export default defineConfig({
             return undefined;
           }
 
-          if (id.includes("radix-ui") || id.includes("react-day-picker") || id.includes("date-fns")) {
+          if (id.includes("radix-ui") || id.includes("react-day-picker") || id.includes("date-fns") || id.includes("/motion") || id.includes("framer-motion") || id.includes("lucide-react")) {
             return "ui";
           }
 
-          if (id.includes("react")) {
+          if (id.includes("/react/") || id.includes("/react-dom/") || id.includes("/scheduler/")) {
             return "react";
           }
 
