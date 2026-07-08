@@ -7,21 +7,28 @@ import { Container } from "../ui";
 
 const principles = [
   [
-    "Trust before entry",
-    "Every cleaner is background-checked, trained, and insured before they step into a home. You always know who is coming and when."
+    "Transparent Pricing",
+    "We offer competitive and upfront pricing with no hidden costs — just honest value for quality service. You pay by PayNow only after the clean is done."
   ],
   [
-    "The same face at the door",
-    "You get the same cleaner each visit where available — someone who already knows your home, your routines, and how you like things done."
+    "Trusted & Licensed",
+    "Our operations meet Singapore's regulatory standards to give you peace of mind and consistent service quality, with public-liability and damage coverage."
   ],
   [
-    "Proof, not promises",
-    "Every visit follows a digital checklist and ends with completion photos, so you can see the work even when you're not home."
+    "Experienced Team",
+    "Our dedicated cleaners are well-trained, friendly, and committed to maintaining a spotless environment — the same cleaner each visit where available."
   ],
   [
-    "Pay when it's done",
-    "No deposits, no prepayment. You settle by PayNow only after the clean is finished — that keeps the pressure on us, not you."
+    "Dependable Service",
+    "Count on us for consistent, timely, and reliable cleaning solutions tailored to your needs, with a digital checklist and photo report on every visit."
   ]
+] as const;
+
+const companyStats = [
+  ["59", "Projects done"],
+  ["18", "Happy clients"],
+  ["5", "Years of experience"],
+  ["9", "People working"]
 ] as const;
 
 export function AboutPage() {
@@ -36,9 +43,9 @@ export function AboutPage() {
           <div className="mt-8 h-px w-24 bg-gold" aria-hidden="true" />
           <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
             <p className="m-0 max-w-2xl text-xl leading-9 text-ink/75">
-              AE Management Services keeps Singapore homes clean with vetted local cleaners and a booking flow that
-              takes two minutes. Weekly upkeep, move-day handovers, post-renovation dust — one team, one checklist,
-              one person to message.
+              AE Management Services Pte Ltd is your trusted partner for cleaning solutions in Singapore. Since 2021,
+              we've helped homes across the island stay spotless with trained, reliable cleaning staff — simple,
+              efficient, professional.
             </p>
             <div className="flex flex-wrap content-start gap-2 lg:justify-end">
               {["Locally owned", "Bonded & insured", "Since 2021", "Island-wide"].map((chip) => (
@@ -73,7 +80,7 @@ export function AboutPage() {
             <blockquote className="relative m-0 border-l-2 border-gold py-1 pl-6">
               <span className="absolute -left-1 -top-4 font-display text-6xl italic text-gold/60 select-none" aria-hidden="true">"</span>
               <p className="m-0 font-display text-2xl font-semibold italic leading-snug text-navy-900">
-                Booking a dependable home cleaner should feel as easy as ordering dinner.
+                Reliable cleaning services you can trust.
               </p>
             </blockquote>
             <p className="m-0 text-lg leading-8 text-ink/65">
@@ -81,6 +88,19 @@ export function AboutPage() {
               handled by the same dependable team.
             </p>
           </Reveal>
+        </Container>
+      </section>
+
+      <section className="bg-navy-900 py-14 text-white lg:py-16">
+        <Container className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+          {companyStats.map(([value, label], index) => (
+            <Reveal className="text-center" delay={index * 0.06} key={label}>
+              <p className="m-0 font-display text-[clamp(2.75rem,5vw,4rem)] font-bold leading-none tracking-tight text-white">
+                {value}
+              </p>
+              <p className="mb-0 mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-sky-200/90">{label}</p>
+            </Reveal>
+          ))}
         </Container>
       </section>
 

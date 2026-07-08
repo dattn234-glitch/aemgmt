@@ -81,10 +81,19 @@ export function Header({ activeHref, brand, navItems, contact, view }: HeaderPro
         className="mx-auto grid h-full w-[min(1440px,calc(100%-40px))] grid-cols-[minmax(0,auto)_minmax(0,1fr)_auto] items-center gap-5 xl:gap-8 2xl:gap-12"
         aria-label="Primary navigation"
       >
-        <a className="inline-flex min-w-0 items-center xl:min-w-max" href="#home" aria-label={`${brand.name} home`}>
+        <a className="inline-flex min-w-0 items-center gap-2.5 sm:gap-3 xl:min-w-max" href="#home" aria-label={`${brand.name} home`}>
           <BrandMark
-            className={`size-12 sm:size-[52px] ${solid ? "border border-line" : "ring-2 ring-white/60 shadow-[0_6px_18px_rgb(9_30_66_/_0.18)]"}`}
+            className={`size-11 sm:size-12 ${solid ? "border border-line" : "ring-2 ring-white/60 shadow-[0_6px_18px_rgb(9_30_66_/_0.18)]"}`}
           />
+          <span className={`min-w-0 ${solid ? "" : "rounded-2xl bg-white/92 px-3 py-1.5 ring-1 ring-white/35"}`}>
+            <span className="block truncate font-display text-[13px] font-bold uppercase leading-tight tracking-[0.02em] text-navy sm:text-[14.5px]">
+              AE Management<span className="max-[400px]:hidden"> Services</span>
+              <span className="hidden text-navy/70 min-[520px]:inline"> Pte Ltd</span>
+            </span>
+            <span className="mt-0.5 hidden text-[9.5px] font-semibold uppercase tracking-[0.14em] text-primary-ink/80 sm:block">
+              Simple. Efficient. Professional.
+            </span>
+          </span>
         </a>
 
         <div className="hidden min-w-0 justify-center xl:flex">
