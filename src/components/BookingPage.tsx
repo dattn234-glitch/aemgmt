@@ -531,7 +531,7 @@ export function BookingPage({ booking }: BookingPageProps) {
       <section className="bg-cream pt-24 pb-4 sm:pt-28 sm:pb-4 lg:pt-32 lg:pb-6" id="booking" aria-labelledby="booking-title">
         <div className="mx-auto w-[min(1440px,calc(100%-40px))]">
           <div className="max-w-[920px]">
-            <a className="inline-flex items-center gap-2 text-[13px] font-semibold text-ink/60 transition hover:text-primary-ink sm:text-sm" href="#services">
+            <a className="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-2 text-[13px] font-semibold text-ink/70 transition hover:border-primary/40 hover:text-primary-ink sm:text-sm" href="#services">
               <ChevronLeft className="size-4" aria-hidden="true" />
               Back to services
             </a>
@@ -1538,35 +1538,42 @@ function DurationModal({
             AE recommends at least {company.rates.minHours} hours for up to 2 bedrooms, and 4 hours for larger homes. You can still change this before submitting.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4">
-          {company.rates.durations.slice().reverse().map((hours) => {
+        <div className="grid gap-3 sm:grid-cols-2">
+          {company.rates.durations.map((hours) => {
             const value = `${hours} hrs`;
             const selected = duration === value;
 
             return (
               <Button
                 className={cn(
-                  "[display:grid] h-auto items-center gap-3 rounded-[20px] border px-5 py-5 text-left whitespace-normal transition sm:grid-cols-[1fr_auto_auto]",
-                  selected ? "border-primary bg-primary-soft" : "border-line bg-white hover:border-primary/60"
+                  "flex h-auto flex-col items-stretch gap-4 rounded-[22px] border p-5 text-left whitespace-normal transition",
+                  selected ? "border-primary bg-primary-soft shadow-[0_10px_28px_rgb(37_99_235_/_0.12)]" : "border-line bg-white hover:border-primary/60"
                 )}
                 key={value}
                 onClick={() => onSelectDuration(value)}
                 type="button"
                 variant="secondary"
               >
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-display text-[32px] font-semibold text-ink">{hours} hours</span>
-                    {hours === 4 ? <Badge className="rounded-full bg-primary-soft px-3 text-ink hover:bg-primary-soft">Value for money</Badge> : null}
-                  </div>
-                  <p className="m-0 mt-2 text-sm leading-6 text-ink/60">
-                    {frequency} home cleaning at {formatMoney(rate)}/hr. Estimated visit total {formatMoney(rate * hours)} before any weekend or add-on adjustments.
-                  </p>
-                </div>
-                <span className="font-display text-2xl font-semibold text-ink">{formatMoney(rate)}/hr</span>
-                <span className={cn("grid size-6 place-items-center rounded-full border", selected ? "border-primary bg-primary text-white" : "border-input bg-white text-transparent")}>
-                  <Check className="size-4" aria-hidden="true" />
+                <span className="flex items-start justify-between gap-3">
+                  <span className="font-display text-[40px] font-semibold leading-none text-ink">
+                    {hours}<span className="text-xl text-ink/55">h</span>
+                  </span>
+                  <span className={cn("grid size-6 shrink-0 aspect-square place-items-center rounded-full border", selected ? "border-primary bg-primary text-white" : "border-input bg-white text-transparent")}>
+                    <Check className="size-4" aria-hidden="true" />
+                  </span>
                 </span>
+                <span className="grid gap-1">
+                  <span className="text-[15px] font-medium text-ink/70">{frequency} · {formatMoney(rate)}/hr</span>
+                  <span className="font-display text-2xl font-semibold text-ink">
+                    Est. total {formatMoney(rate * hours)}
+                  </span>
+                  <span className="text-[13px] leading-5 text-ink/55">Before weekend or add-on adjustments.</span>
+                </span>
+                {hours === 4 ? (
+                  <Badge className="w-fit rounded-full bg-gold px-3 text-navy-900 hover:bg-gold">Value for money</Badge>
+                ) : (
+                  <span className="text-[13px] font-medium text-ink/55">Good for up to 2 bedrooms</span>
+                )}
               </Button>
             );
           })}

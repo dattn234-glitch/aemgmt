@@ -1,8 +1,27 @@
-import { useEffect, useState } from "react";
-import { CalendarCheck, Check, CheckCircle2, Clock3, Copy, Loader2, LogOut, MessageCircle, ReceiptText, RefreshCcw, ShieldCheck } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  CalendarCheck,
+  CalendarOff,
+  Check,
+  CheckCircle2,
+  ChevronDown,
+  Clock3,
+  Copy,
+  LayoutDashboard,
+  Loader2,
+  LogOut,
+  MessageCircle,
+  ReceiptText,
+  RefreshCcw,
+  Search,
+  ShieldCheck,
+  Users,
+  Wallet
+} from "lucide-react";
 import { shortBookingRef } from "../../lib/booking-ref";
 import { bookingStatusView } from "../../lib/booking-status";
 import { formatMoney } from "../../lib/company";
+import { cn } from "../../lib/utils";
 import { forgetAdminSession, getCurrentAuth } from "../../lib/customer-api";
 import { buildInvoiceMessage, buildInvoiceWhatsappHref } from "../../lib/invoice";
 import { formatPhoneDisplay } from "../../lib/phone";
@@ -83,6 +102,82 @@ type BlockedDatesResponse = {
   blockedDates: BlockedDate[];
 };
 
+type AdminView = "overview" | "bookings" | "customers" | "availability";
+
+type BookingFilter = "all" | "pending" | "confirmed" | "awaiting" | "paid";
+
+type CustomerGroup = {
+  key: string;
+  name: string;
+  email: string;
+  phone: string;
+  isAccount: boolean;
+  bookings: AdminBooking[];
+  totalValue: number;
+  lastVisit: string;
+};
+
+const adminViews: { id: AdminView; label: string; icon: typeof LayoutDashboard; blurb: string }[] = [
+  { id: "overview", label: "Overview", icon: LayoutDashboard, blurb: "Today's pipeline at a glance — requests, payments, and what needs action." },
+  { id: "bookings", label: "Bookings", icon: CalendarCheck, blurb: "Confirm requests, complete visits, and send invoices." },
+  { id: "customers", label: "Customers", icon: Users, blurb: "Every customer with their booking history and total value." },
+  { id: "availability", label: "Availability", icon: CalendarOff, blurb: "Block full dates so online booking skips them." }
+];
+
+const bookingFilters: { id: BookingFilter; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "pending", label: "Pending" },
+  { id: "confirmed", label: "Confirmed" },
+  { id: "awaiting", label: "Awaiting payment" },
+  { id: "paid", label: "Paid" }
+];
+
+function matchesFilter(booking: AdminBooking, filter: BookingFilter) {
+  switch (filter) {
+    case "pending":
+      return booking.status === "received";
+    case "confirmed":
+      return booking.status === "confirmed" && booking.paymentStatus !== "invoice_unpaid" && booking.paymentStatus !== "paid";
+    case "awaiting":
+      return booking.paymentStatus === "invoice_unpaid";
+    case "paid":
+      return booking.paymentStatus === "paid";
+    default:
+      return true;
+  }
+}
+
+function groupCustomers(bookings: AdminBooking[]): CustomerGroup[] {
+  const groups = new Map<string, CustomerGroup>();
+
+  for (const booking of bookings) {
+    const key = booking.customerUser ? `account:${booking.customerUser.id}` : `guest:${booking.customer.email.toLowerCase()}`;
+    const existing = groups.get(key);
+    const value = booking.invoice?.amount ?? booking.estimatedTotal ?? 0;
+
+    if (existing) {
+      existing.bookings.push(booking);
+      existing.totalValue += value;
+      if (booking.schedule.date > existing.lastVisit) {
+        existing.lastVisit = booking.schedule.date;
+      }
+    } else {
+      groups.set(key, {
+        key,
+        name: booking.customerUser ? `${booking.customerUser.firstName} ${booking.customerUser.lastName}`.trim() : booking.customer.name,
+        email: booking.customerUser?.email ?? booking.customer.email,
+        phone: booking.customerUser?.phone ?? booking.customer.phone,
+        isAccount: Boolean(booking.customerUser),
+        bookings: [booking],
+        totalValue: value,
+        lastVisit: booking.schedule.date
+      });
+    }
+  }
+
+  return [...groups.values()].sort((a, b) => b.totalValue - a.totalValue);
+}
+
 export function AdminPage() {
   const [session, setSession] = useState<AdminSession | null>(null);
   const [checkingSession, setCheckingSession] = useState(true);
@@ -98,9 +193,54 @@ export function AdminPage() {
   const [removingBlockedDateId, setRemovingBlockedDateId] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [view, setView] = useState<AdminView>("overview");
+  const [bookingFilter, setBookingFilter] = useState<BookingFilter>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [expandedBookingId, setExpandedBookingId] = useState("");
   const pendingCount = bookings.filter((booking) => booking.status === "received").length;
   const completedUnpaidCount = bookings.filter((booking) => booking.paymentStatus === "invoice_unpaid").length;
-  const paidCount = bookings.filter((booking) => booking.paymentStatus === "paid").length;
+  const paidRevenue = bookings.reduce(
+    (sum, booking) => sum + (booking.paymentStatus === "paid" && booking.invoice ? booking.invoice.amount : 0),
+    0
+  );
+  const customers = useMemo(() => groupCustomers(bookings), [bookings]);
+  const filteredBookings = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+
+    return bookings.filter((booking) => {
+      if (!matchesFilter(booking, bookingFilter)) {
+        return false;
+      }
+
+      if (!query) {
+        return true;
+      }
+
+      return [
+        booking.customer.name,
+        booking.customer.email,
+        booking.customer.phone,
+        booking.serviceName,
+        booking.home.address,
+        booking.id,
+        shortBookingRef(booking.id)
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(query);
+    });
+  }, [bookings, bookingFilter, searchQuery]);
+  const attentionBookings = useMemo(
+    () => bookings.filter((booking) => booking.status === "received" || booking.paymentStatus === "invoice_unpaid").slice(0, 5),
+    [bookings]
+  );
+
+  function openBooking(bookingId: string) {
+    setView("bookings");
+    setBookingFilter("all");
+    setSearchQuery("");
+    setExpandedBookingId(bookingId);
+  }
 
   useEffect(() => {
     let active = true;
@@ -372,51 +512,321 @@ export function AdminPage() {
     window.location.hash = "#home";
   }
 
-  return (
-    <main className="bg-paper">
-      <section className="bg-cream pt-28 pb-12 lg:pt-32" aria-labelledby="admin-title">
-        <div className="mx-auto w-[min(1180px,calc(100%-48px))]">
-          <p className="mb-4 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">ADMIN PORTAL</p>
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
-            <div>
-              <h1 id="admin-title" className="font-display text-h2 leading-[1.05] font-semibold text-ink">
-                Manage requests through <span className="text-ink">invoice payment.</span>
-              </h1>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-ink/65">
-                AE checks cleaner availability, confirms the slot, completes the service, then the invoice appears in the customer account.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 rounded-[22px] border border-line bg-white p-4 sm:grid-cols-4">
-              <AdminStat label="Total" value={bookings.length} />
-              <AdminStat label="Pending" value={pendingCount} tone="pending" />
-              <AdminStat label="Invoice ready" value={completedUnpaidCount} />
-              <AdminStat label="Paid" value={paidCount} />
-            </div>
-          </div>
-        </div>
-      </section>
+  const activeView = adminViews.find((item) => item.id === view) ?? adminViews[0];
 
-      <section className="mx-auto w-[min(1180px,calc(100%-48px))] py-12 lg:py-16">
-        {checkingSession ? (
-          <div className="grid min-h-[220px] place-items-center rounded-[22px] border border-line bg-white text-ink/60">
-            <span className="inline-flex items-center gap-2">
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-              Checking admin session...
-            </span>
+  if (checkingSession) {
+    return (
+      <main className="min-h-screen bg-paper pb-16 pt-28">
+        <div className="mx-auto grid min-h-[300px] w-[min(1180px,calc(100%-32px))] place-items-center rounded-[24px] border border-line bg-white text-ink/60">
+          <span className="inline-flex items-center gap-2 text-[15px]">
+            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+            Checking admin session...
+          </span>
+        </div>
+      </main>
+    );
+  }
+
+  if (!session) {
+    return (
+      <main className="min-h-screen bg-paper pb-16 pt-28">
+        <div className="mx-auto grid max-w-[520px] gap-5 rounded-[24px] border border-line bg-white p-8 text-center">
+          <div>
+            <ShieldCheck className="mx-auto size-10 text-ink" aria-hidden="true" />
+            <p className="mt-4 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">AE staff access</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold text-ink">Please sign in as AE staff.</h2>
+            <p className="mt-2 text-[15px] leading-7 text-ink/60">
+              Use the shared sign-in page with your AE staff email to approve slots and manage invoices.
+            </p>
           </div>
-        ) : session ? (
-          <div className="grid gap-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="m-0 text-sm text-ink/55">Confirm bookings only after cleaner availability is checked.</p>
+          <Button asChild className="mx-auto">
+            <a href="#signin">
+              <ShieldCheck size={16} aria-hidden="true" />
+              Sign in
+            </a>
+          </Button>
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-paper pb-16 pt-24 lg:pt-28">
+      <div className="mx-auto grid w-[min(1400px,calc(100%-32px))] gap-5 lg:grid-cols-[250px_minmax(0,1fr)] lg:items-start">
+        <aside className="sticky top-24 hidden flex-col gap-5 self-start rounded-[24px] bg-navy-900 p-5 text-white lg:flex" aria-label="Admin navigation">
+          <div className="flex items-center gap-3">
+            <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white/10 text-sky-200 ring-1 ring-white/15">
+              <ShieldCheck className="size-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="m-0 font-display text-lg font-semibold leading-tight">AE Admin</p>
+              <p className="m-0 mt-0.5 text-[13px] text-white/60">Operations dashboard</p>
+            </div>
+          </div>
+          <nav className="grid gap-1.5" aria-label="Admin sections">
+            {adminViews.map((item) => {
+              const ItemIcon = item.icon;
+              const active = item.id === view;
+              const badge =
+                item.id === "bookings" && pendingCount > 0 ? pendingCount : item.id === "customers" && customers.length > 0 ? customers.length : null;
+
+              return (
+                <button
+                  className={cn(
+                    "flex w-full items-center gap-3 rounded-[14px] px-3.5 py-2.5 text-left text-[15px] font-medium transition-colors",
+                    active ? "bg-white/12 text-white" : "text-white/65 hover:bg-white/8 hover:text-white"
+                  )}
+                  key={item.id}
+                  onClick={() => setView(item.id)}
+                  type="button"
+                >
+                  <ItemIcon className="size-[18px] shrink-0" aria-hidden="true" />
+                  <span className="flex-1">{item.label}</span>
+                  {badge !== null ? (
+                    <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold", item.id === "bookings" ? "bg-gold text-navy-900" : "bg-white/12 text-white/80")}>
+                      {badge}
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </nav>
+          <div className="mt-auto grid gap-3 border-t border-white/12 pt-4">
+            <div>
+              <p className="m-0 text-[15px] font-semibold">{session.displayName}</p>
+              <p className="m-0 mt-0.5 text-[13px] text-white/55">AE staff account</p>
+            </div>
+            <Button className="w-full border-white/20 bg-white/8 text-white hover:bg-white/15" onClick={() => void logout()} type="button" variant="secondary">
+              <LogOut className="size-4" aria-hidden="true" />
+              Sign out
+            </Button>
+          </div>
+        </aside>
+
+        <section className="grid min-w-0 gap-5" aria-labelledby="admin-title">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:hidden" aria-label="Admin sections">
+            {adminViews.map((item) => {
+              const active = item.id === view;
+
+              return (
+                <button
+                  className={cn(
+                    "inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                    active ? "bg-navy-900 text-white" : "border border-line bg-white text-ink/65"
+                  )}
+                  key={item.id}
+                  onClick={() => setView(item.id)}
+                  type="button"
+                >
+                  {item.label}
+                  {item.id === "bookings" && pendingCount > 0 ? (
+                    <span className="rounded-full bg-gold px-1.5 text-xs font-semibold text-navy-900">{pendingCount}</span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Admin portal</p>
+              <h1 id="admin-title" className="m-0 mt-1.5 font-display text-[32px] font-semibold leading-tight text-ink lg:text-[38px]">{activeView.label}</h1>
+              <p className="m-0 mt-1.5 max-w-xl text-[15px] leading-7 text-ink/60">{activeView.blurb}</p>
+            </div>
+            <div className="flex items-center gap-2">
               <Button disabled={loading} onClick={() => loadBookings()} type="button" variant="secondary">
                 {loading ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <RefreshCcw size={16} aria-hidden="true" />}
                 Refresh
               </Button>
+              <Button className="lg:hidden" onClick={() => void logout()} type="button" variant="secondary">
+                <LogOut className="size-4" aria-hidden="true" />
+                Sign out
+              </Button>
             </div>
+          </div>
 
-            <AdminNotice message={message} tone="success" />
-            <AdminNotice message={error} tone="error" />
+          <AdminNotice message={message} tone="success" />
+          <AdminNotice message={error} tone="error" />
 
+          {loading && bookings.length === 0 ? (
+            <div className="grid min-h-[220px] place-items-center rounded-[22px] border border-line bg-white text-ink/60">
+              <span className="inline-flex items-center gap-2 text-[15px]">
+                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                Loading bookings...
+              </span>
+            </div>
+          ) : null}
+
+          {view === "overview" ? (
+            <>
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <StatCard icon={CalendarCheck} label="Total bookings" value={String(bookings.length)} />
+                <StatCard icon={Clock3} label="Pending action" value={String(pendingCount)} tone="pending" />
+                <StatCard icon={ReceiptText} label="Awaiting payment" value={String(completedUnpaidCount)} />
+                <StatCard icon={Wallet} label="Revenue collected" value={formatMoney(paidRevenue)} tone="success" />
+              </div>
+
+              <div className="grid gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+                <div className="rounded-[22px] border border-line bg-white p-5">
+                  <div className="flex items-center justify-between gap-3">
+                    <h2 className="m-0 font-display text-xl font-semibold text-ink">Needs attention</h2>
+                    <Button onClick={() => setView("bookings")} size="sm" type="button" variant="secondary">
+                      View all
+                    </Button>
+                  </div>
+                  <div className="mt-4 grid gap-2.5">
+                    {attentionBookings.length === 0 ? (
+                      <p className="m-0 rounded-[16px] bg-paper px-4 py-3 text-[15px] leading-7 text-ink/60">Nothing waiting on AE right now.</p>
+                    ) : (
+                      attentionBookings.map((booking) => (
+                        <button
+                          className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] border border-line bg-paper px-4 py-3 text-left transition hover:border-primary/40"
+                          key={booking.id}
+                          onClick={() => openBooking(booking.id)}
+                          type="button"
+                        >
+                          <span className="min-w-0">
+                            <span className="block truncate text-[15px] font-semibold text-ink">
+                              {booking.customer.name} · {booking.serviceName}
+                            </span>
+                            <span className="mt-0.5 block text-sm text-ink/55">
+                              {formatVisitDate(booking.schedule.date)} at {booking.schedule.time}
+                            </span>
+                          </span>
+                          <StatusPill paymentStatus={booking.paymentStatus} status={booking.status} />
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid content-start gap-5">
+                  <div className="rounded-[22px] border border-line bg-white p-5">
+                    <h2 className="m-0 font-display text-xl font-semibold text-ink">Recent requests</h2>
+                    <div className="mt-4 grid gap-2.5">
+                      {bookings.length === 0 ? (
+                        <p className="m-0 rounded-[16px] bg-paper px-4 py-3 text-[15px] leading-7 text-ink/60">No requests yet.</p>
+                      ) : (
+                        bookings.slice(0, 5).map((booking) => (
+                          <button
+                            className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-[16px] bg-paper px-4 py-3 text-left transition hover:bg-primary-soft"
+                            key={booking.id}
+                            onClick={() => openBooking(booking.id)}
+                            type="button"
+                          >
+                            <span className="min-w-0">
+                              <span className="block truncate text-[15px] font-medium text-ink">{booking.customer.name}</span>
+                              <span className="block truncate text-sm text-ink/55">
+                                {booking.serviceName} · {formatVisitDate(booking.schedule.date)}
+                              </span>
+                            </span>
+                            <span className="font-display text-[15px] font-semibold text-ink">
+                              {booking.customQuote || booking.estimatedTotal === null ? "Custom" : formatMoney(booking.invoice?.amount ?? booking.estimatedTotal)}
+                            </span>
+                          </button>
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-line bg-white p-5">
+                    <div>
+                      <h2 className="m-0 font-display text-xl font-semibold text-ink">Availability</h2>
+                      <p className="m-0 mt-1 text-[15px] leading-7 text-ink/60">
+                        {blockedDates.length === 0 ? "No dates blocked." : `${blockedDates.length} date${blockedDates.length === 1 ? "" : "s"} blocked for online booking.`}
+                      </p>
+                    </div>
+                    <Button onClick={() => setView("availability")} size="sm" type="button" variant="secondary">
+                      <CalendarOff className="size-4" aria-hidden="true" />
+                      Manage
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          {view === "bookings" ? (
+            <>
+              <div className="grid gap-3 rounded-[20px] border border-line bg-white p-4 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-center">
+                <div className="flex flex-wrap gap-2">
+                  {bookingFilters.map((filter) => (
+                    <button
+                      className={cn(
+                        "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                        bookingFilter === filter.id ? "bg-navy-900 text-white" : "bg-paper text-ink/65 hover:bg-primary-soft hover:text-primary-ink"
+                      )}
+                      key={filter.id}
+                      onClick={() => setBookingFilter(filter.id)}
+                      type="button"
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-ink/40" aria-hidden="true" />
+                  <Input
+                    className="h-11 rounded-full border-input bg-white pl-11 pr-4"
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    placeholder="Search name, email, ref, address"
+                    value={searchQuery}
+                  />
+                </div>
+              </div>
+
+              {!loading && filteredBookings.length === 0 ? (
+                <div className="rounded-[22px] border border-line bg-white p-8 text-center">
+                  <ShieldCheck className="mx-auto size-10 text-ink" aria-hidden="true" />
+                  <h2 className="mt-4 font-display text-2xl font-semibold text-ink">
+                    {bookings.length === 0 ? "No booking requests yet" : "No bookings match"}
+                  </h2>
+                  <p className="mx-auto mt-2 max-w-md text-[15px] leading-7 text-ink/60">
+                    {bookings.length === 0
+                      ? "New customer requests from the booking form will appear here for admin confirmation."
+                      : "Try a different status filter or clear the search."}
+                  </p>
+                </div>
+              ) : null}
+
+              <div className="grid gap-3">
+                {filteredBookings.map((booking) => (
+                  <BookingRow
+                    booking={booking}
+                    completing={completingId === booking.id}
+                    confirming={confirmingId === booking.id}
+                    expanded={expandedBookingId === booking.id}
+                    key={booking.id}
+                    markingPaid={markingPaidId === booking.invoice?.id}
+                    onComplete={(finalAmount) => completeBooking(booking.id, finalAmount)}
+                    onConfirm={() => confirmBooking(booking.id)}
+                    onMarkPaid={() => markInvoicePaid(booking)}
+                    onToggle={() => setExpandedBookingId(expandedBookingId === booking.id ? "" : booking.id)}
+                  />
+                ))}
+              </div>
+            </>
+          ) : null}
+
+          {view === "customers" ? (
+            customers.length === 0 ? (
+              <div className="rounded-[22px] border border-line bg-white p-8 text-center">
+                <Users className="mx-auto size-10 text-ink" aria-hidden="true" />
+                <h2 className="mt-4 font-display text-2xl font-semibold text-ink">No customers yet</h2>
+                <p className="mx-auto mt-2 max-w-md text-[15px] leading-7 text-ink/60">
+                  Customers appear here automatically from booking requests — accounts and guests both.
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-3">
+                {customers.map((customer) => (
+                  <CustomerCard customer={customer} key={customer.key} onOpenBooking={openBooking} />
+                ))}
+              </div>
+            )
+          ) : null}
+
+          {view === "availability" ? (
             <BlockedDatesPanel
               blockedDate={blockedDate}
               blockedDates={blockedDates}
@@ -428,65 +838,158 @@ export function AdminPage() {
               onBlockedReasonChange={setBlockedReason}
               onRemove={removeBlockedDate}
             />
-
-            {loading && bookings.length === 0 ? (
-              <div className="grid min-h-[220px] place-items-center rounded-[22px] border border-line bg-white text-ink/60">
-                <span className="inline-flex items-center gap-2">
-                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                  Loading bookings...
-                </span>
-              </div>
-            ) : null}
-
-            {!loading && bookings.length === 0 ? (
-              <div className="rounded-[22px] border border-line bg-white p-8 text-center">
-                <ShieldCheck className="mx-auto size-10 text-ink" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-2xl font-semibold text-ink">No booking requests yet</h2>
-                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-ink/60">
-                  New customer requests from the booking form will appear here for admin confirmation.
-                </p>
-              </div>
-            ) : null}
-
-            <div className="grid gap-4">
-              {bookings.map((booking) => (
-                <BookingApprovalCard
-                  booking={booking}
-                  confirming={confirmingId === booking.id}
-                  completing={completingId === booking.id}
-                  key={booking.id}
-                  markingPaid={markingPaidId === booking.invoice?.id}
-                  onConfirm={() => confirmBooking(booking.id)}
-                  onComplete={(finalAmount) => completeBooking(booking.id, finalAmount)}
-                  onMarkPaid={() => markInvoicePaid(booking)}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="mx-auto grid max-w-[520px] gap-5 rounded-[22px] border border-line bg-white p-6 text-center">
-            <div>
-              <ShieldCheck className="mx-auto size-10 text-ink" aria-hidden="true" />
-              <p className="mt-4 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">AE staff access</p>
-              <h2 className="mt-3 font-display text-3xl font-semibold text-ink">Please sign in as AE staff.</h2>
-              <p className="mt-2 text-sm leading-6 text-ink/60">
-                Use the shared sign-in page with your AE staff email to approve slots and manage invoices.
-              </p>
-            </div>
-            <Button asChild className="mx-auto">
-              <a href="#signin">
-                <ShieldCheck size={16} aria-hidden="true" />
-                Sign in
-              </a>
-            </Button>
-          </div>
-        )}
-      </section>
+          ) : null}
+        </section>
+      </div>
     </main>
   );
 }
 
-function BookingApprovalCard({
+function StatusPill({ paymentStatus, status }: { paymentStatus: string; status: string }) {
+  const statusView = bookingStatusView(status, paymentStatus);
+
+  return (
+    <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold leading-5 ${statusView.badge}`}>
+      <span className={`size-1.5 rounded-full ${statusView.dot}`} aria-hidden="true" />
+      {statusView.label}
+    </span>
+  );
+}
+
+function BookingRow({
+  booking,
+  completing,
+  confirming,
+  expanded,
+  markingPaid,
+  onComplete,
+  onConfirm,
+  onMarkPaid,
+  onToggle
+}: {
+  booking: AdminBooking;
+  completing: boolean;
+  confirming: boolean;
+  expanded: boolean;
+  markingPaid: boolean;
+  onComplete: (finalAmount: string) => void;
+  onConfirm: () => void;
+  onMarkPaid: () => void;
+  onToggle: () => void;
+}) {
+  return (
+    <article className={cn("overflow-hidden rounded-[20px] border bg-white transition-shadow", expanded ? "border-primary/35 shadow-[0_14px_34px_rgb(9_30_66_/_0.08)]" : "border-line")}>
+      <button
+        aria-expanded={expanded}
+        className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 px-5 py-4 text-left md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,0.9fr)_auto_auto]"
+        onClick={onToggle}
+        type="button"
+      >
+        <span className="min-w-0">
+          <span className="block truncate text-[15px] font-semibold text-ink">{booking.customer.name}</span>
+          <span className="block truncate text-sm text-ink/55">{booking.customer.email}</span>
+        </span>
+        <span className="hidden min-w-0 md:block">
+          <span className="block truncate text-[15px] font-medium text-ink/80">{booking.serviceName}</span>
+          <span className="block truncate text-sm text-ink/55">{booking.frequency}</span>
+        </span>
+        <span className="hidden text-sm leading-5 text-ink/70 md:block">
+          {formatVisitDate(booking.schedule.date)}
+          <span className="block text-ink/50">{booking.schedule.time}</span>
+        </span>
+        <span className="hidden whitespace-nowrap font-display text-lg font-semibold text-ink sm:block">
+          {booking.customQuote || booking.estimatedTotal === null ? "Custom" : formatMoney(booking.invoice?.amount ?? booking.estimatedTotal)}
+        </span>
+        <span className="flex items-center gap-2 justify-self-end">
+          <StatusPill paymentStatus={booking.paymentStatus} status={booking.status} />
+          <ChevronDown className={cn("size-4 shrink-0 text-ink/45 transition-transform", expanded && "rotate-180")} aria-hidden="true" />
+        </span>
+      </button>
+      {expanded ? (
+        <div className="border-t border-line bg-paper/50 p-5">
+          <BookingDetail
+            booking={booking}
+            completing={completing}
+            confirming={confirming}
+            markingPaid={markingPaid}
+            onComplete={onComplete}
+            onConfirm={onConfirm}
+            onMarkPaid={onMarkPaid}
+          />
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
+function CustomerCard({ customer, onOpenBooking }: { customer: CustomerGroup; onOpenBooking: (bookingId: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const initials =
+    customer.name
+      .split(/\s+/)
+      .map((word) => word[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "?";
+
+  return (
+    <article className={cn("overflow-hidden rounded-[20px] border bg-white transition-shadow", open ? "border-primary/35 shadow-[0_14px_34px_rgb(9_30_66_/_0.08)]" : "border-line")}>
+      <button
+        aria-expanded={open}
+        className="grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 text-left"
+        onClick={() => setOpen((current) => !current)}
+        type="button"
+      >
+        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary-soft font-display text-[15px] font-semibold text-primary-ink">{initials}</span>
+        <span className="min-w-0">
+          <span className="flex flex-wrap items-center gap-2">
+            <span className="truncate text-[15px] font-semibold text-ink">{customer.name}</span>
+            <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", customer.isAccount ? "bg-primary-soft text-primary-ink" : "bg-paper text-ink/55")}>
+              {customer.isAccount ? "Account" : "Guest"}
+            </span>
+          </span>
+          <span className="mt-0.5 block truncate text-sm text-ink/55">
+            {customer.email}
+            {customer.phone ? ` · ${formatPhoneDisplay(customer.phone)}` : ""}
+          </span>
+        </span>
+        <span className="flex items-center gap-4">
+          <span className="hidden text-right sm:block">
+            <span className="block font-display text-lg font-semibold text-ink">{formatMoney(customer.totalValue)}</span>
+            <span className="block text-sm text-ink/55">
+              {customer.bookings.length} booking{customer.bookings.length === 1 ? "" : "s"} · last {formatVisitDate(customer.lastVisit)}
+            </span>
+          </span>
+          <ChevronDown className={cn("size-4 shrink-0 text-ink/45 transition-transform", open && "rotate-180")} aria-hidden="true" />
+        </span>
+      </button>
+      {open ? (
+        <div className="grid gap-2 border-t border-line bg-paper/50 p-4">
+          {customer.bookings.map((booking) => (
+            <button
+              className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-[14px] border border-line bg-white px-4 py-3 text-left transition hover:border-primary/40"
+              key={booking.id}
+              onClick={() => onOpenBooking(booking.id)}
+              type="button"
+            >
+              <span className="min-w-0">
+                <span className="block truncate text-[15px] font-medium text-ink">{booking.serviceName}</span>
+                <span className="block text-sm text-ink/55">
+                  {formatVisitDate(booking.schedule.date)} at {booking.schedule.time} ·{" "}
+                  {booking.customQuote || booking.estimatedTotal === null ? "Custom" : formatMoney(booking.invoice?.amount ?? booking.estimatedTotal)}
+                </span>
+              </span>
+              <StatusPill paymentStatus={booking.paymentStatus} status={booking.status} />
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
+function BookingDetail({
   booking,
   completing,
   confirming,
@@ -522,31 +1025,12 @@ function BookingApprovalCard({
     }, 2000);
   }
 
-  const statusView = bookingStatusView(booking.status, booking.paymentStatus);
-
   return (
-    <article className={`grid gap-5 rounded-[22px] border border-l-4 border-line bg-white p-5 shadow-[0_4px_16px_rgb(9_30_66_/_0.05)] lg:grid-cols-[minmax(0,1fr)_260px] ${statusView.accent}`}>
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_280px]">
       <div className="min-w-0">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold leading-5 ${statusView.badge}`}>
-                <span className={`size-1.5 rounded-full ${statusView.dot}`} aria-hidden="true" />
-                {statusView.label}
-              </span>
-              <span className="text-xs font-semibold tracking-[0.08em] text-ink/45 uppercase">{shortBookingRef(booking.id)}</span>
-            </div>
-            <h2 className="mt-3 font-display text-2xl font-semibold text-ink">{booking.serviceName}</h2>
-            <p className="mt-1 text-sm leading-6 text-ink/60">
-              {booking.frequency} · {booking.home.homeType}, {booking.home.bedrooms}, {booking.home.bathrooms}
-            </p>
-          </div>
-          <p className="m-0 font-display text-3xl font-semibold text-ink">
-            {booking.customQuote || booking.estimatedTotal === null ? "Custom" : formatMoney(booking.estimatedTotal)}
-          </p>
-        </div>
-
-        <div className="mt-5 grid gap-3 text-sm text-ink/70 md:grid-cols-2">
+        <p className="m-0 text-xs font-semibold uppercase tracking-[0.08em] text-ink/45">{shortBookingRef(booking.id)}</p>
+        <div className="mt-3 grid gap-3 text-sm text-ink/70 md:grid-cols-2">
+          <InfoRow label="Home" value={`${booking.home.homeType} · ${booking.home.bedrooms} · ${booking.home.bathrooms}`} />
           {booking.customerUser ? (
             <InfoRow
               label="Customer account"
@@ -565,7 +1049,7 @@ function BookingApprovalCard({
         </div>
       </div>
 
-      <aside className="grid content-between gap-5 rounded-[18px] border border-line bg-paper p-4">
+      <aside className="grid content-start gap-4 rounded-[18px] border border-line bg-white p-4">
         <div className="grid gap-3 text-sm">
           <InfoRow label="Requested" value={formatDateTime(booking.createdAt)} />
           <InfoRow
@@ -625,7 +1109,7 @@ function BookingApprovalCard({
           ) : null}
         </div>
       </aside>
-    </article>
+    </div>
   );
 }
 
@@ -791,11 +1275,29 @@ function CompleteBookingDialog({
   );
 }
 
-function AdminStat({ label, value, tone = "default" }: { label: string; value: number; tone?: "default" | "pending" }) {
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  tone = "default"
+}: {
+  icon: typeof Wallet;
+  label: string;
+  value: string;
+  tone?: "default" | "pending" | "success";
+}) {
   return (
-    <div className={tone === "pending" ? "rounded-[16px] bg-gold-soft px-3 py-3 text-gold-text" : "rounded-[16px] bg-primary-soft px-3 py-3 text-ink"}>
-      <p className="m-0 text-2xl font-semibold leading-none">{value}</p>
-      <p className="m-0 mt-2 text-xs font-medium">{label}</p>
+    <div className="rounded-[20px] border border-line bg-white p-5">
+      <span
+        className={cn(
+          "grid size-10 place-items-center rounded-xl",
+          tone === "pending" ? "bg-gold-soft text-gold-text" : tone === "success" ? "bg-success-soft text-success" : "bg-primary-soft text-primary-ink"
+        )}
+      >
+        <Icon className="size-5" aria-hidden="true" />
+      </span>
+      <p className="m-0 mt-4 truncate font-display text-[28px] font-semibold leading-none text-ink">{value}</p>
+      <p className="m-0 mt-1.5 text-sm font-medium text-ink/55">{label}</p>
     </div>
   );
 }

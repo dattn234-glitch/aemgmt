@@ -91,7 +91,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
   return (
     <>
       <section className="bg-navy-900 pb-16 pt-28 text-white lg:pb-20 lg:pt-36" id="services" aria-labelledby="services-title">
-        <Container className="grid gap-6">
+        <Container size="wide" className="grid gap-6">
           <p className="m-0 text-sm font-semibold tracking-[0.08em] text-sky-200 uppercase">Services</p>
           <h1 id="services-title" className="m-0 max-w-3xl font-display text-display font-semibold">
             Which clean does your home <em className="italic text-sky-200">need?</em>
@@ -112,7 +112,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
       </section>
 
       <section className="bg-cream py-10 lg:py-14">
-        <Container className="grid gap-5 lg:grid-cols-3">
+        <Container size="wide" className="grid gap-5 lg:grid-cols-3">
           {[
             {
               service: recurring,
@@ -174,7 +174,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
       </section>
 
       <nav className="sticky top-[72px] z-30 border-y border-line bg-paper/90 backdrop-blur-md" aria-label="Service chapters">
-        <Container className="flex items-center gap-1 overflow-x-auto py-3 sm:gap-2">
+        <Container size="wide" className="flex items-center gap-1 overflow-x-auto py-3 sm:gap-2">
           {chapters.map((chapter) => {
             const active = chapter.href === activeChapter;
 
@@ -199,7 +199,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
       <PostRenovationSection service={renovation} />
 
       <section className="bg-paper py-16 lg:py-22">
-        <Container className="grid gap-9">
+        <Container size="wide" className="grid gap-9">
           <div className="grid gap-3 lg:max-w-3xl">
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Scope & add-ons</p>
             <h2 className="m-0 font-display text-[34px] font-semibold leading-tight text-ink lg:text-[44px]">
@@ -270,7 +270,7 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
 
   return (
     <section className="scroll-mt-[132px] bg-paper py-16 lg:py-22" id="chapter-subscription" aria-labelledby="subscription-title">
-      <Container className="grid gap-7 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start">
+      <Container size="wide" className="grid gap-7 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start">
         <div className="grid gap-6">
           <div className="grid gap-6 rounded-[30px] border border-line bg-white p-5 shadow-[0_18px_48px_rgb(22_25_26_/_0.05)] lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:p-7">
             <div className="aspect-[4/3] h-full overflow-hidden rounded-[26px] bg-cream lg:min-h-[320px] lg:aspect-auto">
@@ -287,9 +287,12 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
                 </h2>
                 <p className="m-0 mt-4 text-[17px] leading-8 text-ink/65">{service.description}</p>
               </div>
-              <ul className="grid gap-3 p-0 sm:grid-cols-2">
+              <ul className="grid gap-2.5 p-0 sm:grid-cols-2">
                 {service.keyPoints.map((item) => (
-                  <CheckItem key={item}>{item}</CheckItem>
+                  <li className="grid grid-cols-[18px_1fr] items-start gap-2.5 rounded-[14px] bg-paper px-4 py-3 text-[15px] font-medium leading-6 text-ink/80" key={item}>
+                    <Check className="mt-0.5 text-primary" size={18} aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
                 ))}
               </ul>
               <div className="rounded-[24px] bg-paper p-5">
@@ -339,7 +342,7 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
 function MoveOutSection({ service }: { service: BookingService }) {
   return (
     <section className="scroll-mt-[132px] bg-cream py-16 lg:py-22" id="chapter-move" aria-labelledby="move-title">
-      <Container className="grid gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
+      <Container size="wide" className="grid gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-start">
         <div className="grid content-start gap-6 rounded-[30px] bg-navy-900 p-6 text-white lg:p-8">
           <span className="grid size-13 place-items-center rounded-2xl bg-white/10 text-sky-200 ring-1 ring-white/12">
             <Icon3D name="key" size={42} tile={false} />
@@ -394,7 +397,7 @@ function PostRenovationSection({ service }: { service: BookingService }) {
 
   return (
     <section className="scroll-mt-[132px] bg-paper py-16 lg:py-22" id="chapter-renovation" aria-labelledby="reno-title">
-      <Container className="grid gap-7">
+      <Container size="wide" className="grid gap-7">
         <div className="grid gap-6 rounded-[30px] border border-line bg-white p-5 shadow-[0_18px_48px_rgb(22_25_26_/_0.05)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:p-7">
           <div className="grid content-start gap-6 rounded-[26px] bg-primary-soft p-6 lg:p-8">
             <div>
