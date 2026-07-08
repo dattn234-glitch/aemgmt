@@ -19,11 +19,11 @@ task in this project, read these BEFORE editing UI, in this order:
 
 Direction summary (details in the files above):
 
-- **Light editorial residential brand**: layout language from zestcleaningco.com, brand colors from the AE logo (navy #1F3A66 + cyan #35C5F0), SG market patterns from luce.sg. Paper `#FAFAF8` / cream
-  `#F4F2EC` surfaces, white hairline-border cards (radius 20px, ~no shadow).
-- **Fraunces serif at weight 400 for all headings** (with navy emphasis spans), Plus Jakarta Sans
-  for everything else. Never bold sans headings.
-- **Navy pill buttons** (`#1F3A66`, `rounded-full`). Sky-100 chips. lucide-react icons only. WhatsApp-first contact (SG).
+- **Light editorial residential brand**: layout language from zestcleaningco.com, SG market patterns from luce.sg, and color primitives from Atlassian design tokens. Public surfaces use neutral light backgrounds, white cards, visible token borders, yellow highlights, and blue brand CTAs.
+- **Astryx neutral typography**: Figtree for display, headings, and body text, using the
+  Astryx font-family stack and type tokens in `src/styles.css`. Do not reintroduce
+  old serif/sans stacks.
+- **Pill buttons and chips**: Atlassian brand blue for primary actions, Atlassian yellow for highlights/status, `rounded-full` for CTAs and chips. lucide-react icons only. WhatsApp-first contact (SG).
 - **Tailwind CSS v4 + shadcn/ui** (`src/components/ui/`). No Shopify Polaris, no other UI libs.
 - The old "dark Framer product surface" direction is retired — never apply it to public screens.
 

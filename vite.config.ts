@@ -13,5 +13,26 @@ export default defineConfig({
     proxy: {
       "/api": "http://127.0.0.1:3000"
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes("node_modules")) {
+            return undefined;
+          }
+
+          if (id.includes("radix-ui") || id.includes("react-day-picker") || id.includes("date-fns")) {
+            return "ui";
+          }
+
+          if (id.includes("react")) {
+            return "react";
+          }
+
+          return undefined;
+        }
+      }
+    }
   }
 });

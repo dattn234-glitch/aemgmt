@@ -1,16 +1,16 @@
 import { useState, type FormEvent, type ReactNode } from "react";
-import { Clock3, Mail, MapPin, MessageCircle, Phone, ShieldCheck, TimerReset } from "lucide-react";
+import { Clock3, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import type { ContactContent } from "../../lib/site-content";
 import { company } from "../../lib/company";
 import { cn } from "../../lib/utils";
+import { WhatsappLogo } from "../WhatsappLogo";
 import { CtaBand } from "../page/CtaBand";
-import { PageHero } from "../page/PageHero";
 import { Button } from "../ui/button";
+import { Form } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import { Container } from "../ui";
 
 type ContactStatus = {
   state: "idle" | "submitting" | "success" | "error";
@@ -61,34 +61,58 @@ export function ContactPage({ contact }: { contact: ContactContent }) {
 
   return (
     <>
-      <PageHero
-        eyebrow="CONTACT"
-        title={<>We're here <span className="text-navy">to help.</span></>}
-        sub="Ask about a service, update a booking, or tell us what your home needs next."
-      />
-
-      <section className="bg-paper py-20 lg:py-28">
-        <Container className="grid gap-8">
-          <div className="grid overflow-hidden rounded-[28px] border border-line lg:grid-cols-[5fr_7fr]">
-            <div className="grid gap-8 bg-navy-900 p-8 text-white lg:p-10">
+      <section className="bg-navy-900 pt-[72px]">
+        <div className="grid lg:min-h-[calc(100svh-72px)] lg:grid-cols-2">
+          <div className="flex flex-col justify-between gap-10 px-6 py-14 text-white sm:px-10 lg:px-14 lg:py-16 xl:pl-[max(3.5rem,calc((100vw-1440px)/2+20px))]">
+            <div className="grid content-start gap-8">
               <div>
-                <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-sky-300">REACH US</p>
-                <h2 className="mb-0 mt-3 font-display text-4xl font-normal">Tell us what needs attention.</h2>
+                <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-sky-200">CONTACT</p>
+                <h1 className="mb-0 mt-4 max-w-md font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-medium leading-[1.06]">
+                  Tell us what needs <em className="italic text-sky-200">attention.</em>
+                </h1>
+                <p className="mb-0 mt-5 max-w-md text-lg leading-8 text-white/70">
+                  Ask about a service, update a booking, or describe what your home needs next. We reply within one
+                  business day — usually much faster on WhatsApp.
+                </p>
               </div>
+
               <div className="grid gap-4 text-white/80">
-                <ContactRow icon={<Phone size={18} />} text={contact.phone} />
-                <ContactRow icon={<Mail size={18} />} text={company.email} />
+                <ContactRow icon={<Phone size={18} />} text={contact.phone} href={`tel:${contact.phone.replace(/\s/g, "")}`} />
+                <ContactRow icon={<Mail size={18} />} text={company.email} href={`mailto:${company.email}`} />
                 <ContactRow icon={<Clock3 size={18} />} text={company.serviceHours} />
                 <ContactRow icon={<MapPin size={18} />} text="Singapore island-wide" />
               </div>
-              <div className="flex flex-wrap content-start items-start gap-2">
+
+              <a
+                className="group grid w-fit grid-cols-[auto_1fr] items-center gap-4 rounded-[20px] border border-white/15 bg-white/5 px-5 py-4 transition hover:border-white/30 hover:bg-white/10"
+                href={company.whatsappHref}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <WhatsappLogo className="size-9 text-[#25D366]" />
+                <span>
+                  <span className="block text-sm font-semibold text-white">WhatsApp is fastest</span>
+                  <span className="mt-0.5 block text-sm text-white/60">Message us and we'll sort it out live.</span>
+                </span>
+              </a>
+            </div>
+
+            <div className="grid gap-4">
+              <div className="flex flex-wrap gap-2">
                 {serviceAreas.map((area) => (
                   <span className="rounded-full bg-white/10 px-3 py-2 text-sm text-white/85" key={area}>{area}</span>
                 ))}
               </div>
+              <p className="m-0 inline-flex items-center gap-2 text-sm text-white/55">
+                <ShieldCheck size={16} aria-hidden="true" />
+                Bonded & insured · Response within 1 business day
+              </p>
             </div>
+          </div>
 
-            <form className="grid gap-5 bg-white p-7 lg:p-10" aria-label="Contact form" onSubmit={handleContactSubmit}>
+          <div className="bg-paper px-6 py-14 sm:px-10 lg:flex lg:items-center lg:px-14 lg:py-16 xl:pr-[max(3.5rem,calc((100vw-1440px)/2+20px))]">
+            <Form className="grid w-full max-w-xl gap-5" aria-label="Contact form" onSubmit={handleContactSubmit}>
+              <h2 className="m-0 font-display text-h3 font-medium text-ink">Send us the details</h2>
               <Field label="Service">
                 <Select value={serviceType} onValueChange={setServiceType}>
                   <SelectTrigger className="h-11 w-full rounded-xl border-line bg-white text-ink">
@@ -115,45 +139,43 @@ export function ContactPage({ contact }: { contact: ContactContent }) {
               <Field label="Message">
                 <Textarea className="min-h-32 rounded-xl border-line bg-white" autoComplete="off" onChange={(event) => setMessage(event.target.value)} rows={4} value={message} />
               </Field>
-              <p className={cn("m-0 rounded-2xl px-4 py-3 text-sm leading-6", status.state === "error" ? "bg-[#FFF3ED] text-[#8A321D]" : "bg-sky-100 text-navy")}>{status.message}</p>
+              <p className={cn("m-0 rounded-2xl px-4 py-3 text-sm leading-6", status.state === "error" ? "bg-destructive-soft text-destructive" : "bg-primary-soft text-ink")}>{status.message}</p>
               <Button className="w-fit" disabled={status.state === "submitting"} type="submit">
                 {status.state === "submitting" ? "Sending..." : "Send request"}
               </Button>
-            </form>
+            </Form>
           </div>
-
-          <div className="grid gap-5 md:grid-cols-3">
-            {[
-              ["Response within 1 business day", MessageCircle],
-              ["Mon-Sun 8-6", TimerReset],
-              ["Bonded & insured", ShieldCheck]
-            ].map(([label, Icon]) => (
-              <div className="flex items-center gap-3 rounded-[20px] border border-line bg-white p-5 text-ink/70" key={label as string}>
-                <Icon className="text-navy" size={20} aria-hidden="true" />
-                <span className="text-sm font-medium">{label as string}</span>
-              </div>
-            ))}
-          </div>
-        </Container>
+        </div>
       </section>
 
       <CtaBand
+        variant="inline"
         tone="paper"
-        title={<>Need a faster answer? <em className="italic text-sky-300">Call us.</em></>}
-        sub="We can help pick the right residential service, estimate timing, or route an existing booking question."
+        title={<>Rather just book <em className="italic text-primary-ink">the clean?</em></>}
+        sub="Skip the back-and-forth — pick a service and time online, and AE confirms your slot."
         secondary={{ label: "WhatsApp us", href: company.whatsappHref }}
       />
     </>
   );
 }
 
-function ContactRow({ icon, text }: { icon: ReactNode; text: string }) {
-  return (
-    <p className="m-0 flex items-center gap-3">
-      <span className="text-sky-300">{icon}</span>
-      <span>{text}</span>
-    </p>
+function ContactRow({ icon, text, href }: { icon: ReactNode; text: string; href?: string }) {
+  const content = (
+    <>
+      <span className="shrink-0 text-sky-200">{icon}</span>
+      <span className="min-w-0 break-words">{text}</span>
+    </>
   );
+
+  if (href) {
+    return (
+      <a className="flex min-w-0 items-center gap-3 transition-colors hover:text-white" href={href}>
+        {content}
+      </a>
+    );
+  }
+
+  return <p className="m-0 flex min-w-0 items-center gap-3">{content}</p>;
 }
 
 function Field({ label, children }: { label: string; children: ReactNode }) {

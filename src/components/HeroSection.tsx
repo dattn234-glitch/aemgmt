@@ -1,7 +1,9 @@
-import { ArrowRight, BadgeCheck, Leaf, Star, Users } from "lucide-react";
+import { BadgeCheck, Camera, ClipboardCheck, Users } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import heroImage from "../assets/ae-hero-living-room.png";
 import type { HeroContent } from "../lib/site-content";
+import { BookingOptionDialog } from "./BookingOptionDialog";
 import { Button } from "./ui/button";
 import { Container } from "./ui";
 
@@ -10,6 +12,17 @@ type HeroSectionProps = {
 };
 
 export function HeroSection({ hero }: HeroSectionProps) {
+  const reducedMotion = useReducedMotion();
+
+  const rise = (delay: number) =>
+    reducedMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 22 },
+          animate: { opacity: 1, y: 0 },
+          transition: { type: "spring" as const, stiffness: 90, damping: 18, delay }
+        };
+
   return (
     <section
       className="relative flex min-h-[92svh] max-h-[960px] flex-col justify-end overflow-hidden scroll-mt-[88px]"
@@ -26,7 +39,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, rgba(13,24,43,.62) 0%, rgba(13,24,43,.30) 55%, rgba(13,24,43,.16) 100%)"
+            "linear-gradient(90deg, color-mix(in srgb, var(--color-navy-900) 66%, transparent) 0%, color-mix(in srgb, var(--color-navy) 34%, transparent) 55%, color-mix(in srgb, var(--color-navy) 14%, transparent) 100%)"
         }}
         aria-hidden="true"
       />
@@ -34,43 +47,49 @@ export function HeroSection({ hero }: HeroSectionProps) {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(13,24,43,.35) 0%, transparent 30%, transparent 60%, #FAFAF8 100%)"
+            "linear-gradient(180deg, color-mix(in srgb, var(--color-navy-900) 34%, transparent) 0%, transparent 30%, transparent 60%, var(--color-paper) 100%)"
         }}
         aria-hidden="true"
       />
 
       <Container className="relative grid gap-8 pb-24 pt-40">
         <div className="grid max-w-3xl gap-5">
-          <span className="inline-flex h-9 w-fit items-center gap-2 rounded-full border border-white/15 bg-black/35 px-4 text-sm text-white/90 backdrop-blur">
-            <span className="size-2 rounded-full bg-navy" aria-hidden="true" />
+          <motion.span
+            {...rise(0)}
+            className="inline-flex h-9 w-fit items-center gap-2 rounded-full border border-white/40 bg-white/95 px-4 text-sm font-medium text-primary-ink shadow-[0_8px_20px_rgb(9_30_66_/_0.12)]"
+          >
+            <span className="size-2 rounded-full bg-primary" aria-hidden="true" />
             {hero.eyebrow}
-          </span>
-          <h1 id="hero-title" className="m-0 max-w-[13ch] font-display text-display font-normal leading-[1.02] text-white">
-            {hero.title} <em className="italic text-sky-300">{hero.emphasis}</em>
-          </h1>
-          <p className="m-0 max-w-xl text-xl leading-8 text-white/80">{hero.body}</p>
-          <div className="flex flex-wrap gap-3 pt-1">
-            <Button asChild>
-              <a href="#booking">
-                {hero.primaryCta}
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-            </Button>
+          </motion.span>
+          <motion.h1
+            {...rise(0.08)}
+            id="hero-title"
+            className="m-0 max-w-[14ch] font-display text-display font-medium text-white"
+          >
+            {hero.title} <em className="italic text-sky-200">{hero.emphasis}</em>
+          </motion.h1>
+          <motion.p {...rise(0.16)} className="m-0 max-w-xl text-xl leading-8 text-white/85">
+            {hero.body}
+          </motion.p>
+          <motion.div {...rise(0.24)} className="flex flex-wrap gap-3 pt-1">
+            <BookingOptionDialog label={hero.primaryCta} />
             <Button asChild variant="ghostOnDark">
-              <a href="#pricing">See Pricing</a>
+              <a href="#pricing">See pricing</a>
             </Button>
-          </div>
-          <p className="m-0 text-sm text-white/65">Cashless payment · Replacement guarantee · Island-wide</p>
+          </motion.div>
+          <motion.p {...rise(0.32)} className="m-0 text-sm text-white/75">
+            Pay after service by PayNow · Replacement guarantee · Island-wide
+          </motion.p>
         </div>
       </Container>
 
-      <div className="relative border-t border-ink/10">
+      <div className="relative border-t border-white/15 bg-white/80 backdrop-blur-sm">
         <Container>
-          <div className="grid grid-cols-2 text-sm font-medium text-ink/70 md:grid-cols-4">
-            <TrustItem icon={<Star size={15} fill="currentColor" aria-hidden="true" />} text="Same cleaner where available" />
-            <TrustItem icon={<BadgeCheck size={15} aria-hidden="true" />} text="Replacement guarantee" />
-            <TrustItem icon={<Users size={15} aria-hidden="true" />} text="Digital checklist" />
-            <TrustItem icon={<Leaf size={15} aria-hidden="true" />} text="Photo completion report" />
+          <div className="grid grid-cols-2 text-sm font-medium text-ink/75 md:grid-cols-4">
+            <TrustItem icon={<Users className="text-ink/45" size={15} aria-hidden="true" />} text="Same cleaner where available" />
+            <TrustItem icon={<BadgeCheck className="text-ink/45" size={15} aria-hidden="true" />} text="Replacement guarantee" />
+            <TrustItem icon={<ClipboardCheck className="text-ink/45" size={15} aria-hidden="true" />} text="Digital checklist" />
+            <TrustItem icon={<Camera className="text-ink/45" size={15} aria-hidden="true" />} text="Photo completion report" />
           </div>
         </Container>
       </div>

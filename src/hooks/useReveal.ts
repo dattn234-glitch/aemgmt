@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
-export function useReveal<T extends HTMLElement>() {
+export function useReveal<T extends HTMLElement>(options?: { delay?: number }) {
   const ref = useRef<T | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const delay = options?.delay ?? 0;
 
   useEffect(() => {
     const element = ref.current;
@@ -31,8 +32,11 @@ export function useReveal<T extends HTMLElement>() {
     return () => observer.disconnect();
   }, []);
 
+  const style: CSSProperties | undefined = delay > 0 ? { transitionDelay: `${delay}ms` } : undefined;
+
   return {
     ref,
+    style,
     className: revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
   };
 }

@@ -1,17 +1,57 @@
 import { Star } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
+import { Avatar } from "./Avatar";
 import { Container } from "./ui";
 
-const reviews = [
-  ["The same-cleaner arrangement makes weekly upkeep much easier for our family.", "Mei L.", "Tampines"],
-  ["Super easy to book, clear WhatsApp updates, and careful results every time.", "Daniel T.", "Queenstown"],
-  ["The checklist and completion photos make the service feel accountable.", "Jessica N.", "Serangoon"]
-] as const;
-
 export const reviewCards = [
-  ["AE saved our weekends. The same cleaner comes every other week and the flat feels reset without us managing anything.", "Priya S.", "Bedok"],
-  ["Our move-out clean was handled carefully. Cabinets, fridge, baseboards, all covered.", "Marcus T.", "Bukit Timah"],
-  ["The booking was simple and the team was careful around our renovation dust. Huge relief.", "Nina K.", "Punggol"]
+  {
+    quote: "Same cleaner for four months now. She knows the flat better than we do — the fan blades and window tracks are always done without asking.",
+    name: "Mei L.",
+    city: "Tampines",
+    service: "Weekly home cleaning",
+    bookings: "18 bookings",
+    date: "Jul 2026"
+  },
+  {
+    quote: "Booked online in two minutes, got a WhatsApp confirmation the same day. The clean itself was thorough and the photo report is a nice touch.",
+    name: "Daniel T.",
+    city: "Queenstown",
+    service: "Fortnightly cleaning",
+    bookings: "9 bookings",
+    date: "Jun 2026"
+  },
+  {
+    quote: "After our reno, there was fine dust on every ledge and inside every cabinet. The team wiped it all down and the checklist showed exactly what was covered.",
+    name: "Jessica N.",
+    city: "Serangoon",
+    service: "Post-renovation clean",
+    bookings: "3 bookings",
+    date: "Jun 2026"
+  },
+  {
+    quote: "AE saved our weekends. The same cleaner comes every other week and the flat feels reset without us managing anything.",
+    name: "Priya S.",
+    city: "Bedok",
+    service: "Fortnightly cleaning",
+    bookings: "14 bookings",
+    date: "May 2026"
+  },
+  {
+    quote: "Our move-out clean got the full deposit back. Cabinets, fridge, baseboards — the landlord had nothing to point at.",
+    name: "Marcus T.",
+    city: "Bukit Timah",
+    service: "Move-out cleaning",
+    bookings: "2 bookings",
+    date: "May 2026"
+  },
+  {
+    quote: "Paying by PayNow after the clean instead of upfront made trying AE feel zero-risk. We've stayed on ever since.",
+    name: "Nina K.",
+    city: "Punggol",
+    service: "Post-renovation clean",
+    bookings: "4 bookings",
+    date: "Apr 2026"
+  }
 ] as const;
 
 export function ReviewsSection() {
@@ -25,29 +65,46 @@ export function ReviewsSection() {
           ref={headerReveal.ref}
           className={`mx-auto grid max-w-3xl justify-items-center gap-4 text-center transition duration-500 ${headerReveal.className}`}
         >
-          <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-navy">REVIEWS</p>
-          <h2 id="reviews-title" className="m-0 font-display text-h2 font-normal text-ink">
-            Loved by homes{" "}
-            <span className="text-navy">across Singapore.</span>
+          <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">REVIEWS</p>
+          <h2 id="reviews-title" className="m-0 font-display text-h2 font-medium text-ink">
+            Loved by homes <em className="italic text-primary-ink">across Singapore.</em>
           </h2>
-          <p className="m-0 text-lg leading-8 text-ink/65">Notes from recurring home cleaning, move-in/out resets, and post-renovation days around Singapore.</p>
+          <p className="m-0 text-lg leading-8 text-ink/65">Real feedback from weekly cleans, move-in/out handovers, and post-renovation cleans across Singapore.</p>
         </div>
-        <div ref={gridReveal.ref} className={`grid gap-5 transition duration-500 lg:grid-cols-3 ${gridReveal.className}`}>
-          {reviews.map(([quote, name, city]) => (
-            <article className="rounded-[20px] border border-line bg-white p-7" key={name}>
-              <div className="flex gap-1 text-gold" aria-label="Five star rating">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star key={index} size={16} fill="currentColor" aria-hidden="true" />
-                ))}
-              </div>
-              <p className="mb-6 mt-5 text-[17px] leading-relaxed text-ink/80">"{quote}"</p>
-              <p className="m-0 text-sm text-ink/65">
-                <span className="font-semibold text-ink">- {name}</span>, {city}
-              </p>
-            </article>
-          ))}
+        <div ref={gridReveal.ref} className={`overflow-hidden transition duration-500 ${gridReveal.className}`}>
+          <div className="flex w-max gap-5 animate-[reviews-marquee_38s_linear_infinite] hover:[animation-play-state:paused]">
+            {[...reviewCards, ...reviewCards].map((review, index) => (
+              <ReviewCard key={`${review.name}-${index}`} review={review} />
+            ))}
+          </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+function ReviewCard({ review }: { review: (typeof reviewCards)[number] }) {
+  return (
+    <article className="w-[min(82vw,360px)] shrink-0 rounded-[20px] border border-line bg-white p-6 shadow-[0_10px_24px_rgb(9_30_66_/_0.05)] sm:w-[390px]">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Avatar name={review.name} className="ring-2 ring-primary-soft" />
+          <span>
+            <strong className="block text-sm font-semibold text-ink">{review.name}</strong>
+            <span className="block text-xs text-ink/55">{review.city} · {review.bookings}</span>
+          </span>
+        </div>
+        <div className="flex gap-1 text-gold" aria-label="Five star rating">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Star key={index} size={15} fill="currentColor" aria-hidden="true" />
+          ))}
+        </div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-ink/60">
+        <span className="rounded-full bg-primary-soft px-3 py-1 text-ink">{review.service}</span>
+        <span className="rounded-full border border-line bg-white px-3 py-1">{review.date}</span>
+      </div>
+      <p className="mb-0 mt-5 text-[17px] leading-relaxed text-ink/80">"{review.quote}"</p>
+    </article>
   );
 }

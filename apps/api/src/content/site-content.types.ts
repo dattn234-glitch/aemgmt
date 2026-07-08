@@ -39,6 +39,7 @@ export type PricingPlan = {
   name: string;
   description: string;
   price: number;
+  priceLabel?: string;
   suffix: string;
   capacity: string;
   features: string[];

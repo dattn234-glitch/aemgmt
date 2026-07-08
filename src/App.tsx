@@ -1,15 +1,18 @@
 import { useEffect, useState, type ReactElement } from "react";
 import { BookingPage } from "./components/BookingPage";
+import { FloatingWhatsapp } from "./components/FloatingWhatsapp";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { HomePage } from "./components/HomePage";
+import { AdminPage } from "./components/pages/AdminPage";
 import { AboutPage } from "./components/pages/AboutPage";
 import { ContactPage } from "./components/pages/ContactPage";
 import { HowItWorksPage } from "./components/pages/HowItWorksPage";
 import { PricingPage } from "./components/pages/PricingPage";
+import { PublicInvoicePage } from "./components/pages/PublicInvoicePage";
 import { ReviewsPage } from "./components/pages/ReviewsPage";
+import { SignInPage } from "./components/pages/SignInPage";
 import { ServicesPage } from "./components/pages/ServicesPage";
-import { FloatingWhatsapp } from "./components/FloatingWhatsapp";
 import { fallbackSiteContent, type SiteContent } from "./lib/site-content";
 
 const fallbackRoute = "#home";
@@ -22,7 +25,10 @@ const routeTitles: Record<string, string> = {
   "#how-it-works": "How It Works — AE Management Services",
   "#reviews": "Reviews — AE Management Services",
   "#contact": "Contact — AE Management Services",
-  "#booking": "Booking — AE Management Services"
+  "#booking": "Booking — AE Management Services",
+  "#signin": "Sign in — AE Management Services",
+  "#admin": "Admin — AE Management Services",
+  "#invoice": "Invoice — AE Management Services"
 };
 
 export function App() {
@@ -31,9 +37,9 @@ export function App() {
   const view = activeHref === "#home" ? "home" : activeHref === "#booking" ? "booking" : "subpage";
 
   useEffect(() => {
-    const controller = new AbortController();
+    let cancelled = false;
 
-    fetch("/api/site", { signal: controller.signal })
+    fetch("/api/site")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Site content request failed: ${response.status}`);
@@ -42,16 +48,17 @@ export function App() {
         return response.json() as Promise<SiteContent>;
       })
       .then((payload) => {
-        setContent(payload);
-      })
-      .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === "AbortError") {
+        if (cancelled) {
           return;
         }
 
-      });
+        setContent(normalizeSiteContent(payload));
+      })
+      .catch(() => {});
 
-    return () => controller.abort();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -88,6 +95,27 @@ export function App() {
   );
 }
 
+function normalizeSiteContent(payload: SiteContent): SiteContent {
+  const apiPointsField = ["high", "lights"].join("");
+  const booking = payload.booking;
+
+  return {
+    ...payload,
+    booking: {
+      ...booking,
+      services: booking.services.map((service) => {
+        const apiService = service as typeof service & Record<string, unknown>;
+        const keyPoints = service.keyPoints ?? apiService[apiPointsField];
+
+        return {
+          ...service,
+          keyPoints: Array.isArray(keyPoints) ? keyPoints.filter((item): item is string => typeof item === "string") : []
+        };
+      })
+    }
+  };
+}
+
 function getActiveHref() {
   const hash = window.location.hash || fallbackRoute;
   const redirected = legacyRoutes.get(hash);
@@ -115,7 +143,10 @@ function renderRoute(activeHref: string, content: SiteContent) {
     "#how-it-works": <HowItWorksPage />,
     "#reviews": <ReviewsPage />,
     "#contact": <ContactPage contact={content.contact} />,
-    "#booking": <BookingPage booking={content.booking} contact={content.contact} />
+    "#booking": <BookingPage booking={content.booking} contact={content.contact} />,
+    "#signin": <SignInPage />,
+    "#admin": <AdminPage />,
+    "#invoice": <PublicInvoicePage />
   };
 
   return routes[activeHref] ?? routes[fallbackRoute];

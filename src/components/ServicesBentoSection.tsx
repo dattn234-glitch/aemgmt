@@ -1,4 +1,4 @@
-import { ArrowRight, Home, Leaf, MapPin, ShieldCheck, Sparkles, WashingMachine, type LucideIcon } from "lucide-react";
+import { ArrowRight, CalendarCheck, Home, MapPin, ShieldCheck, SlidersHorizontal, Sparkles, type LucideIcon } from "lucide-react";
 import kitchenImage from "../assets/ae-cleaner-kitchen.png";
 import { useReveal } from "../hooks/useReveal";
 import { Container } from "./ui";
@@ -19,10 +19,9 @@ type ServiceCard = {
 const cards: ServiceCard[] = [
   {
     area: "deep",
-    title: "Deep Cleans",
-    copy: "Top to bottom. Baseboards, vents, behind appliances, and detail zones covered before recurring service begins.",
-    icon: Sparkles,
-    titleClass: "text-[30px]"
+    title: "Post-Renovation",
+    copy: "Fine dust wiped from floors, ledges, and every reachable corner after the contractors finish — before you move back in.",
+    icon: Sparkles
   },
   {
     area: "move",
@@ -41,7 +40,7 @@ const cards: ServiceCard[] = [
     area: "easy",
     title: "Easy Booking",
     copy: "Online in under two minutes. Reschedule from your phone.",
-    icon: WashingMachine
+    icon: CalendarCheck
   }
 ] as const;
 
@@ -57,15 +56,15 @@ export function ServicesBentoSection({ trustRow }: ServicesBentoSectionProps) {
           className={`grid gap-6 transition duration-500 lg:grid-cols-[1fr_360px] lg:items-end ${headerReveal.className}`}
         >
           <div className="grid gap-3">
-            <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-navy">SERVICES</p>
-            <h2 id="services-title" className="m-0 font-display text-h2 font-normal text-ink">
+            <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">SERVICES</p>
+            <h2 id="services-title" className="m-0 font-display text-h2 font-medium text-ink">
               Everything your home{" "}
-              <span className="text-navy">needs.</span>
+              <span className="text-ink">needs.</span>
             </h2>
           </div>
           <div className="grid gap-3 text-lg leading-8 text-ink/65">
-            <p className="m-0">Pick a plan, mix services, or build a custom recurring schedule. We will match you with the right team.</p>
-            <a className="inline-flex items-center gap-2 text-sm font-semibold text-navy" href="#services">
+            <p className="m-0">Hourly cleaning on your schedule, plus one-off packages for handovers and post-renovation dust. AE matches you with the right cleaner.</p>
+            <a className="inline-flex items-center gap-2 text-sm font-semibold text-primary-ink" href="#services">
               See all services
               <ArrowRight size={14} aria-hidden="true" />
             </a>
@@ -82,25 +81,25 @@ export function ServicesBentoSection({ trustRow }: ServicesBentoSectionProps) {
                 style={{ gridArea: card.area }}
                 key={card.title}
               >
-                <span className="grid size-10 place-items-center rounded-xl bg-sky-100 text-navy">
+                <span className="grid size-10 place-items-center rounded-xl bg-primary-soft text-ink">
                   <Icon size={20} aria-hidden="true" />
                 </span>
-                <h3 className={`m-0 font-display font-normal leading-tight text-ink ${card.titleClass ?? "text-2xl"}`}>{card.title}</h3>
+                <h3 className={`m-0 font-display font-medium leading-tight text-ink ${card.titleClass ?? "text-2xl"}`}>{card.title}</h3>
                 <p className={`m-0 leading-7 text-ink/65 ${card.compact ? "text-sm" : "text-base"}`}>{card.copy}</p>
               </article>
             );
           })}
           <article
-            className="grid items-center gap-4 rounded-[20px] border border-line bg-[#EAF4EE] p-7 transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgb(22_25_26/0.06)]"
+            className="grid items-center gap-4 rounded-[20px] border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgb(22_25_26/0.06)]"
             style={{ gridArea: "eco" }}
           >
-            <span className="grid size-10 place-items-center rounded-xl bg-white text-navy">
-              <Leaf size={20} aria-hidden="true" />
+            <span className="grid size-10 place-items-center rounded-xl bg-primary-soft text-ink">
+              <SlidersHorizontal size={20} aria-hidden="true" />
             </span>
             <div>
-              <h3 className="m-0 font-display text-2xl font-normal text-navy-700">Eco-Friendly Options</h3>
+              <h3 className="m-0 font-display text-2xl font-medium text-ink">Optional Add-Ons</h3>
               <p className="mb-0 mt-3 max-w-2xl leading-7 text-ink/65">
-                Choose plant-forward products and thoughtful add-ons that keep your home fresh without harsh residue.
+                Kitchen degrease, fridge or oven interiors, bathroom deep cleans, and sofa or mattress extraction — add them to any visit.
               </p>
             </div>
           </article>
@@ -126,28 +125,30 @@ function FeaturedServiceCard() {
       className="flex min-h-[560px] flex-col overflow-hidden rounded-[20px] border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgb(22_25_26/0.06)]"
       style={{ gridArea: "featured" }}
     >
-      <span className="inline-flex h-8 w-fit items-center gap-2 rounded-full bg-sky-100 px-3 text-xs font-semibold text-navy">
-        <span className="size-1.5 rounded-full bg-navy" aria-hidden="true" />
+      <span className="inline-flex h-8 w-fit items-center gap-2 rounded-full bg-primary-soft px-3 text-xs font-semibold text-primary-ink">
+        <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
         MOST BOOKED
       </span>
-      <h3 className="mb-0 mt-5 font-display text-4xl font-normal leading-tight text-ink">Recurring Cleans</h3>
+      <h3 className="mb-0 mt-5 font-display text-4xl font-medium leading-tight text-ink">Recurring Cleans</h3>
       <p className="mb-5 mt-3 leading-7 text-ink/65">
-        Weekly or biweekly, with the same team every visit. They learn your home, your preferences, and the spots that always need a little extra.
+        Weekly or fortnightly, with the same cleaner where available — they learn your home, your preferences, and the spots that always need a little extra.
       </p>
       <div className="flex flex-wrap gap-2">
-        {["Same team", "Flexible cadence", "Auto-billed"].map((tag) => (
-          <span className="inline-flex h-8 items-center gap-2 rounded-full bg-sky-100 px-3 text-xs font-medium text-navy" key={tag}>
-            <span className="size-1.5 rounded-full bg-navy" aria-hidden="true" />
+        {["Same cleaner", "Weekly or fortnightly", "Pay after service"].map((tag) => (
+          <span className="inline-flex h-8 items-center gap-2 rounded-full bg-primary-soft px-3 text-xs font-medium text-ink" key={tag}>
+            <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
             {tag}
           </span>
         ))}
       </div>
-      <img
-        className="-mx-7 -mb-7 mt-auto min-h-[220px] w-[calc(100%+3.5rem)] max-w-none object-cover"
-        src={kitchenImage}
-        alt="Cleaner wiping a bright kitchen counter"
-        loading="lazy"
-      />
+      <div className="-mx-7 -mb-7 mt-6 min-h-[260px] flex-1 overflow-hidden rounded-b-[20px]">
+        <img
+          className="h-full min-h-[260px] w-full object-cover object-center"
+          src={kitchenImage}
+          alt="Cleaner wiping a bright kitchen counter"
+          loading="lazy"
+        />
+      </div>
     </article>
   );
 }

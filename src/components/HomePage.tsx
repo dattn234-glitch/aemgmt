@@ -5,7 +5,7 @@ import { HowItWorksSection } from "./HowItWorksSection";
 import { PricingSection } from "./PricingSection";
 import { ReviewsSection } from "./ReviewsSection";
 import { ServicesBentoSection } from "./ServicesBentoSection";
-import { WhyZestSection } from "./WhyZestSection";
+import { ProofSection } from "./ProofSection";
 
 type HomePageProps = {
   hero: HeroContent;
@@ -17,7 +17,7 @@ export function HomePage({ hero, pricing, trustRow }: HomePageProps) {
   return (
     <>
       <HeroSection hero={hero} />
-      <WhyZestSection />
+      <ProofSection />
       <ServicesBentoSection trustRow={trustRow} />
       <HowItWorksSection />
       <PricingSection pricing={pricing} teaser />

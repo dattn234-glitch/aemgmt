@@ -1,4 +1,4 @@
 interface:
-  display_name: "ZestClean UI"
-  short_description: "Apply the ZestClean light editorial design system (Fraunces serif, green pills, cream surfaces)."
-  default_prompt: "Use the ZestClean design system and docs/implementation-plan.md for this frontend task."
+  display_name: "AE Blue Cleaning UI"
+  short_description: "Apply the AE light editorial design system (Astryx Figtree, Atlassian blue CTAs, yellow highlights)."
+  default_prompt: "Use the AE Blue cleaning platform design system and docs/implementation-plan.md for this frontend task."

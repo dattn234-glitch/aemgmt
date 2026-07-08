@@ -39,6 +39,7 @@ export type PricingPlan = {
   name: string;
   description: string;
   price: number;
+  priceLabel?: string;
   suffix: string;
   capacity: string;
   features: string[];
@@ -71,7 +72,7 @@ export type BookingService = {
   billingLabel: string;
   badge?: string;
   frequencyOptions: string[];
-  highlights: string[];
+  keyPoints: string[];
 };
 
 export type BookingAddon = {
@@ -131,42 +132,43 @@ export const fallbackSiteContent: SiteContent = {
     { label: "Contact", href: "#contact", status: "live" }
   ],
   contact: {
-    phone: "+65 8123 4567",
+    phone: "+65 6980 3559",
     bookingHref: "#booking"
   },
   home: {
     hero: {
-      eyebrow: "Residential home cleaning · Singapore island-wide",
-      title: "Home cleaning in Singapore",
-      emphasis: "you can rely on.",
+      eyebrow: "From S$24/hr · Singapore island-wide",
+      title: "Come home to a house",
+      emphasis: "that's already clean.",
       suffix: "",
-      body: "Same-cleaner reliability, digital checklists, photo completion reports, and WhatsApp support for HDB, condominium, and landed homes.",
+      body: "Weekly cleans, move-in/out handovers, and post-renovation resets — booked online in two minutes, confirmed on WhatsApp, and paid only after the visit.",
       promises: [
         { title: "Same cleaner", description: "Every visit where available" },
         { title: "Replacement", description: "Cleaner guarantee" },
         { title: "Digital checklist", description: "+ photo report" },
         { title: "Cashless", description: "PayNow or transfer" }
       ],
-      primaryCta: "Book on WhatsApp",
-      secondaryCta: "See Pricing",
+      primaryCta: "Book online",
+      secondaryCta: "See pricing",
       rating: {
         score: "HSS-focused",
         label: "residential homes only",
         reviews: "Built for Singapore households"
       }
     },
-    trustRow: ["East", "West", "North", "Central", "CBD fringe"]
+    trustRow: ["East", "West", "North", "Central", "City fringe"]
   },
   pricing: {
     eyebrow: "Pricing",
     title: "Hourly rates with clear packages",
-    subtitle: "Choose 3 or 4 hours for recurring home cleaning. Move-in/out and post-renovation cleans are quoted by home size and confirmed on WhatsApp.",
+    subtitle: "Weekly, fortnightly, and one-time cleaning at clear hourly rates. Move-in/out and post-renovation packages run S$300-S$450 for homes up to 1,300 sq ft.",
     billingOptions: ["Hourly home cleaning", "Package cleaning"],
     plans: [
       {
         name: "Weekly",
-        description: "Best for busy households that want the same dedicated cleaner every visit.",
+        description: "The lowest hourly rate, and your home never gets the chance to slip. Same cleaner where available.",
         price: 25,
+        priceLabel: "S$24-26",
         suffix: "/hr",
         capacity: "3 or 4 hour sessions",
         featured: true,
@@ -174,31 +176,33 @@ export const fallbackSiteContent: SiteContent = {
           { label: "3 hrs", price: 75 },
           { label: "4 hrs", price: 100 }
         ],
-        features: ["Same dedicated cleaner", "Digital cleaning checklist", "Photo completion report", "Easy WhatsApp rescheduling"]
+        features: ["Same cleaner where available", "Replacement guarantee", "Digital cleaning checklist", "Easy rescheduling"]
       },
       {
         name: "Fortnightly",
-        description: "A reliable reset every two weeks for HDB, condominium, and landed homes.",
+        description: "A dependable reset every two weeks — the sweet spot for tidy HDB, condo, and landed homes.",
         price: 27,
+        priceLabel: "S$25-28",
         suffix: "/hr",
         capacity: "3 or 4 hour sessions",
         durationPrices: [
           { label: "3 hrs", price: 81 },
           { label: "4 hrs", price: 108 }
         ],
-        features: ["Same cleaner where available", "Replacement-cleaner guarantee", "Checklist-led visits", "Cashless payment after confirm"]
+        features: ["Same cleaner where available", "Replacement cleaner guarantee", "Checklist-led visits", "Pay by PayNow after service"]
       },
       {
         name: "One-Time",
-        description: "Ad-hoc home cleaning when you need help without a recurring schedule.",
+        description: "One visit, no commitment — try AE before a subscription, or get help before guests arrive.",
         price: 30,
+        priceLabel: "S$28-32",
         suffix: "/hr",
         capacity: "3 or 4 hour sessions",
         durationPrices: [
           { label: "3 hrs", price: 90 },
           { label: "4 hrs", price: 120 }
         ],
-        features: ["Flexible one-off visit", "Cleaner assigned by availability", "WhatsApp confirmation", "Nett rate before add-ons"]
+        features: ["Flexible one-off visit", "Cleaner assigned by availability", "Slot confirmed by AE", "No hidden fees; add-ons optional"]
       }
     ],
     addons: [
@@ -209,45 +213,44 @@ export const fallbackSiteContent: SiteContent = {
     ]
   },
   booking: {
-    eyebrow: "WhatsApp-first booking",
+    eyebrow: "Online booking",
     title: "Book your home clean",
-    emphasis: "then confirm on WhatsApp",
-    subtitle: "Submit a residential cleaning request for your Singapore home. We confirm cleaner availability and cashless payment details by WhatsApp before the visit.",
+    emphasis: "then AE confirms your slot",
+    subtitle: "Submit a residential cleaning request for your Singapore home. AE confirms availability first — you pay by PayNow only after the service is completed and the invoice is ready.",
     steps: [
       { label: "Service", description: "Choose hourly or package" },
       { label: "Date & Time", description: "Pick a visit window" },
       { label: "Home Details", description: "HDB, condominium, or landed" },
       { label: "Add-ons", description: "Customize the scope" },
-      { label: "WhatsApp", description: "Confirm booking" }
+      { label: "Review", description: "Confirm and pay after service" }
     ],
     services: [
       {
         id: "recurring",
         name: "Residential Cleaning Subscription",
-        description: "Weekly, fortnightly, or one-time hourly cleaning for lived-in Singapore homes.",
-        price: 25,
+        description: "Weekly or fortnightly visits from a cleaner who learns your home — or a one-time clean when you need it.",
+        price: 24,
         billingLabel: "from /hr",
-        badge: "Popular",
         frequencyOptions: ["Weekly", "Fortnightly", "One-time"],
-        highlights: ["3 or 4 hour sessions", "Same cleaner every visit where available", "Digital checklist", "Photo completion report"]
+        keyPoints: ["3 or 4 hour sessions", "Same cleaner every visit where available", "Digital checklist", "Photo completion report"]
       },
       {
         id: "move",
         name: "Move-In / Move-Out Cleaning",
-        description: "Package cleaning for handover, keys collection, or a fresh home reset.",
+        description: "Get the flat key-ready for handover, inspection, or your first night — cabinets, bathrooms, and floors included.",
         price: 300,
         billingLabel: "from",
         frequencyOptions: ["One-time package"],
-        highlights: ["Size-tier package quote", "Cabinets and fixtures", "Kitchen and bathroom detail", "Final quote on WhatsApp"]
+        keyPoints: ["S$300-S$450 up to 1,300 sq ft", "Cabinets and fixtures", "Kitchen and bathroom detail", "Final quote by AE"]
       },
       {
         id: "renovation",
         name: "Post-Renovation Cleaning",
-        description: "Detailed residential dust removal after renovation work is complete.",
+        description: "Clear the fine dust contractors leave behind — ledges, tracks, and floors reset before you move back in.",
         price: 380,
         billingLabel: "from",
         frequencyOptions: ["One-time package"],
-        highlights: ["Fine dust wipe-down", "Floor and surface reset", "Window ledges and trims", "Photo completion report"]
+        keyPoints: ["Packages sized up to 1,300 sq ft", "Fine dust wipe-down", "Floor and surface reset", "Photo completion report"]
       }
     ],
     homeTypes: ["HDB", "Condominium", "Landed"],
@@ -263,9 +266,9 @@ export const fallbackSiteContent: SiteContent = {
       { id: "sofa-mattress", name: "Sofa or mattress extraction", description: "Fabric extraction for one sofa or mattress item, subject to confirmation.", price: 80 }
     ],
     assurances: [
-      { title: "WhatsApp confirmation", description: "Cleaner availability and payment details are confirmed after submit." },
-      { title: "Replacement guarantee", description: "If an assigned cleaner is unavailable, we arrange a replacement." },
-      { title: "Cashless only", description: "PayNow or bank transfer details are shared after confirmation." }
+      { title: "Pay after service", description: "AE confirms your visit first; invoice and PayNow details appear after completion." },
+      { title: "Confirmed before we come", description: "Every booking is checked and confirmed by AE on WhatsApp — no surprise arrivals." },
+      { title: "Photo completion report", description: "See the checklist and photos from every visit, even when you're not home." }
     ]
   }
 };

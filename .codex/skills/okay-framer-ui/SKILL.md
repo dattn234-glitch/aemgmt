@@ -1,19 +1,21 @@
 ---
 name: okay-framer-ui
-description: Apply the ZestClean design system for any UI, frontend, website, app screen, component, styling, polish, responsive QA, or visual redesign task in `/Users/datnt1/Desktop/okay`. Use when the user asks to create new UI, improve UI, fix UI bugs, build frontend components, or continue the phased implementation plan.
+description: Apply the AE Blue cleaning platform design system for any UI, frontend, website, app screen, component, styling, polish, responsive QA, or visual redesign task in `/Users/datnt1/Desktop/okay`. Use when the user asks to create new UI, improve UI, fix UI bugs, build frontend components, or continue the approved blue Luce-inspired implementation plan.
 ---
 
-# ZestClean UI (project design skill)
+# AE Blue Cleaning UI (project design skill)
 
 ## Purpose
 
-ZestClean is a **residential cleaning** brand: subscriptions, move-in/out and post-renovation
-cleans, plus a simple online booking flow. The target look is **light, warm, editorial** —
-modeled on https://www.zestcleaningco.com/ — cream/paper surfaces, Fraunces serif headlines
-(weight 400), Plus Jakarta Sans body, green pill buttons, white hairline-border cards.
+AE is a **residential cleaning** brand: subscriptions, move-in/out and post-renovation
+cleans, plus a simple online booking flow where AE confirms the visit first and the
+invoice/QR appears only after service completion. The target look is **light, clear, trustworthy** —
+Luce-inspired booking rhythm, Claude-inspired comparison tables, neutral light surfaces,
+Astryx neutral typography (Figtree across display/headings/body), soft blue pill buttons,
+gold status highlights, and white token-border cards.
 
-**This replaces the earlier "dark Framer product surface" direction — that guidance is dead.
-Never build dark dashboard-style UI for public screens, and never use Shopify Polaris.**
+**This replaces all earlier dark, green-primary, or marketplace-admin design directions. Public
+screens are light, blue-led, residential, and conversion-focused.**
 
 ## Required workflow
 
@@ -32,17 +34,19 @@ Never build dark dashboard-style UI for public screens, and never use Shopify Po
 
 ## Non-negotiable design rules
 
-- Headings: Fraunces, weight 400, never bold, never sans. Section h2 ends with a green
+- Typography: Astryx neutral/Figtree for display, headings, body, and nav. Section h2 ends with a navy
   emphasis span preceded by an explicit `{" "}` space (rendered text must be a correct sentence).
-- Buttons and chips are full pills (`rounded-full`); primary green `#2D9B6F`, hover `#1C6549`.
-- Surfaces: paper `#FAFAF8` / cream `#F4F2EC` sections, white cards with `1px rgb(22 25 26/.08)`
-  borders, radius 20px, shadows ~none.
-- Hero copy is white over a forest scrim — it must stay readable at 390px (white-on-cream = bug).
+- Buttons and chips are full pills (`rounded-full`); primary uses soft blue tokens,
+  highlights/status use gold tokens.
+- Surfaces: neutral light sections, white cards with blue-tinted border tokens, radius 20px, shadows ~none.
+- Hero copy is white over a navy scrim — it must stay readable at 390px (white-on-cream = bug).
 - Text may never run-in, overlap, clip, or overflow at any width from 320 to 1440.
 - No dev/debug state in public UI (API status chips, framework badges, fake controls).
 - Icons: lucide-react only.
 - Booking/contact keep their existing API contracts (`POST /api/bookings`, `POST /api/contact`,
   `GET /api/site` with bundled fallback).
+- Booking payment lifecycle is fixed: `request -> AE confirms visit -> service completed ->
+  invoice with QR -> paid`. Never say QR/payment appears immediately after admin confirms.
 
 ## Reference files
 

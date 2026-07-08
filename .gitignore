@@ -34,3 +34,11 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+.vercel
+
+# QA/session artifacts
+.codex-artifacts/
+test-results/
+
+# Private business docs (bank details) — repo is public
+docs/quote-ae-website.tex

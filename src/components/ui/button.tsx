@@ -5,11 +5,11 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-transparent text-sm font-semibold whitespace-nowrap transition-all outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-transparent text-sm font-semibold whitespace-nowrap transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-navy text-white hover:bg-navy-700",
+        default: "bg-primary text-white hover:bg-primary/85",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20",
         outline:
@@ -17,10 +17,10 @@ const buttonVariants = cva(
         secondary:
           "border-line bg-white text-ink hover:border-[rgb(22_25_26_/_0.25)]",
         ghost:
-          "text-ink hover:bg-sky-100",
+          "text-ink hover:bg-primary-soft",
         ghostOnDark:
           "border-white/25 bg-white/10 text-white backdrop-blur hover:bg-white/15",
-        link: "text-navy underline-offset-4 hover:underline",
+        link: "text-primary-ink hover:text-primary-ink",
       },
       size: {
         default: "h-12 px-6 py-2 has-[>svg]:px-5",
