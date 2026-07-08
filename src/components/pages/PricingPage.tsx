@@ -1,11 +1,9 @@
-import { useMemo, useState } from "react";
-import { Check, HelpCircle, Minus, Search } from "lucide-react";
+import { Check, HelpCircle, Minus } from "lucide-react";
 import type { PricingContent } from "../../lib/site-content";
 import { company, formatMoney, formatSignedMoney } from "../../lib/company";
 import { CtaBand } from "../page/CtaBand";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import { Container } from "../ui";
 
 const rateCards = [
@@ -78,24 +76,6 @@ const faqs = [
 ] as const;
 
 export function PricingPage({ pricing }: { pricing: PricingContent }) {
-  const [query, setQuery] = useState("");
-  const normalizedQuery = query.trim().toLowerCase();
-  const filteredSections = useMemo(() => {
-    if (!normalizedQuery) {
-      return comparisonSections;
-    }
-
-    return comparisonSections
-      .map((section) => ({
-        ...section,
-        rows: section.rows.filter((row) =>
-          row.some((cell) => cell.toLowerCase().includes(normalizedQuery)) ||
-          section.title.toLowerCase().includes(normalizedQuery)
-        )
-      }))
-      .filter((section) => section.rows.length > 0);
-  }, [normalizedQuery]);
-
   return (
     <>
       <section className="bg-cream pt-28 pb-16 lg:pt-36 lg:pb-20" aria-labelledby="pricing-page-title">
@@ -219,23 +199,16 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
 
       <section className="bg-cream py-18 lg:py-24">
         <Container className="grid gap-8">
-          <div className="grid gap-5 lg:grid-cols-[0.7fr_1.3fr] lg:items-end">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-end">
             <div>
               <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Compare features</p>
               <h2 className="mt-3 font-display text-h2 font-medium leading-tight text-ink">
-                Compare what's included{" "}
-                <span className="text-ink">in each plan.</span>
+                Compare what's included <em className="italic text-primary-ink">in each plan.</em>
               </h2>
             </div>
-            <div className="relative">
-              <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-ink/45" aria-hidden="true" />
-              <Input
-                className="h-13 rounded-full border-line bg-white pl-12 text-base"
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search features, payment, checklist, surcharge..."
-                value={query}
-              />
-            </div>
+            <p className="m-0 max-w-md text-base leading-7 text-ink/60 lg:justify-self-end lg:text-right">
+              The same booking flow, checklist, and pay-after-service protection — the plans differ in rate and cleaner continuity.
+            </p>
           </div>
 
           <div className="relative min-w-0 max-w-full rounded-[24px] border border-line bg-white">
@@ -258,16 +231,13 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
                 </tr>
               </thead>
               <tbody>
-                {filteredSections.map((section) => (
+                {comparisonSections.map((section) => (
                   <PricingMatrixSection rows={section.rows} title={section.title} key={section.title} />
                 ))}
               </tbody>
             </table>
             </div>
             <div className="pointer-events-none absolute inset-y-0 right-0 w-10 rounded-r-[24px] bg-gradient-to-l from-white to-white/0" aria-hidden="true" />
-            {filteredSections.length === 0 ? (
-              <div className="p-8 text-center text-sm text-ink/60">No feature rows match that search.</div>
-            ) : null}
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

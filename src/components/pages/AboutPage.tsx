@@ -30,21 +30,8 @@ export function AboutPage() {
       <section className="bg-paper pb-16 pt-32 lg:pb-24 lg:pt-40">
         <Container size="wide">
           <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">ABOUT US</p>
-          <h1 className="mb-0 mt-5 font-display text-[clamp(2.5rem,6.5vw,5.25rem)] font-medium leading-[1.05] tracking-[-0.015em] text-ink">
-            A local team{" "}
-            <img
-              alt=""
-              aria-hidden="true"
-              className="inline-block h-[0.82em] w-[1.7em] rounded-full object-cover align-[-0.12em]"
-              src={kitchenImage}
-            />{" "}
-            that treats your home <em className="italic text-primary-ink">like their own</em>{" "}
-            <img
-              alt=""
-              aria-hidden="true"
-              className="inline-block h-[0.82em] w-[1.7em] rounded-full object-cover align-[-0.12em]"
-              src={livingRoomImage}
-            />
+          <h1 className="mb-0 mt-5 max-w-4xl font-display text-[clamp(2.5rem,6.5vw,5.25rem)] font-medium leading-[1.05] tracking-[-0.015em] text-ink">
+            A local team that treats your home <em className="italic text-primary-ink">like their own.</em>
           </h1>
           <div className="mt-8 h-px w-24 bg-gold" aria-hidden="true" />
           <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
@@ -69,10 +56,10 @@ export function AboutPage() {
           <Reveal className="relative min-h-[440px]">
             <img className="h-[390px] w-[78%] rounded-[20px] object-cover" src={kitchenImage} alt="Cleaner wiping a bright kitchen counter" loading="lazy" />
             <img className="absolute bottom-0 right-0 h-[220px] w-[48%] rounded-[20px] border-8 border-cream object-cover" src={livingRoomImage} alt="Bright tidy living room" loading="lazy" />
-            <div className="absolute left-6 top-9 grid w-[min(72%,320px)] rounded-[26px] border border-white/70 bg-white/90 p-8 text-ink shadow-[0_14px_34px_rgb(9_30_66_/_0.10)] backdrop-blur-sm sm:left-10 sm:top-12 sm:p-9">
-              <Leaf size={34} strokeWidth={1.8} aria-hidden="true" />
-              <p className="mb-0 mt-7 font-display text-[32px] font-medium leading-[1.12] sm:text-[38px]">Clean home<br />Happy life</p>
-            </div>
+            <span className="absolute bottom-6 left-5 inline-flex items-center gap-2.5 rounded-full border border-white/70 bg-white/90 px-4 py-2.5 text-sm font-semibold text-ink shadow-[0_10px_26px_rgb(9_30_66_/_0.12)] backdrop-blur-sm">
+              <Leaf className="text-primary-ink" size={16} strokeWidth={2} aria-hidden="true" />
+              Clean home, happy life
+            </span>
           </Reveal>
           <Reveal className="grid gap-5" delay={0.1}>
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">OUR STORY</p>
