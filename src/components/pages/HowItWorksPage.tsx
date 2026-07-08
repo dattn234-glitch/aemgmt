@@ -63,7 +63,7 @@ export function HowItWorksPage() {
         <Container className="grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end">
           <div className="grid gap-4">
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">HOW IT WORKS</p>
-            <h1 className="m-0 font-display text-display font-medium text-ink">
+            <h1 className="m-0 font-display text-display font-semibold text-ink">
               Three steps. <em className="italic text-primary-ink">Zero chasing.</em>
             </h1>
           </div>
@@ -87,7 +87,7 @@ export function HowItWorksPage() {
                     <Icon3D name={step.icon} size={38} tile={false} />
                   </span>
                   <div>
-                    <h2 className="m-0 font-display text-h3 font-medium text-ink">{step.title}</h2>
+                    <h2 className="m-0 font-display text-h3 font-semibold text-ink">{step.title}</h2>
                     <span className="mt-1.5 inline-flex rounded-full bg-gold-soft px-3 py-1 text-xs font-semibold text-gold-text">{step.chip}</span>
                   </div>
                 </div>
@@ -114,7 +114,7 @@ export function HowItWorksPage() {
         <Container className="grid gap-10">
           <div className="grid gap-3">
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-sky-200">A VISIT, HOUR BY HOUR</p>
-            <h2 className="m-0 max-w-2xl font-display text-h2 font-medium">
+            <h2 className="m-0 max-w-2xl font-display text-h2 font-semibold">
               What a visit looks like <em className="italic text-sky-200">from your side.</em>
             </h2>
           </div>
@@ -122,7 +122,7 @@ export function HowItWorksPage() {
             {visitTimeline.map(([title, copy], index) => (
               <li className="relative rounded-[20px] border border-white/12 bg-white/5 p-5" key={title}>
                 <span className="font-display text-sm font-semibold text-gold">{String(index + 1).padStart(2, "0")}</span>
-                <h3 className="mb-0 mt-2 font-display text-lg font-medium leading-snug text-white">{title}</h3>
+                <h3 className="mb-0 mt-2 font-display text-lg font-semibold leading-snug text-white">{title}</h3>
                 <p className="mb-0 mt-2 text-sm leading-6 text-white/65">{copy}</p>
               </li>
             ))}
@@ -134,7 +134,7 @@ export function HowItWorksPage() {
         <Container className="grid gap-10">
           <div className="grid gap-3">
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">FIRST VISIT</p>
-            <h2 className="m-0 font-display text-h2 font-medium text-ink">
+            <h2 className="m-0 font-display text-h2 font-semibold text-ink">
               What to expect the first <em className="italic text-primary-ink">time we visit.</em>
             </h2>
           </div>
@@ -142,7 +142,7 @@ export function HowItWorksPage() {
             {expectations.map(([title, copy, Icon]) => (
               <article className="rounded-[20px] border border-line bg-white p-7" key={title}>
                 <span className="grid size-10 place-items-center rounded-xl bg-primary-soft text-ink"><Icon size={20} aria-hidden="true" /></span>
-                <h3 className="mb-2 mt-5 font-display text-2xl font-medium text-ink">{title}</h3>
+                <h3 className="mb-2 mt-5 font-display text-2xl font-semibold text-ink">{title}</h3>
                 <p className="m-0 text-sm leading-6 text-ink/60">{copy}</p>
               </article>
             ))}
@@ -158,7 +158,7 @@ export function HowItWorksPage() {
           <Accordion className="rounded-[22px] border border-line bg-white px-6" type="single" collapsible>
             {faqs.map(([question, answer]) => (
               <AccordionItem value={question} key={question}>
-                <AccordionTrigger className="font-display text-xl font-medium">{question}</AccordionTrigger>
+                <AccordionTrigger className="font-display text-xl font-semibold">{question}</AccordionTrigger>
                 <AccordionContent className="text-base leading-7 text-ink/65">{answer}</AccordionContent>
               </AccordionItem>
             ))}

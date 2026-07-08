@@ -185,7 +185,7 @@ function MobileMenu({
       </SheetTrigger>
       <SheetContent className="w-full border-l border-line bg-paper px-6 py-7 sm:max-w-none" side="right">
         <SheetHeader className="p-0 text-left">
-          <SheetTitle className="font-display text-[28px] font-medium text-ink">
+          <SheetTitle className="font-display text-[28px] font-semibold text-ink">
             {brand.name}
           </SheetTitle>
           <SheetDescription className="text-sm text-[rgb(22_25_26_/_0.55)]">
@@ -203,7 +203,7 @@ function MobileMenu({
                 type="button"
                 variant="ghost"
               >
-                <span className={`font-display text-[28px] font-medium leading-tight transition-colors ${servicesOpen ? "text-primary-ink" : "text-ink"}`}>
+                <span className={`font-display text-[28px] font-semibold leading-tight transition-colors ${servicesOpen ? "text-primary-ink" : "text-ink"}`}>
                   Services
                 </span>
                 <span className={`grid size-11 place-items-center rounded-full border text-primary-ink transition-transform ${servicesOpen ? "rotate-180 border-primary/30 bg-primary-soft" : "border-line bg-paper"}`}>
@@ -233,7 +233,7 @@ function MobileMenu({
             <SheetClose asChild key={item.href}>
               <a
                 aria-current={item.href === activeHref ? "page" : undefined}
-                className={`font-display text-[28px] font-medium leading-tight transition-colors hover:text-primary-ink ${
+                className={`font-display text-[28px] font-semibold leading-tight transition-colors hover:text-primary-ink ${
                   item.href === activeHref ? "text-primary-ink" : "text-ink"
                 }`}
                 href={item.href}
@@ -536,7 +536,7 @@ function ServicesMegaMenu({ onNavigate }: { onNavigate: () => void }) {
         <div className="grid content-between rounded-[26px] bg-primary-soft/50 p-5">
           <div>
             <Icon3D name={activeItem.icon} size={44} />
-            <h2 className="mt-5 font-display text-[28px] font-medium leading-tight text-ink">{activeItem.title}</h2>
+            <h2 className="mt-5 font-display text-[28px] font-semibold leading-tight text-ink">{activeItem.title}</h2>
             <p className="mt-3 text-sm leading-6 text-ink/65">{activeItem.detail}</p>
             <div className="mt-5 grid gap-2">
               {activeItem.links.map((link) => (

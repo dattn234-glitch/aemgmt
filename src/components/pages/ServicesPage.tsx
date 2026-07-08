@@ -14,6 +14,7 @@ import { formatMoney, formatSignedMoney, getWhatsappHref } from "../../lib/compa
 import { setPreferredBookingService } from "../../lib/booking-preferences";
 import type { BookingContent, BookingService, PricingContent } from "../../lib/site-content";
 import { Icon3D } from "../Icon3D";
+import { Reveal } from "../Reveal";
 import { reviewCards } from "../ReviewsSection";
 import { WhatsappLogo } from "../WhatsappLogo";
 import { CtaBand } from "../page/CtaBand";
@@ -82,19 +83,86 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
 
   return (
     <>
-      <section className="bg-cream pt-28 pb-10 lg:pt-32 lg:pb-12" id="services" aria-labelledby="services-title">
-        <Container className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
-          <div>
-            <p className="m-0 text-[13px] font-semibold tracking-[0.08em] text-primary-ink uppercase">Services</p>
-            <h1 id="services-title" className="mt-5 max-w-5xl font-display text-h2 font-medium leading-[1.05] text-ink">
-              Three cleans, one standard: <em className="italic text-primary-ink">photo proof.</em>
-            </h1>
+      <section className="bg-navy-900 pb-28 pt-28 text-white lg:pb-32 lg:pt-36" id="services" aria-labelledby="services-title">
+        <Container className="grid gap-6">
+          <p className="m-0 text-[13px] font-semibold tracking-[0.08em] text-sky-200 uppercase">Services</p>
+          <h1 id="services-title" className="m-0 max-w-3xl font-display text-display font-semibold">
+            Which clean does your home <em className="italic text-sky-200">need?</em>
+          </h1>
+          <p className="m-0 max-w-2xl text-lg leading-8 text-white/70">
+            Pick the one that fits — every service ends with a digital checklist and photo report, and you pay by
+            PayNow only after the visit.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {["Photo proof on every visit", "AE confirms first", "Pay after service"].map((chip) => (
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/85" key={chip}>
+                <span className="size-1.5 rounded-full bg-gold" aria-hidden="true" />
+                {chip}
+              </span>
+            ))}
           </div>
-          <div className="rounded-[26px] border border-line bg-white p-5 shadow-[0_18px_44px_rgb(22_25_26_/_0.06)]">
-            <p className="m-0 text-base leading-7 text-ink/68">
-              AE covers recurring cleaning, move-in/out handovers, and post-renovation dust resets for Singapore homes. Book online — AE confirms first, and you pay only after the visit.
-            </p>
-          </div>
+        </Container>
+      </section>
+
+      <section className="bg-cream pb-4">
+        <Container className="-mt-16 grid gap-4 lg:-mt-20 lg:grid-cols-3">
+          {[
+            {
+              service: recurring,
+              icon: "broom" as const,
+              bestIf: "you want the house to stay clean, week after week",
+              chapter: chapters[0]
+            },
+            {
+              service: move,
+              icon: "key" as const,
+              bestIf: "you're moving in, moving out, or handing keys back",
+              chapter: chapters[1]
+            },
+            {
+              service: renovation,
+              icon: "sparkles" as const,
+              bestIf: "contractors just left and dust is everywhere",
+              chapter: chapters[2]
+            }
+          ].map(({ service, icon, bestIf, chapter }, index) => (
+            <Reveal
+              className="flex flex-col gap-4 rounded-[24px] border border-line bg-white p-6 shadow-[0_24px_60px_rgb(9_30_66_/_0.10)]"
+              delay={index * 0.08}
+              key={service.id}
+            >
+              <article className="flex h-full flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-primary-soft">
+                    <Icon3D name={icon} size={34} tile={false} />
+                  </span>
+                  <h2 className="m-0 font-display text-xl font-semibold leading-tight text-ink">{service.name}</h2>
+                </div>
+                <p className="m-0 text-sm leading-6">
+                  <span className="font-semibold uppercase tracking-[0.08em] text-gold-text">Best if </span>
+                  <span className="text-ink/70">{bestIf}.</span>
+                </p>
+                <p className="m-0 text-sm leading-6 text-ink/60">{service.description}</p>
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
+                  <p className="m-0 font-display text-2xl font-semibold text-navy-900">
+                    from {formatMoney(service.price)}
+                    {service.id === "recurring" ? <span className="text-base font-medium text-ink/55">/hr</span> : null}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Button asChild size="sm" variant="secondary">
+                      <a href={chapter.href}>Details</a>
+                    </Button>
+                    <Button asChild size="sm">
+                      <a href="#booking" onClick={() => setPreferredBookingService(service.id)}>
+                        Book
+                        <ArrowRight className="size-3.5" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </Container>
       </section>
 
@@ -126,7 +194,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
         <Container className="grid gap-9">
           <div className="grid gap-3 lg:max-w-3xl">
             <p className="m-0 text-[13px] font-semibold uppercase tracking-[0.08em] text-primary-ink">Scope & add-ons</p>
-            <h2 className="m-0 font-display text-[34px] font-medium leading-tight text-ink lg:text-[44px]">
+            <h2 className="m-0 font-display text-[34px] font-semibold leading-tight text-ink lg:text-[44px]">
               Add detail where your home needs it.
             </h2>
           </div>
@@ -141,11 +209,11 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
           </div>
 
           <div className="grid gap-4">
-            <h3 className="m-0 font-display text-[26px] font-medium text-ink">What every clean covers</h3>
+            <h3 className="m-0 font-display text-[26px] font-semibold text-ink">What every clean covers</h3>
             <Accordion className="rounded-[24px] border border-line bg-white px-6" type="single" collapsible>
               {Object.entries(checklist).map(([area, items]) => (
                 <AccordionItem value={area} key={area}>
-                  <AccordionTrigger className="font-display text-xl font-medium">{area}</AccordionTrigger>
+                  <AccordionTrigger className="font-display text-xl font-semibold">{area}</AccordionTrigger>
                   <AccordionContent>
                     <ul className="grid gap-3 pb-5 sm:grid-cols-2">
                       {items.map((item) => (
@@ -166,7 +234,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
               <ShieldCheck size={24} aria-hidden="true" />
             </span>
             <div>
-              <h3 className="m-0 font-display text-[26px] font-medium text-ink">Satisfaction guarantee.</h3>
+              <h3 className="m-0 font-display text-[26px] font-semibold text-ink">Satisfaction guarantee.</h3>
               <p className="mb-0 mt-2 text-ink/65">If something important is missed, tell AE right away and the team will sort it out with you.</p>
             </div>
           </div>
@@ -199,7 +267,7 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
                 Same-cleaner care
               </span>
               <div>
-                <h2 id="subscription-title" className="m-0 font-display text-[34px] font-medium leading-tight text-ink lg:text-[44px]">
+                <h2 id="subscription-title" className="m-0 font-display text-[34px] font-semibold leading-tight text-ink lg:text-[44px]">
                   {service.name}
                 </h2>
                 <p className="m-0 mt-4 text-base leading-7 text-ink/65">{service.description}</p>
@@ -227,7 +295,7 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="m-0 text-[13px] font-semibold tracking-[0.08em] text-primary-ink uppercase">Before / after</p>
-                <h3 className="m-0 mt-2 font-display text-[26px] font-medium leading-tight text-ink">What changes with a regular clean</h3>
+                <h3 className="m-0 mt-2 font-display text-[26px] font-semibold leading-tight text-ink">What changes with a regular clean</h3>
               </div>
             </div>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -260,7 +328,7 @@ function MoveOutSection({ service }: { service: BookingService }) {
               <span className="font-display text-sm font-semibold text-gold">02</span>
               Move ready
             </p>
-            <h2 id="move-title" className="m-0 mt-4 font-display text-[34px] font-medium leading-tight text-white lg:text-[44px]">
+            <h2 id="move-title" className="m-0 mt-4 font-display text-[34px] font-semibold leading-tight text-white lg:text-[44px]">
               {service.name}
             </h2>
             <p className="m-0 mt-5 max-w-2xl text-base leading-7 text-white/70">{service.description}</p>
@@ -285,7 +353,7 @@ function MoveOutSection({ service }: { service: BookingService }) {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="m-0 text-sm text-ink/55">Starting from</p>
-                <p className="m-0 mt-1 font-display text-[38px] font-medium leading-none text-ink">{formatMoney(service.price)}</p>
+                <p className="m-0 mt-1 font-display text-[38px] font-semibold leading-none text-ink">{formatMoney(service.price)}</p>
               </div>
               <p className="m-0 max-w-xl text-sm leading-6 text-ink/62">Final package price depends on home type and size. AE confirms the scope before your visit.</p>
             </div>
@@ -316,7 +384,7 @@ function PostRenovationSection({ service }: { service: BookingService }) {
                 <span className="font-display text-sm font-semibold text-gold-text">03</span>
                 Dust reset
               </p>
-              <h2 id="reno-title" className="m-0 mt-4 font-display text-[34px] font-medium leading-tight text-ink lg:text-[44px]">
+              <h2 id="reno-title" className="m-0 mt-4 font-display text-[34px] font-semibold leading-tight text-ink lg:text-[44px]">
                 {service.name}
               </h2>
               <p className="m-0 mt-5 text-base leading-7 text-ink/68">{service.description}</p>
@@ -346,7 +414,7 @@ function PostRenovationSection({ service }: { service: BookingService }) {
             <div className="flex flex-wrap items-center justify-between gap-4 rounded-[24px] border border-line bg-paper p-5">
               <div>
                 <p className="m-0 text-sm text-ink/55">Starting from</p>
-                <p className="m-0 mt-1 font-display text-[38px] font-medium leading-none text-ink">{formatMoney(service.price)}</p>
+                <p className="m-0 mt-1 font-display text-[38px] font-semibold leading-none text-ink">{formatMoney(service.price)}</p>
               </div>
               <BookButton serviceId={service.id}>Book renovation clean</BookButton>
             </div>
@@ -374,7 +442,7 @@ function PriceCard({
     <div className="rounded-[24px] border border-line bg-white p-5">
       <p className="m-0 text-sm text-ink/55">Starting from</p>
       <div className="mt-2 flex items-end gap-1">
-        <span className="font-display text-[38px] font-medium leading-none text-ink">{formatMoney(price)}</span>
+        <span className="font-display text-[38px] font-semibold leading-none text-ink">{formatMoney(price)}</span>
         {suffix ? <span className="pb-1 text-base text-ink/55">{suffix}</span> : null}
       </div>
       <p className="m-0 mt-3 text-sm leading-6 text-ink/60">{note}</p>

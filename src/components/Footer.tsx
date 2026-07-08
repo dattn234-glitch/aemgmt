@@ -19,7 +19,7 @@ export function Footer({ brand, contact, navItems }: FooterProps) {
   return (
     <footer className="bg-navy-900 text-white">
       <Container className="pt-16 lg:pt-20">
-        <p className="m-0 max-w-3xl font-display text-[clamp(2rem,4.5vw,3.5rem)] font-medium leading-[1.08]">
+        <p className="m-0 max-w-3xl font-display text-[clamp(2rem,4.5vw,3.5rem)] font-semibold leading-[1.08]">
           Come home <em className="italic text-sky-200">to clean.</em>
         </p>
 
@@ -28,7 +28,7 @@ export function Footer({ brand, contact, navItems }: FooterProps) {
             <a className="inline-flex items-center gap-3" href="#home" aria-label={`${brand.name} home`}>
               <BrandMark className="size-10 rounded-lg border border-white/15" />
               <span>
-                <span className="block font-display text-xl font-medium leading-none">AE Management Services</span>
+                <span className="block font-display text-xl font-semibold leading-none">AE Management Services</span>
                 <span className="mt-1.5 block text-[11px] font-semibold uppercase tracking-[0.08em] text-white/45">
                   {company.tagline}
                 </span>

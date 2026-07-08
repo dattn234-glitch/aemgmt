@@ -33,7 +33,7 @@ export function ProofSection() {
         <div ref={headerReveal.ref} className={`grid gap-6 transition duration-500 lg:grid-cols-12 lg:items-end ${headerReveal.className}`}>
           <div className="grid gap-3 lg:col-span-7">
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">WHY AE</p>
-            <h2 id="why-title" className="m-0 font-display text-h2 font-medium text-ink">
+            <h2 id="why-title" className="m-0 font-display text-h2 font-semibold text-ink">
               The same cleaner, a backup plan, and proof it's done.
             </h2>
           </div>
@@ -58,9 +58,9 @@ export function ProofSection() {
             <article className="rounded-[20px] border border-line bg-white p-7 transition-shadow hover:shadow-[0_18px_44px_rgb(9_30_66_/_0.08)]" key={card.title}>
               <p className="m-0 font-display text-[clamp(3rem,4.5vw,4rem)] font-semibold leading-none tracking-tight text-navy-900">
                 {card.stat}
-                <span className="ml-2 align-baseline font-display text-xl font-medium italic text-gold-text">{card.unit}</span>
+                <span className="ml-2 align-baseline font-display text-xl font-semibold italic text-gold-text">{card.unit}</span>
               </p>
-              <h3 className="mb-2 mt-6 font-display text-xl font-medium leading-7 text-ink">{card.title}</h3>
+              <h3 className="mb-2 mt-6 font-display text-xl font-semibold leading-7 text-ink">{card.title}</h3>
               <p className="m-0 text-[15px] leading-7 text-ink/65">{card.copy}</p>
             </article>
           ))}

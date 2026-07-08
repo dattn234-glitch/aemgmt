@@ -71,7 +71,7 @@ export function PublicInvoicePage() {
             <span className="grid size-12 place-items-center rounded-full bg-primary-soft text-ink">
               <AlertCircle className="size-6" aria-hidden="true" />
             </span>
-            <h1 className="mt-4 font-display text-3xl font-medium leading-tight text-ink">Invoice link expired or invalid</h1>
+            <h1 className="mt-4 font-display text-3xl font-semibold leading-tight text-ink">Invoice link expired or invalid</h1>
             <p className="mt-3 max-w-md text-sm leading-6 text-ink/60">
               Please contact AE Management Services and we will resend the invoice link for your booking.
             </p>

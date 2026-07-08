@@ -25,7 +25,7 @@ export function PricingSection({ pricing, teaser = false }: PricingSectionProps)
           className={`mx-auto grid max-w-3xl justify-items-center gap-4 text-center transition duration-500 ${headerReveal.className}`}
         >
           <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">{pricing.eyebrow}</p>
-          <h2 id="pricing-title" className="m-0 font-display text-h2 font-medium text-ink">
+          <h2 id="pricing-title" className="m-0 font-display text-h2 font-semibold text-ink">
             Simple,{" "}
             <span className="text-ink">transparent pricing.</span>
           </h2>
@@ -71,7 +71,7 @@ export function PricingPlanCard({ plan }: { plan: PricingPlan }) {
       ) : null}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="m-0 font-display text-2xl font-medium">{plan.name}</h3>
+          <h3 className="m-0 font-display text-2xl font-semibold">{plan.name}</h3>
           <p className="mb-0 mt-2 text-sm leading-6 text-ink/65">{plan.description}</p>
         </div>
         <span className="mt-1 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-ink/65">
@@ -79,7 +79,7 @@ export function PricingPlanCard({ plan }: { plan: PricingPlan }) {
         </span>
       </div>
       <div className="mt-7 flex items-end gap-2">
-        <strong className={cn("font-display text-5xl font-medium leading-none", plan.featured && "text-primary-ink")}>{plan.priceLabel ?? formatMoney(plan.price)}</strong>
+        <strong className={cn("font-display text-5xl font-semibold leading-none", plan.featured && "text-primary-ink")}>{plan.priceLabel ?? formatMoney(plan.price)}</strong>
         <span className="pb-1 text-sm text-ink/65">{plan.suffix}</span>
       </div>
       {plan.durationPrices ? (

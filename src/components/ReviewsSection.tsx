@@ -86,7 +86,7 @@ export function ReviewsSection() {
           className={`mx-auto grid max-w-3xl justify-items-center gap-4 text-center transition duration-500 ${headerReveal.className}`}
         >
           <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">REVIEWS</p>
-          <h2 id="reviews-title" className="m-0 font-display text-h2 font-medium text-ink">
+          <h2 id="reviews-title" className="m-0 font-display text-h2 font-semibold text-ink">
             Loved by homes <em className="italic text-primary-ink">across Singapore.</em>
           </h2>
           <p className="m-0 text-lg leading-8 text-ink/65">Real feedback from weekly cleans, move-in/out handovers, and post-renovation cleans across Singapore.</p>

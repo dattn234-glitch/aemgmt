@@ -1,7 +1,6 @@
-import { BadRequestException, Body, ConflictException, Controller, Get, Headers, Inject, Logger, NotFoundException, Param, Patch, Post, ServiceUnavailableException } from "@nestjs/common";
+import { BadRequestException, Body, ConflictException, Controller, Get, Headers, Inject, Logger, NotFoundException, Param, Post, ServiceUnavailableException } from "@nestjs/common";
 import { randomUUID } from "node:crypto";
 import { AvailabilityService } from "../availability/availability.service.js";
-import { requireAdminSession } from "../admin/admin-auth.js";
 import { requireCustomerSession, type CustomerSessionUser } from "../customer/customer-auth.js";
 import { normalizeSgPhone } from "../customer/phone.js";
 import { DatabaseService } from "../database/database.service.js";
@@ -307,69 +306,6 @@ export class BookingController {
     }
   }
 
-  @Patch("admin/:id/confirm")
-  async confirmBooking(@Param("id") id: string, @Headers("cookie") cookieHeader?: string) {
-    await requireAdminSession(this.database, cookieHeader);
-
-    try {
-      const result = await this.database.query<{
-        id: string;
-        status: string;
-        service_name: string;
-        payment_status: string;
-        payment_method: keyof typeof paymentMethodLabels;
-        payment_qr_payload: string | null;
-        estimated_total: number | null;
-        custom_quote: boolean;
-        confirmed_at: Date | null;
-      }>(
-        `
-          update bookings
-          set
-            status = 'confirmed',
-            payment_status = 'none',
-            payment_qr_payload = null,
-            confirmed_at = now()
-          where id = $1
-          returning
-            id,
-            status,
-            service_name,
-            payment_status,
-            payment_method,
-            payment_qr_payload,
-            estimated_total,
-            custom_quote,
-            confirmed_at,
-            null::text as invoice_id,
-            null::text as invoice_no,
-            null::int as invoice_amount_cents,
-            null::text as invoice_currency,
-            null::jsonb as invoice_line_items_json,
-            null::text as invoice_public_token,
-            null::text as invoice_status,
-            null::timestamptz as invoice_created_at,
-            null::timestamptz as invoice_paid_at
-        `,
-        [id]
-      );
-
-      const booking = result.rows[0];
-
-      if (!booking) {
-        throw new NotFoundException("Booking was not found.");
-      }
-
-      return toBookingStatusResponse(booking);
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-
-      this.logger.error("Could not confirm booking", error instanceof Error ? error.stack : String(error));
-      throw new ServiceUnavailableException("Booking database is unavailable. Check DATABASE_URL and local PostgreSQL.");
-    }
-  }
 }
 
 function toBookingStatusResponse(booking: {

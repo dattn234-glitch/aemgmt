@@ -5,6 +5,7 @@ import { company } from "../../lib/company";
 import { cn } from "../../lib/utils";
 import { WhatsappLogo } from "../WhatsappLogo";
 import { CtaBand } from "../page/CtaBand";
+import { Container } from "../ui";
 import { Button } from "../ui/button";
 import { Form } from "../ui/form";
 import { Input } from "../ui/input";
@@ -67,7 +68,7 @@ export function ContactPage({ contact }: { contact: ContactContent }) {
             <div className="grid content-start gap-8">
               <div>
                 <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-sky-200">CONTACT</p>
-                <h1 className="mb-0 mt-4 max-w-md font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-medium leading-[1.06]">
+                <h1 className="mb-0 mt-4 max-w-md font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-semibold leading-[1.06]">
                   Tell us what needs <em className="italic text-sky-200">attention.</em>
                 </h1>
                 <p className="mb-0 mt-5 max-w-md text-lg leading-8 text-white/70">
@@ -112,7 +113,7 @@ export function ContactPage({ contact }: { contact: ContactContent }) {
 
           <div className="bg-paper px-6 py-14 sm:px-10 lg:flex lg:items-center lg:px-14 lg:py-16 xl:pr-[max(3.5rem,calc((100vw-1440px)/2+20px))]">
             <Form className="grid w-full max-w-xl gap-5" aria-label="Contact form" onSubmit={handleContactSubmit}>
-              <h2 className="m-0 font-display text-h3 font-medium text-ink">Send us the details</h2>
+              <h2 className="m-0 font-display text-h3 font-semibold text-ink">Send us the details</h2>
               <Field label="Service">
                 <Select value={serviceType} onValueChange={setServiceType}>
                   <SelectTrigger className="h-11 w-full rounded-xl border-line bg-white text-ink">
@@ -146,6 +147,37 @@ export function ContactPage({ contact }: { contact: ContactContent }) {
             </Form>
           </div>
         </div>
+      </section>
+
+      <section className="bg-paper py-16 lg:py-20" aria-labelledby="service-area-title">
+        <Container className="grid gap-8">
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div>
+              <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">SERVICE AREA</p>
+              <h2 id="service-area-title" className="mt-3 font-display text-h2 font-semibold text-ink">
+                Serving homes <em className="italic text-primary-ink">island-wide.</em>
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-2 lg:justify-end">
+              {serviceAreas.map((area) => (
+                <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink/70" key={area}>
+                  <MapPin className="text-primary-ink" size={14} aria-hidden="true" />
+                  {area}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="overflow-hidden rounded-[24px] border border-line shadow-[0_18px_44px_rgb(9_30_66_/_0.06)]">
+            {/* Swap q= to the confirmed office address once the client provides it */}
+            <iframe
+              className="block h-[380px] w-full lg:h-[440px]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src="https://maps.google.com/maps?q=Singapore&z=11&output=embed"
+              title="AE Management Services service area — Singapore island-wide"
+            />
+          </div>
+        </Container>
       </section>
 
       <CtaBand

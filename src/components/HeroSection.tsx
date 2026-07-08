@@ -64,7 +64,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
           <motion.h1
             {...rise(0.08)}
             id="hero-title"
-            className="m-0 max-w-[14ch] font-display text-display font-medium text-white"
+            className="m-0 max-w-[14ch] font-display text-display font-semibold text-white"
           >
             {hero.title} <em className="italic text-sky-200">{hero.emphasis}</em>
           </motion.h1>

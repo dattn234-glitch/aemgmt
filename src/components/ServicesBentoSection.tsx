@@ -27,7 +27,7 @@ export function ServicesBentoSection({ pricing, trustRow }: ServicesBentoSection
         >
           <div className="grid gap-3">
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">SERVICES</p>
-            <h2 id="services-title" className="m-0 font-display text-h2 font-medium text-ink">
+            <h2 id="services-title" className="m-0 font-display text-h2 font-semibold text-ink">
               Everything your home <em className="italic text-primary-ink">needs.</em>
             </h2>
           </div>
@@ -64,7 +64,7 @@ export function ServicesBentoSection({ pricing, trustRow }: ServicesBentoSection
           />
 
           <article className="grid content-start gap-4 rounded-[20px] border border-line bg-white p-6" style={{ gridArea: "vetted" }}>
-            <h3 className="m-0 flex items-center gap-3 font-display text-xl font-medium leading-tight text-ink">
+            <h3 className="m-0 flex items-center gap-3 font-display text-xl font-semibold leading-tight text-ink">
               <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-primary-soft text-primary-ink">
                 <ShieldCheck size={20} aria-hidden="true" />
               </span>
@@ -85,7 +85,7 @@ export function ServicesBentoSection({ pricing, trustRow }: ServicesBentoSection
           </article>
 
           <article className="grid content-start gap-4 rounded-[20px] border border-line bg-navy-900 p-6 text-white" style={{ gridArea: "easy" }}>
-            <h3 className="m-0 flex items-center gap-3 font-display text-xl font-medium leading-tight">
+            <h3 className="m-0 flex items-center gap-3 font-display text-xl font-semibold leading-tight">
               <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/10 text-sky-200">
                 <CalendarCheck size={20} aria-hidden="true" />
               </span>
@@ -109,7 +109,7 @@ export function ServicesBentoSection({ pricing, trustRow }: ServicesBentoSection
 
           <article className="grid content-center gap-4 rounded-[20px] border border-line bg-white p-6" style={{ gridArea: "eco" }}>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h3 className="m-0 font-display text-xl font-medium text-ink">Optional Add-Ons</h3>
+              <h3 className="m-0 font-display text-xl font-semibold text-ink">Optional Add-Ons</h3>
               <a className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-ink" href="#pricing">
                 See pricing
                 <ArrowRight size={13} aria-hidden="true" />
@@ -164,7 +164,7 @@ function ServiceBentoCard({
       onClick={() => setPreferredBookingService(serviceId)}
       style={{ gridArea: area }}
     >
-      <h3 className="m-0 flex items-center gap-3 font-display text-2xl font-medium leading-tight text-ink">
+      <h3 className="m-0 flex items-center gap-3 font-display text-2xl font-semibold leading-tight text-ink">
         <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary-soft">
           <Icon3D name={icon} size={30} tile={false} />
         </span>
@@ -194,7 +194,7 @@ function FeaturedServiceCard() {
         <span className="size-1.5 rounded-full bg-navy-900" aria-hidden="true" />
         MOST BOOKED
       </span>
-      <h3 className="mb-0 mt-5 font-display text-4xl font-medium leading-tight text-ink">Recurring Cleans</h3>
+      <h3 className="mb-0 mt-5 font-display text-4xl font-semibold leading-tight text-ink">Recurring Cleans</h3>
       <p className="mb-4 mt-3 leading-7 text-ink/65">
         Weekly or fortnightly, with the same cleaner where available — they learn your home, your preferences, and the spots that always need a little extra.
       </p>

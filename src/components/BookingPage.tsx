@@ -536,7 +536,7 @@ export function BookingPage({ booking }: BookingPageProps) {
               Back to services
             </a>
             <p className="mb-2 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">BOOK ONLINE</p>
-            <h1 id="booking-title" className="max-w-[760px] font-display text-[clamp(1.9rem,4vw,3.65rem)] leading-[1.02] font-medium text-ink">
+            <h1 id="booking-title" className="max-w-[760px] font-display text-[clamp(1.9rem,4vw,3.65rem)] leading-[1.02] font-semibold text-ink">
               {booking.title}{" "}
               <em className="italic text-primary-ink">
                 then AE confirms your slot.
@@ -565,7 +565,7 @@ export function BookingPage({ booking }: BookingPageProps) {
                 </span>
                 <div className="min-w-0">
                   <p className="m-0 text-sm font-semibold tracking-[0.08em] text-gold-text uppercase">Active booking</p>
-                  <h2 className="mt-2 break-words font-display text-2xl font-medium text-gold-text">{activeBookingMessage}</h2>
+                  <h2 className="mt-2 break-words font-display text-2xl font-semibold text-gold-text">{activeBookingMessage}</h2>
                 </div>
               </div>
               <Button type="button" variant="secondary" onClick={() => { window.location.hash = "#signin"; }}>
@@ -578,7 +578,7 @@ export function BookingPage({ booking }: BookingPageProps) {
 
         {activeCustomerBooking ? (
           <section className="rounded-[22px] border border-line bg-white p-5 sm:p-6" aria-label="Your booking status">
-            <h2 className="m-0 font-display text-2xl font-medium text-ink">Your booking status</h2>
+            <h2 className="m-0 font-display text-2xl font-semibold text-ink">Your booking status</h2>
             <p className="m-0 mt-1 text-sm leading-6 text-ink/60">
               Your visit is set. Your cleaner arrives on the visit date — no payment is due until the service is completed, then AE sends the invoice on WhatsApp to pay by PayNow.
             </p>
@@ -699,7 +699,7 @@ export function BookingPage({ booking }: BookingPageProps) {
                     <p className="m-0 text-sm font-semibold text-ink/70">Cleaning duration</p>
                     <div className="mt-3 flex items-center justify-between gap-4">
                       <div>
-                        <p className="m-0 font-display text-2xl font-medium text-ink">{duration}</p>
+                        <p className="m-0 font-display text-2xl font-semibold text-ink">{duration}</p>
                         <p className="m-0 mt-1 text-sm leading-6 text-ink/60">Recommended for {bedrooms === "Studio" || bedrooms === "1 bedroom" || bedrooms === "2 bedrooms" ? "up to 2 bedrooms" : "larger homes"}.</p>
                       </div>
                       <Button variant="secondary" type="button" onClick={() => setDurationDialogOpen(true)}>
@@ -718,7 +718,7 @@ export function BookingPage({ booking }: BookingPageProps) {
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <p className="m-0 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">Add-ons</p>
-                        <h4 className="mt-2 font-display text-2xl font-medium text-ink">Add detail only where needed.</h4>
+                        <h4 className="mt-2 font-display text-2xl font-semibold text-ink">Add detail only where needed.</h4>
                       </div>
                       <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary-ink">
                         Optional
@@ -744,7 +744,7 @@ export function BookingPage({ booking }: BookingPageProps) {
                             />
                             <span>
                               <span className="flex items-start justify-between gap-3">
-                                <span className="font-display text-lg font-medium text-ink">{addon.name}</span>
+                                <span className="font-display text-lg font-semibold text-ink">{addon.name}</span>
                                 <span className="font-semibold text-ink">{formatSignedMoney(addon.price)}</span>
                               </span>
                               <span className="mt-1 block text-sm leading-6 text-ink/60">{addon.description}</span>
@@ -828,7 +828,7 @@ export function BookingPage({ booking }: BookingPageProps) {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="mb-3 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">Checkout</p>
-                <h2 id="booking-summary-title" className="font-display text-2xl leading-tight font-medium text-ink">Your booking summary</h2>
+                <h2 id="booking-summary-title" className="font-display text-2xl leading-tight font-semibold text-ink">Your booking summary</h2>
               </div>
               <span className="shrink-0 rounded-full bg-paper px-3 py-1 text-xs font-semibold text-ink/60">
                 Step {currentStep + 1} of {wizardSteps.length}
@@ -855,7 +855,7 @@ export function BookingPage({ booking }: BookingPageProps) {
 
             <div className="flex items-end justify-between gap-4">
               <span className="text-sm font-semibold text-ink/55">Est. total</span>
-              <strong className="font-display text-[40px] leading-none font-medium text-primary-ink">{estimate.customQuote ? "Custom" : formatMoney(estimatedTotal)}</strong>
+              <strong className="font-display text-[40px] leading-none font-semibold text-primary-ink">{estimate.customQuote ? "Custom" : formatMoney(estimatedTotal)}</strong>
             </div>
             <p className="mt-2 text-xs leading-5 text-ink/55">{estimate.note}</p>
 
@@ -1017,7 +1017,7 @@ function BookingCard({ badge, title, description, children }: { badge: string; t
     <section className="min-w-0 rounded-[22px] border border-line bg-white p-4 sm:p-5">
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="font-display text-[1.05rem] leading-tight font-medium text-ink sm:text-xl">{title}</h3>
+          <h3 className="font-display text-[1.05rem] leading-tight font-semibold text-ink sm:text-xl">{title}</h3>
           <p className="mt-1.5 text-sm leading-6 text-ink/60">{description}</p>
         </div>
         <Badge className="rounded-full bg-primary-soft px-2.5 text-[11px] text-ink hover:bg-primary-soft">{badge}</Badge>
@@ -1178,7 +1178,7 @@ function ServiceOptionSection({
   return (
     <section className="grid gap-3">
       <div>
-        <h4 className="font-display text-[1.45rem] font-medium text-ink">{title}</h4>
+        <h4 className="font-display text-[1.45rem] font-semibold text-ink">{title}</h4>
         <p className="mt-1.5 max-w-3xl text-sm leading-6 text-ink/60">{description}</p>
       </div>
       <div className={cn("grid items-stretch gap-3", title === "Hourly cleaning" ? "md:grid-cols-2 xl:grid-cols-3" : "md:grid-cols-2")}>{children}</div>
@@ -1221,7 +1221,7 @@ function ServiceRadioCard({
         </span>
         {badge ? <Badge className="min-w-0 rounded-full bg-primary-soft px-2.5 text-[11px] text-primary-ink hover:bg-primary-soft">{badge}</Badge> : null}
       </span>
-      <span className="min-w-0 font-display text-2xl leading-tight font-medium text-ink sm:text-[1.75rem]">{title}</span>
+      <span className="min-w-0 font-display text-2xl leading-tight font-semibold text-ink sm:text-[1.75rem]">{title}</span>
       <span className="min-w-0 font-semibold leading-tight text-primary-ink">{price}</span>
       <span className="min-w-0 text-sm leading-6 text-ink/60">{description}</span>
       <span className="min-w-0 text-xs font-medium leading-5 text-ink/60">{meta}</span>
@@ -1293,7 +1293,7 @@ function AddressAndSlotStep({
               <MapPinHouse className="size-5" aria-hidden="true" />
             </span>
             <div>
-              <p className="m-0 font-display text-2xl font-medium text-ink">Service address</p>
+              <p className="m-0 font-display text-2xl font-semibold text-ink">Service address</p>
               <p className="m-0 mt-1 text-sm leading-6 text-ink/60">AE uses this to check which cleaner can reach you and when.</p>
             </div>
           </div>
@@ -1350,7 +1350,7 @@ function AddressAndSlotStep({
                 <CalendarDays className="size-5" aria-hidden="true" />
               </span>
               <div>
-                <p className="m-0 font-display text-2xl font-medium text-ink">Select slot</p>
+                <p className="m-0 font-display text-2xl font-semibold text-ink">Select slot</p>
                 <p className="m-0 mt-1 text-sm leading-6 text-ink/60">Choose the visit window that works for your home schedule.</p>
               </div>
             </div>
@@ -1384,7 +1384,7 @@ function AddressAndSlotStep({
                 {selectedAvailabilityDate ? (
                   <div className="w-full rounded-[18px] border border-line bg-paper px-4 py-4 sm:max-w-xs">
                     <span className="block text-xs font-semibold uppercase tracking-[0.08em] text-ink/45">{formatSlotDayMeta(selectedAvailabilityDate.date)}</span>
-                    <span className="mt-2 block font-display text-xl font-medium text-ink">{formatSlotDayTitle(selectedAvailabilityDate.date)}</span>
+                    <span className="mt-2 block font-display text-xl font-semibold text-ink">{formatSlotDayTitle(selectedAvailabilityDate.date)}</span>
                     <span className="mt-2 block text-sm leading-6 text-ink/60">
                       {selectedAvailabilityDate.surcharge > 0 ? `Weekend surcharge ${formatSignedMoney(selectedAvailabilityDate.surcharge)}` : "Weekday rate"}
                     </span>
@@ -1418,11 +1418,11 @@ function AddressAndSlotStep({
                   >
                     <span className="flex min-w-0 flex-wrap items-start justify-between gap-x-4 gap-y-2">
                       <span className="min-w-0">
-                        <span className="block whitespace-nowrap font-display text-[clamp(1.45rem,3vw,2rem)] leading-tight font-medium text-ink">{slot.time}</span>
+                        <span className="block whitespace-nowrap font-display text-[clamp(1.45rem,3vw,2rem)] leading-tight font-semibold text-ink">{slot.time}</span>
                         <span className="mt-1 block text-[11px] font-semibold tracking-[0.08em] text-ink/45 uppercase">Arrival window</span>
                       </span>
                       <span className="text-left sm:text-right">
-                        <span className="block whitespace-nowrap font-display text-xl leading-tight font-medium text-primary-ink">{slotPrice}</span>
+                        <span className="block whitespace-nowrap font-display text-xl leading-tight font-semibold text-primary-ink">{slotPrice}</span>
                         {weekendSurcharge > 0 ? (
                           <span className="mt-2 inline-flex rounded-full border border-line bg-white/80 px-2.5 py-1 text-[11px] font-semibold text-ink/60">
                             Weekend {formatSignedMoney(weekendSurcharge)} included
@@ -1450,7 +1450,7 @@ function AddressAndSlotStep({
                 <Search className="size-5" aria-hidden="true" />
               </span>
               <div>
-                <p className="m-0 font-display text-2xl font-medium text-ink">Unlock the slot board</p>
+                <p className="m-0 font-display text-2xl font-semibold text-ink">Unlock the slot board</p>
                 <p className="m-0 mt-2 max-w-2xl text-sm leading-6 text-ink/60">
                   Enter the 6-digit postal code and full residential address above, then click{" "}
                   <strong className="font-semibold text-ink">Find availability</strong>. AE uses that address to load the date rail and arrival windows for this booking.
@@ -1475,7 +1475,7 @@ function AvailabilitySkeleton() {
           <Loader2 className="size-5 animate-spin" aria-hidden="true" />
         </span>
         <div>
-          <p className="m-0 font-display text-2xl font-medium text-ink">Checking availability</p>
+          <p className="m-0 font-display text-2xl font-semibold text-ink">Checking availability</p>
           <p className="m-0 mt-1 text-sm leading-6 text-ink/60">Loading available dates and arrival windows for this address.</p>
         </div>
       </div>
@@ -1556,14 +1556,14 @@ function DurationModal({
               >
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-display text-[32px] font-medium text-ink">{hours} hours</span>
+                    <span className="font-display text-[32px] font-semibold text-ink">{hours} hours</span>
                     {hours === 4 ? <Badge className="rounded-full bg-primary-soft px-3 text-ink hover:bg-primary-soft">Value for money</Badge> : null}
                   </div>
                   <p className="m-0 mt-2 text-sm leading-6 text-ink/60">
                     {frequency} home cleaning at {formatMoney(rate)}/hr. Estimated visit total {formatMoney(rate * hours)} before any weekend or add-on adjustments.
                   </p>
                 </div>
-                <span className="font-display text-2xl font-medium text-ink">{formatMoney(rate)}/hr</span>
+                <span className="font-display text-2xl font-semibold text-ink">{formatMoney(rate)}/hr</span>
                 <span className={cn("grid size-6 place-items-center rounded-full border", selected ? "border-primary bg-primary text-white" : "border-input bg-white text-transparent")}>
                   <Check className="size-4" aria-hidden="true" />
                 </span>

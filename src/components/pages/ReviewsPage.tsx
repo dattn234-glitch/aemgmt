@@ -33,7 +33,7 @@ export function ReviewsPage() {
                 <p className="mb-0 mt-2 text-sm font-medium text-ink/55">residential service feedback</p>
               </div>
             </div>
-            <h1 className="m-0 max-w-xl font-display text-h3 font-medium leading-snug text-ink">
+            <h1 className="m-0 max-w-xl font-display text-h3 font-semibold leading-snug text-ink">
               Repeat clients are the measure <em className="italic text-primary-ink">we care about.</em>
             </h1>
           </div>
@@ -76,7 +76,7 @@ export function ReviewsPage() {
                         <Star key={starIndex} size={15} fill="currentColor" aria-hidden="true" />
                       ))}
                     </div>
-                    <p className={`mb-0 mt-4 font-display text-[19px] font-medium leading-relaxed ${navy ? "text-white" : "text-ink/85"}`}>
+                    <p className={`mb-0 mt-4 font-display text-[19px] font-semibold leading-relaxed ${navy ? "text-white" : "text-ink/85"}`}>
                       "{review.quote}"
                     </p>
                     <div className="mt-6 flex items-center gap-3">

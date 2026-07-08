@@ -379,7 +379,7 @@ export function AdminPage() {
           <p className="mb-4 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">ADMIN PORTAL</p>
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end">
             <div>
-              <h1 id="admin-title" className="font-display text-h2 leading-[1.05] font-medium text-ink">
+              <h1 id="admin-title" className="font-display text-h2 leading-[1.05] font-semibold text-ink">
                 Manage requests through <span className="text-ink">invoice payment.</span>
               </h1>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-ink/65">
@@ -441,7 +441,7 @@ export function AdminPage() {
             {!loading && bookings.length === 0 ? (
               <div className="rounded-[22px] border border-line bg-white p-8 text-center">
                 <ShieldCheck className="mx-auto size-10 text-ink" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-2xl font-medium text-ink">No booking requests yet</h2>
+                <h2 className="mt-4 font-display text-2xl font-semibold text-ink">No booking requests yet</h2>
                 <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-ink/60">
                   New customer requests from the booking form will appear here for admin confirmation.
                 </p>
@@ -468,7 +468,7 @@ export function AdminPage() {
             <div>
               <ShieldCheck className="mx-auto size-10 text-ink" aria-hidden="true" />
               <p className="mt-4 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">AE staff access</p>
-              <h2 className="mt-3 font-display text-3xl font-medium text-ink">Please sign in as AE staff.</h2>
+              <h2 className="mt-3 font-display text-3xl font-semibold text-ink">Please sign in as AE staff.</h2>
               <p className="mt-2 text-sm leading-6 text-ink/60">
                 Use the shared sign-in page with your AE staff email to approve slots and manage invoices.
               </p>
@@ -534,16 +534,14 @@ function BookingApprovalCard({
                 <span className={`size-1.5 rounded-full ${statusView.dot}`} aria-hidden="true" />
                 {statusView.label}
               </span>
-              {booking.autoCompleted ? <span className="inline-flex h-7 items-center rounded-full border border-line bg-paper px-3 text-xs font-semibold text-ink/60">Auto-completed</span> : null}
-              {booking.dueCompletion && booking.status === "confirmed" ? <span className="inline-flex h-7 items-center rounded-full border border-[#D97706]/30 bg-[#FEF3C7] px-3 text-xs font-semibold text-[#B45309]">Due — mark completed</span> : null}
               <span className="text-xs font-semibold tracking-[0.08em] text-ink/45 uppercase">{shortBookingRef(booking.id)}</span>
             </div>
-            <h2 className="mt-3 font-display text-2xl font-medium text-ink">{booking.serviceName}</h2>
+            <h2 className="mt-3 font-display text-2xl font-semibold text-ink">{booking.serviceName}</h2>
             <p className="mt-1 text-sm leading-6 text-ink/60">
               {booking.frequency} · {booking.home.homeType}, {booking.home.bedrooms}, {booking.home.bathrooms}
             </p>
           </div>
-          <p className="m-0 font-display text-3xl font-medium text-ink">
+          <p className="m-0 font-display text-3xl font-semibold text-ink">
             {booking.customQuote || booking.estimatedTotal === null ? "Custom" : formatMoney(booking.estimatedTotal)}
           </p>
         </div>
@@ -683,7 +681,7 @@ function BlockedDatesPanel({
     <section className="grid gap-5 rounded-[22px] border border-line bg-white p-5" aria-labelledby="blocked-dates-title">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 id="blocked-dates-title" className="m-0 font-display text-2xl font-medium text-ink">Blocked dates</h2>
+          <h2 id="blocked-dates-title" className="m-0 font-display text-2xl font-semibold text-ink">Blocked dates</h2>
           <p className="m-0 mt-1 text-sm leading-6 text-ink/60">Full-day admin blocks make every online slot unavailable for that date.</p>
         </div>
       </div>

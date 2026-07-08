@@ -30,7 +30,7 @@ export function AboutPage() {
       <section className="bg-paper pb-16 pt-32 lg:pb-24 lg:pt-40">
         <Container size="wide">
           <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">ABOUT US</p>
-          <h1 className="mb-0 mt-5 max-w-4xl font-display text-[clamp(2.5rem,6.5vw,5.25rem)] font-medium leading-[1.05] tracking-[-0.015em] text-ink">
+          <h1 className="mb-0 mt-5 max-w-4xl font-display text-[clamp(2.5rem,6.5vw,5.25rem)] font-semibold leading-[1.05] tracking-[-0.015em] text-ink">
             A local team that treats your home <em className="italic text-primary-ink">like their own.</em>
           </h1>
           <div className="mt-8 h-px w-24 bg-gold" aria-hidden="true" />
@@ -63,7 +63,7 @@ export function AboutPage() {
           </Reveal>
           <Reveal className="grid gap-5" delay={0.1}>
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">OUR STORY</p>
-            <h2 className="m-0 font-display text-h2 font-medium text-ink">
+            <h2 className="m-0 font-display text-h2 font-semibold text-ink">
               Cleaning built around real life.
             </h2>
             <p className="m-0 text-lg leading-8 text-ink/65">
@@ -72,7 +72,7 @@ export function AboutPage() {
             </p>
             <blockquote className="relative m-0 border-l-2 border-gold py-1 pl-6">
               <span className="absolute -left-1 -top-4 font-display text-6xl italic text-gold/60 select-none" aria-hidden="true">"</span>
-              <p className="m-0 font-display text-2xl font-medium italic leading-snug text-navy-900">
+              <p className="m-0 font-display text-2xl font-semibold italic leading-snug text-navy-900">
                 Booking a dependable home cleaner should feel as easy as ordering dinner.
               </p>
             </blockquote>
@@ -87,7 +87,7 @@ export function AboutPage() {
       <section className="bg-paper py-20 lg:py-28">
         <Container size="narrow" className="grid gap-3">
           <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">HOW WE WORK</p>
-          <h2 className="m-0 font-display text-h2 font-medium text-ink">Four principles, kept on every visit.</h2>
+          <h2 className="m-0 font-display text-h2 font-semibold text-ink">Four principles, kept on every visit.</h2>
           <div className="mt-8">
             {principles.map(([title, copy], index) => (
               <Reveal
@@ -99,7 +99,7 @@ export function AboutPage() {
                   {String(index + 1).padStart(2, "0")}
                 </p>
                 <div>
-                  <h3 className="m-0 font-display text-h3 font-medium text-ink">{title}</h3>
+                  <h3 className="m-0 font-display text-h3 font-semibold text-ink">{title}</h3>
                   <p className="mb-0 mt-3 max-w-xl text-lg leading-8 text-ink/65">{copy}</p>
                 </div>
               </Reveal>
@@ -113,7 +113,7 @@ export function AboutPage() {
           <div className="grid gap-5 rounded-[20px] border border-line bg-white p-7 md:grid-cols-[auto_1fr_minmax(220px,320px)] md:items-center">
             <span className="grid size-12 place-items-center rounded-xl bg-primary-soft text-ink"><Leaf size={24} aria-hidden="true" /></span>
             <div>
-              <h3 className="m-0 font-display text-2xl font-medium text-ink">Eco-minded where it matters.</h3>
+              <h3 className="m-0 font-display text-2xl font-semibold text-ink">Eco-minded where it matters.</h3>
               <p className="mb-0 mt-2 text-ink/65">Choose plant-based products for your regular cleans and sensitive households — without giving up a detailed clean.</p>
             </div>
             <ul className="m-0 grid list-none gap-3 p-0">

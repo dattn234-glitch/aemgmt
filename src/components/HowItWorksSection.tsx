@@ -29,7 +29,7 @@ export function HowItWorksSection() {
       <Container className="grid gap-12 text-center">
         <div ref={headerReveal.ref} className={`mx-auto grid max-w-3xl gap-4 transition duration-500 ${headerReveal.className}`}>
           <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">HOW IT WORKS</p>
-          <h2 id="how-it-works-title" className="m-0 font-display text-h2 font-medium text-ink">
+          <h2 id="how-it-works-title" className="m-0 font-display text-h2 font-semibold text-ink">
             A clean home in{" "}
             <span className="text-ink">three steps.</span>
           </h2>
@@ -44,7 +44,7 @@ export function HowItWorksSection() {
                   {index + 1}
                 </span>
               </span>
-              <h3 className="m-0 font-display text-2xl font-medium text-ink">{step.title}</h3>
+              <h3 className="m-0 font-display text-2xl font-semibold text-ink">{step.title}</h3>
               <p className="m-0 max-w-sm leading-7 text-ink/65">{step.copy}</p>
             </article>
           ))}

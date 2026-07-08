@@ -171,7 +171,7 @@ function SignedInAccount({
 
       <div className="grid min-w-0 gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="m-0 font-display text-2xl font-medium text-ink">Your bookings</h3>
+          <h3 className="m-0 font-display text-2xl font-semibold text-ink">Your bookings</h3>
           <Button disabled={session.bookingsLoading} size="sm" type="button" variant="secondary" onClick={() => void session.refresh()}>
             {session.bookingsLoading ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
             Refresh
@@ -227,7 +227,7 @@ function AccountPanelHeader({
   return (
     <div>
       {compact ? null : <p className="text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">Customer account</p>}
-      <h2 className={cn("font-display font-medium leading-tight text-ink", compact ? "text-xl" : "mt-2 text-[32px]")}>{title}</h2>
+      <h2 className={cn("font-display font-semibold leading-tight text-ink", compact ? "text-xl" : "mt-2 text-[32px]")}>{title}</h2>
       <p className="mt-2 text-sm leading-6 text-ink/60">{description}</p>
     </div>
   );

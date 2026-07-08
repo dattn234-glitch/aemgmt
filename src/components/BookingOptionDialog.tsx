@@ -39,12 +39,12 @@ export function BookingOptionDialog({
           <Icon3D name="chat" size={58} />
           <DialogTitle className="mt-2 text-center text-[30px]">Select booking option</DialogTitle>
           <DialogDescription className="text-center">
-            Book instantly online, or chat with AE on WhatsApp.
+            Book online in minutes — AE confirms your slot — or chat with us on WhatsApp.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-3">
           <Button className="w-full" type="button" onClick={handleBookingClick}>
-            Book instantly online
+            Book online in minutes
           </Button>
           <Button asChild className="w-full" variant="outline">
             <a href={company.whatsappHref} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>

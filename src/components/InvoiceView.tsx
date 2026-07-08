@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Download, Landmark, QrCode } from "lucide-react";
 import QRCode from "qrcode";
-import aeLogo from "../assets/ae-logo.jpeg";
+import aeLogo from "../assets/ae-logo.png";
 import { shortBookingRef } from "../lib/booking-ref";
 import { company } from "../lib/company";
 import { Button } from "./ui/button";
@@ -77,7 +77,7 @@ export function InvoiceView({
         <div className="min-w-0">
           <p className="m-0 text-xs font-semibold tracking-[0.08em] text-primary-ink uppercase">Pay after service</p>
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            <h1 className="m-0 font-display text-[clamp(1.6rem,3.5vw,2.25rem)] leading-tight font-medium tracking-normal text-ink">TAX INVOICE</h1>
+            <h1 className="m-0 font-display text-[clamp(1.6rem,3.5vw,2.25rem)] leading-tight font-semibold tracking-normal text-ink">TAX INVOICE</h1>
             <span
               className={`inline-flex -rotate-3 items-center rounded-md border-2 px-3 py-1 text-sm font-extrabold uppercase tracking-[0.15em] ${
                 paid ? "border-success bg-success-soft text-success" : "border-destructive bg-destructive-soft text-destructive"
@@ -94,7 +94,7 @@ export function InvoiceView({
         </div>
         <div className="min-w-0 text-left md:text-right">
           <img className="mb-3 h-9 w-auto rounded-md object-contain md:ml-auto" src={aeLogo} alt="AE Management Services" />
-          <h2 className="m-0 break-words font-display text-lg font-medium leading-tight text-ink sm:text-xl">{company.legalName}</h2>
+          <h2 className="m-0 break-words font-display text-lg font-semibold leading-tight text-ink sm:text-xl">{company.legalName}</h2>
           <p className="m-0 mt-2 text-sm leading-6 text-ink/65">
             {company.serviceArea}<br />
             {company.email}
@@ -181,7 +181,7 @@ export function InvoiceView({
               <Landmark className="size-5" aria-hidden="true" />
             </span>
             <div className="min-w-0">
-              <h3 className="m-0 font-display text-2xl font-medium text-ink">Payment instructions</h3>
+              <h3 className="m-0 font-display text-2xl font-semibold text-ink">Payment instructions</h3>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <PaymentBlock
                   title="1. PayNow (preferred)"
@@ -272,7 +272,7 @@ function TotalRow({ emphasis = false, label, value }: { emphasis?: boolean; labe
   return (
     <div className={`grid grid-cols-[1fr_auto] gap-4 border-b border-line py-3 ${emphasis ? "font-semibold text-ink" : "text-ink/65"}`}>
       <span>{label}</span>
-      <span className={emphasis ? "font-display text-xl font-medium" : "font-semibold"}>{value}</span>
+      <span className={emphasis ? "font-display text-xl font-semibold" : "font-semibold"}>{value}</span>
     </div>
   );
 }

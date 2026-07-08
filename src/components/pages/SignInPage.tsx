@@ -47,7 +47,7 @@ export function SignInPage() {
             <p className="m-0 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">
               {session.customer ? "Your account" : "Sign in"}
             </p>
-            <h1 id="signin-title" className="mt-3 font-display text-[34px] font-medium leading-tight text-ink sm:text-[40px]">
+            <h1 id="signin-title" className="mt-3 font-display text-[34px] font-semibold leading-tight text-ink sm:text-[40px]">
               {session.customer ? `Welcome back, ${customerShortName(session.customer)}.` : "Manage your AE booking in one place."}
             </h1>
             <p className="m-0 mt-3 text-base leading-7 text-ink/60">
@@ -67,7 +67,7 @@ export function SignInPage() {
 
           <aside className="rounded-[28px] border border-primary/20 bg-primary-soft p-6">
             <Icon3D name="phone" size={58} />
-            <h2 className="mt-5 font-display text-[32px] font-medium leading-tight text-ink">Get updates on WhatsApp</h2>
+            <h2 className="mt-5 font-display text-[32px] font-semibold leading-tight text-ink">Get updates on WhatsApp</h2>
             <p className="mt-3 text-sm leading-6 text-ink/65">
               Scan to chat with AE about your booking, home access, or anything else.
             </p>

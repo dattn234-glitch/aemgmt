@@ -52,7 +52,7 @@ export function CtaBand({
     return (
       <section className={`${toneClass} py-16 lg:py-20`}>
         <Container size="narrow" className="border-y border-line py-12 text-center lg:py-14">
-          <h2 className="m-0 font-display text-h2 font-medium text-ink">{title}</h2>
+          <h2 className="m-0 font-display text-h2 font-semibold text-ink">{title}</h2>
           <p className="mx-auto mb-0 mt-4 max-w-xl text-lg leading-8 text-ink/65">{sub}</p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             {primaryButton}
@@ -73,7 +73,7 @@ export function CtaBand({
         <Container>
           <div className="grid overflow-hidden rounded-[24px] lg:grid-cols-[7fr_5fr]">
             <div className="bg-gold-soft px-8 py-12 lg:px-12 lg:py-16">
-              <h2 className="m-0 font-display text-h2 font-medium text-navy-900">{title}</h2>
+              <h2 className="m-0 font-display text-h2 font-semibold text-navy-900">{title}</h2>
             </div>
             <div className="grid content-center gap-6 bg-navy-900 px-8 py-12 text-white lg:px-12">
               <p className="m-0 text-lg leading-8 text-white/75">{sub}</p>
@@ -101,7 +101,7 @@ export function CtaBand({
         <div className="absolute inset-y-0 right-0 hidden w-[46%] bg-gradient-to-r from-navy-900 via-navy-900/55 to-transparent lg:block" aria-hidden="true" />
         <Container className="relative">
           <div className="max-w-2xl text-white">
-            <h2 className="m-0 font-display text-h2 font-medium">{title}</h2>
+            <h2 className="m-0 font-display text-h2 font-semibold">{title}</h2>
             <p className="mb-0 mt-4 max-w-xl text-lg leading-8 text-white/75">{sub}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               {primaryButton}
@@ -117,7 +117,7 @@ export function CtaBand({
     <section className={`${toneClass} py-8`}>
       <Container>
         <div className="rounded-[24px] bg-navy-900 px-7 py-10 text-center text-white lg:py-14">
-          <h2 className="m-0 font-display text-h2 font-medium">{title}</h2>
+          <h2 className="m-0 font-display text-h2 font-semibold">{title}</h2>
           <p className="mx-auto mb-0 mt-4 max-w-2xl text-lg leading-8 text-white/75">{sub}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {primaryButton}

@@ -123,11 +123,11 @@ function buildDateRows(
     const surcharge = isWeekend(isoDate) ? rates.weekendSurcharge : 0;
     const rate = getRate(request, surcharge);
     const dateBlocked = timeSlots.every((time) => slotAvailability.get(slotKey(isoDate, time))?.blocked === true);
-    const slots = timeSlots.map<AvailabilitySlot>((time, slotIndex) => ({
+    const slots = timeSlots.map<AvailabilitySlot>((time) => ({
       time,
       rate,
       total: getSlotTotal(request, rate),
-      available: !isUnavailable(request, isoDate, time, slotIndex) && slotAvailability.get(slotKey(isoDate, time))?.available === true
+      available: slotAvailability.get(slotKey(isoDate, time))?.available === true
     }));
 
     return {
@@ -174,13 +174,6 @@ function getSlotTotal(request: AvailabilityRequest, rate: number) {
   const hours = Number.parseInt(asText(request.duration), 10) || 3;
 
   return rate * hours;
-}
-
-function isUnavailable(request: AvailabilityRequest, date: string, time: string, slotIndex: number) {
-  const hash = createHash("sha1").update(`${request.postalCode}:${date}:${time}`).digest("hex");
-  const bucket = Number.parseInt(hash.slice(0, 2), 16);
-
-  return bucket % 7 === 0 || slotIndex === 4;
 }
 
 function buildSearchId(request: AvailabilityRequest) {

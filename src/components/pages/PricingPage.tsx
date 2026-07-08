@@ -1,4 +1,5 @@
 import { Check, HelpCircle, Minus } from "lucide-react";
+import { Reveal } from "../Reveal";
 import type { PricingContent } from "../../lib/site-content";
 import { company, formatMoney, formatSignedMoney } from "../../lib/company";
 import { CtaBand } from "../page/CtaBand";
@@ -86,9 +87,9 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
               <p className="m-0 font-display text-[clamp(4.5rem,10vw,8rem)] font-semibold leading-[0.9] tracking-tight text-navy-900 [font-variant-numeric:tabular-nums]">
                 S$24
               </p>
-              <p className="m-0 pb-2 font-display text-xl font-medium italic text-ink/55">/hr from</p>
+              <p className="m-0 pb-2 font-display text-xl font-semibold italic text-ink/55">/hr from</p>
             </div>
-            <h1 id="pricing-page-title" className="m-0 max-w-xl font-display text-h3 font-medium leading-snug text-ink">
+            <h1 id="pricing-page-title" className="m-0 max-w-xl font-display text-h3 font-semibold leading-snug text-ink">
               Clear home cleaning rates, <em className="italic text-primary-ink">no surprises.</em>
             </h1>
             <p className="m-0 max-w-2xl text-lg leading-8 text-ink/65">
@@ -114,7 +115,7 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
           <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:items-start">
             <div className="min-w-0">
               <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Hourly cleaning</p>
-              <h2 className="mt-3 font-display text-h2 font-medium leading-tight text-ink">
+              <h2 className="mt-3 font-display text-h2 font-semibold leading-tight text-ink">
                 Choose how often,{" "}
                 <span className="text-ink">then how long.</span>
               </h2>
@@ -123,15 +124,16 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
               </p>
             </div>
             <div className="grid min-w-0 items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {rateCards.map((plan) => (
-                <article className={`relative flex h-full min-w-0 flex-col gap-4 rounded-[24px] border p-6 ${plan.featured ? "border-navy-900 bg-navy-900 text-white shadow-[0_18px_44px_rgb(9_30_66_/_0.18)]" : "border-line bg-white"}`} key={plan.name}>
+              {rateCards.map((plan, index) => (
+                <Reveal className="h-full min-w-0" delay={index * 0.08} key={plan.name}>
+                <article className={`relative flex h-full min-w-0 flex-col gap-4 rounded-[24px] border p-6 ${plan.featured ? "border-navy-900 bg-navy-900 text-white shadow-[0_18px_44px_rgb(9_30_66_/_0.18)]" : "border-line bg-white"}`}>
                   {plan.featured ? <span className="absolute -top-3 left-6 rounded-full bg-gold px-3 py-1 text-xs font-semibold text-navy-900">Most popular</span> : null}
                   <p className={`m-0 text-xs font-semibold uppercase tracking-[0.08em] ${plan.featured ? "text-sky-200" : "text-primary-ink"}`}>{plan.label}</p>
                   <div>
-                    <h3 className={`m-0 font-display text-[30px] font-medium ${plan.featured ? "text-white" : "text-ink"}`}>{plan.name}</h3>
+                    <h3 className={`m-0 font-display text-[30px] font-semibold ${plan.featured ? "text-white" : "text-ink"}`}>{plan.name}</h3>
                     <p className={`m-0 mt-1 text-sm ${plan.featured ? "text-white/60" : "text-ink/55"}`}>{plan.sub}</p>
                   </div>
-                  <p className={`m-0 font-display text-[32px] font-medium leading-none [font-variant-numeric:tabular-nums] sm:text-[36px] xl:text-[42px] ${plan.featured ? "text-gold" : "text-ink"}`}>{plan.price}</p>
+                  <p className={`m-0 font-display text-[32px] font-semibold leading-none [font-variant-numeric:tabular-nums] sm:text-[36px] xl:text-[42px] ${plan.featured ? "text-gold" : "text-ink"}`}>{plan.price}</p>
                   <ul className={`grid gap-3 p-0 text-sm ${plan.featured ? "text-white/80" : "text-ink/68"}`}>
                     {plan.rows.map((row) => (
                       <li className="grid grid-cols-[16px_1fr] gap-3" key={row}>
@@ -146,6 +148,7 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
                     </Button>
                   </div>
                 </article>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -153,7 +156,7 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
           <div className="grid min-w-0 gap-4 rounded-[24px] border border-line bg-white p-6 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
             <div className="min-w-0">
               <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Packages</p>
-              <h2 className="mt-3 font-display text-[38px] font-medium leading-tight text-ink">
+              <h2 className="mt-3 font-display text-[38px] font-semibold leading-tight text-ink">
                 Fixed-price{" "}
                 <span className="text-ink">package cleans.</span>
               </h2>
@@ -162,7 +165,7 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
             <div className="grid min-w-0 gap-3 md:grid-cols-2 xl:grid-cols-3">
               {packageCards.map(([name, description, price]) => (
                 <article className="flex min-w-0 flex-col rounded-[20px] border border-line bg-paper p-5" key={name}>
-                  <h3 className="m-0 font-display text-2xl font-medium text-ink">{name}</h3>
+                  <h3 className="m-0 font-display text-2xl font-semibold text-ink">{name}</h3>
                   <p className="m-0 mt-3 text-sm leading-6 text-ink/62">{description}</p>
                   <p className="m-0 mt-auto pt-5 text-xl font-semibold text-ink">{price}</p>
                 </article>
@@ -174,8 +177,8 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
                   <thead>
                     <tr className="border-b border-line bg-paper">
                       <th className="p-4 font-semibold text-ink/60">Home size</th>
-                      <th className="p-4 font-display text-lg font-medium text-ink">Move-in / out</th>
-                      <th className="p-4 font-display text-lg font-medium text-ink">Post-renovation</th>
+                      <th className="p-4 font-display text-lg font-semibold text-ink">Move-in / out</th>
+                      <th className="p-4 font-display text-lg font-semibold text-ink">Post-renovation</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -202,7 +205,7 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:items-end">
             <div>
               <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Compare features</p>
-              <h2 className="mt-3 font-display text-h2 font-medium leading-tight text-ink">
+              <h2 className="mt-3 font-display text-h2 font-semibold leading-tight text-ink">
                 Compare what's included <em className="italic text-primary-ink">in each plan.</em>
               </h2>
             </div>
@@ -224,7 +227,7 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
                 <tr className="border-b border-line">
                   <th className="w-[34%] p-5 font-semibold text-ink/60">Feature</th>
                   {["Weekly", "Fortnightly", "One-time", "Packages"].map((column) => (
-                    <th className="p-5 font-display text-xl font-medium text-ink" key={column}>
+                    <th className="p-5 font-display text-xl font-semibold text-ink" key={column}>
                       {column}
                     </th>
                   ))}
@@ -252,7 +255,7 @@ export function PricingPage({ pricing }: { pricing: PricingContent }) {
           <Accordion className="rounded-[22px] border border-line bg-white px-6" type="single" collapsible>
             {faqs.map(([question, answer]) => (
               <AccordionItem value={question} key={question}>
-                <AccordionTrigger className="font-display text-xl font-medium">{question}</AccordionTrigger>
+                <AccordionTrigger className="font-display text-xl font-semibold">{question}</AccordionTrigger>
                 <AccordionContent className="text-base leading-7 text-ink/65">{answer}</AccordionContent>
               </AccordionItem>
             ))}
@@ -281,7 +284,7 @@ function PricingMatrixSection({
   return (
     <>
       <tr className="border-y border-line bg-paper">
-        <td className="p-5 font-display text-2xl font-medium text-ink" colSpan={5}>{title}</td>
+        <td className="p-5 font-display text-2xl font-semibold text-ink" colSpan={5}>{title}</td>
       </tr>
       {rows.map((row) => (
         <tr className="border-b border-line last:border-b-0" key={row[0]}>
