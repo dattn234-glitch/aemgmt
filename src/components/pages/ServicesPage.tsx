@@ -90,7 +90,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
 
   return (
     <>
-      <section className="bg-navy-900 pb-36 pt-28 text-white lg:pb-44 lg:pt-36" id="services" aria-labelledby="services-title">
+      <section className="bg-navy-900 pb-16 pt-28 text-white lg:pb-20 lg:pt-36" id="services" aria-labelledby="services-title">
         <Container className="grid gap-6">
           <p className="m-0 text-[13px] font-semibold tracking-[0.08em] text-sky-200 uppercase">Services</p>
           <h1 id="services-title" className="m-0 max-w-3xl font-display text-display font-semibold">
@@ -111,8 +111,8 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
         </Container>
       </section>
 
-      <section className="bg-cream pb-8">
-        <Container className="-mt-20 grid gap-5 lg:-mt-24 lg:grid-cols-3">
+      <section className="bg-cream py-10 lg:py-14">
+        <Container className="grid gap-5 lg:grid-cols-3">
           {[
             {
               service: recurring,

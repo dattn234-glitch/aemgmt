@@ -89,11 +89,11 @@ export function Header({ activeHref, brand, navItems, contact, view }: HeaderPro
           <BrandMark className={`size-10 sm:size-11 ${solid ? "border border-line" : ""}`} />
           <span aria-hidden="true" className="hidden h-8 w-px shrink-0 bg-line sm:block" />
           <span className="min-w-0">
-            <span className="block font-display text-[12px] font-bold uppercase leading-[1.18] tracking-[0.03em] text-navy sm:text-[13px]">
+            <span className="block truncate font-display text-[12px] font-bold uppercase leading-[1.18] tracking-[0.03em] text-navy sm:text-[15px]">
               AE Management
-              <span className="block">Services <span className="text-navy/70">Pte Ltd</span></span>
+              <span className="max-[520px]:block"> Services <span className="text-navy/70">Pte Ltd</span></span>
             </span>
-            <span className="mt-1 hidden border-t border-line pt-1 text-[8.5px] font-semibold uppercase tracking-[0.16em] text-primary-ink/85 sm:block">
+            <span className="mt-1 hidden border-t border-line pt-1 text-[9.5px] font-semibold uppercase tracking-[0.18em] text-primary-ink/85 sm:block">
               Simple. Efficient. Professional.
             </span>
           </span>
