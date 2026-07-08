@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Clock } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
 import { formatMoney } from "../lib/company";
 import type { PricingContent, PricingPlan } from "../lib/site-content";
@@ -40,7 +40,7 @@ export function PricingSection({ pricing, teaser = false }: PricingSectionProps)
         </div>
 
         <div className="mx-auto grid justify-items-center gap-4 text-center">
-          <p className="m-0 text-sm text-ink/65">
+          <p className="m-0 text-[15px] leading-7 text-ink/65">
             {teaser ? "See full pricing for package rates by home size, add-ons, and how payment works." : "Package cleans are from-prices. Exact scope and cleaner availability are confirmed by AE."}
           </p>
           <Button asChild>
@@ -69,18 +69,17 @@ export function PricingPlanCard({ plan }: { plan: PricingPlan }) {
           Most popular
         </span>
       ) : null}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="m-0 font-display text-2xl font-semibold">{plan.name}</h3>
-          <p className="mb-0 mt-2 text-sm leading-6 text-ink/65">{plan.description}</p>
-        </div>
-        <span className="mt-1 text-right text-[11px] font-semibold uppercase tracking-[0.08em] text-ink/65">
-          {shortCapacity(plan.capacity)}
+      <div>
+        <h3 className="m-0 font-display text-2xl font-semibold">{plan.name}</h3>
+        <p className="mb-0 mt-2 text-[15px] leading-7 text-ink/65">{plan.description}</p>
+        <span className={cn("mt-3.5 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[13px] font-semibold", plan.featured ? "bg-primary-soft text-primary-ink" : "bg-paper text-ink/70")}>
+          <Clock size={14} aria-hidden="true" />
+          {plan.capacity}
         </span>
       </div>
       <div className="mt-7 flex items-end gap-2">
         <strong className={cn("font-display text-5xl font-semibold leading-none", plan.featured && "text-primary-ink")}>{plan.priceLabel ?? formatMoney(plan.price)}</strong>
-        <span className="pb-1 text-sm text-ink/65">{plan.suffix}</span>
+        <span className="pb-1 text-[15px] text-ink/65">{plan.suffix}</span>
       </div>
       {plan.durationPrices ? (
         <div className={cn("mt-5 overflow-hidden rounded-[18px] border border-line bg-paper text-sm", plan.featured && "bg-primary-soft")}>
@@ -95,8 +94,8 @@ export function PricingPlanCard({ plan }: { plan: PricingPlan }) {
       <Separator className="my-6 bg-line" />
       <ul className="mb-7 grid gap-3 p-0">
         {plan.features.map((feature) => (
-          <li className="grid grid-cols-[16px_1fr] items-start gap-3 text-sm leading-6 text-ink/70" key={feature}>
-            <Check className={cn("mt-1", plan.featured ? "text-primary-ink" : "text-ink/45")} size={16} aria-hidden="true" />
+          <li className="grid grid-cols-[18px_1fr] items-start gap-3 text-[15px] leading-7 text-ink/72" key={feature}>
+            <Check className={cn("mt-1.5", plan.featured ? "text-primary-ink" : "text-primary")} size={18} aria-hidden="true" />
             <span>{feature}</span>
           </li>
         ))}
@@ -111,6 +110,3 @@ export function PricingPlanCard({ plan }: { plan: PricingPlan }) {
   );
 }
 
-function shortCapacity(capacity: string) {
-  return capacity.replace("Up to ", "").replace(" bedrooms", " bd").replace(" bedroom", " bd").replace(" baths", " ba").replace(" bath", " ba");
-}

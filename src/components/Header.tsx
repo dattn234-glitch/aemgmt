@@ -82,18 +82,18 @@ export function Header({ activeHref, brand, navItems, contact, view }: HeaderPro
         aria-label="Primary navigation"
       >
         <a
-          className={`inline-flex min-w-0 items-center gap-2.5 xl:min-w-max ${solid ? "" : "rounded-2xl bg-white/95 py-1.5 pl-1.5 pr-3.5 shadow-[0_6px_18px_rgb(9_30_66_/_0.16)] ring-1 ring-white/40"}`}
+          className="inline-flex min-w-0 items-center gap-2.5 xl:min-w-max"
           href="#home"
           aria-label={`${brand.name} home`}
         >
-          <BrandMark className={`size-10 sm:size-11 ${solid ? "border border-line" : ""}`} />
-          <span aria-hidden="true" className="hidden h-8 w-px shrink-0 bg-line sm:block" />
+          <BrandMark className={`size-10 sm:size-11 ${solid ? "border border-line" : "shadow-[0_6px_18px_rgb(9_30_66_/_0.25)]"}`} />
+          <span aria-hidden="true" className={`hidden h-8 w-px shrink-0 sm:block ${solid ? "bg-line" : "bg-white/30"}`} />
           <span className="min-w-0">
-            <span className="block truncate font-display text-[12px] font-bold uppercase leading-[1.18] tracking-[0.03em] text-navy sm:text-[15px]">
+            <span className={`block truncate font-display text-[12px] font-bold uppercase leading-[1.18] tracking-[0.03em] sm:text-[15px] ${solid ? "text-navy" : "text-white"}`}>
               AE Management
-              <span className="max-[520px]:block"> Services <span className="text-navy/70">Pte Ltd</span></span>
+              <span className="max-[520px]:block"> Services <span className={solid ? "text-navy/70" : "text-white/75"}>Pte Ltd</span></span>
             </span>
-            <span className="mt-1 hidden border-t border-line pt-1 text-[9.5px] font-semibold uppercase tracking-[0.18em] text-primary-ink/85 sm:block">
+            <span className={`mt-1 hidden border-t pt-1 text-[10.5px] font-semibold uppercase tracking-[0.18em] sm:block ${solid ? "border-line text-primary-ink/85" : "border-white/25 text-sky-200"}`}>
               Simple. Efficient. Professional.
             </span>
           </span>

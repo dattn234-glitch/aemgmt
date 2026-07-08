@@ -92,7 +92,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
     <>
       <section className="bg-navy-900 pb-16 pt-28 text-white lg:pb-20 lg:pt-36" id="services" aria-labelledby="services-title">
         <Container className="grid gap-6">
-          <p className="m-0 text-[13px] font-semibold tracking-[0.08em] text-sky-200 uppercase">Services</p>
+          <p className="m-0 text-sm font-semibold tracking-[0.08em] text-sky-200 uppercase">Services</p>
           <h1 id="services-title" className="m-0 max-w-3xl font-display text-display font-semibold">
             Which clean does your home <em className="italic text-sky-200">need?</em>
           </h1>
@@ -102,7 +102,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
           </p>
           <div className="flex flex-wrap gap-2">
             {["Photo proof on every visit", "AE confirms first", "Pay after service"].map((chip) => (
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-white/85" key={chip}>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[15px] font-medium text-white/85" key={chip}>
                 <span className="size-1.5 rounded-full bg-gold" aria-hidden="true" />
                 {chip}
               </span>
@@ -145,11 +145,11 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
                   </span>
                   <h2 className="m-0 font-display text-xl font-semibold leading-tight text-ink">{service.name}</h2>
                 </div>
-                <p className="m-0 text-sm leading-6">
+                <p className="m-0 text-[15px] leading-7">
                   <span className="font-semibold uppercase tracking-[0.08em] text-gold-text">Best if </span>
                   <span className="text-ink/70">{bestIf}.</span>
                 </p>
-                <p className="m-0 text-sm leading-6 text-ink/60">{service.description}</p>
+                <p className="m-0 text-[15px] leading-7 text-ink/62">{service.description}</p>
                 <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
                   <p className="m-0 font-display text-2xl font-semibold text-navy-900">
                     from {formatMoney(service.price)}
@@ -181,7 +181,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
             return (
               <a
                 aria-current={active ? "true" : undefined}
-                className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors hover:bg-primary-soft hover:text-primary-ink ${active ? "bg-primary-soft text-primary-ink" : "text-ink/65"}`}
+                className={`inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[15px] font-medium transition-colors hover:bg-primary-soft hover:text-primary-ink ${active ? "bg-primary-soft text-primary-ink" : "text-ink/65"}`}
                 href={chapter.href}
                 key={chapter.number}
                 onClick={(event) => scrollToAnchor(event, chapter.href)}
@@ -201,7 +201,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
       <section className="bg-paper py-16 lg:py-22">
         <Container className="grid gap-9">
           <div className="grid gap-3 lg:max-w-3xl">
-            <p className="m-0 text-[13px] font-semibold uppercase tracking-[0.08em] text-primary-ink">Scope & add-ons</p>
+            <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Scope & add-ons</p>
             <h2 className="m-0 font-display text-[34px] font-semibold leading-tight text-ink lg:text-[44px]">
               Add detail where your home needs it.
             </h2>
@@ -209,7 +209,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {pricing.addons.map((addon) => (
-              <div className="flex min-h-16 items-center justify-between gap-4 rounded-[20px] border border-line bg-white px-5 py-3 text-sm font-semibold text-ink/75" key={addon.name}>
+              <div className="flex min-h-16 items-center justify-between gap-4 rounded-[20px] border border-line bg-white px-5 py-3 text-[15px] font-semibold text-ink/78" key={addon.name}>
                 <span>{addon.name}</span>
                 <span className="shrink-0 rounded-full bg-primary-soft px-3 py-1 text-ink">{formatSignedMoney(addon.price)}</span>
               </div>
@@ -225,8 +225,8 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
                   <AccordionContent>
                     <ul className="grid gap-3 pb-5 sm:grid-cols-2">
                       {items.map((item) => (
-                        <li className="grid grid-cols-[16px_1fr] gap-3 text-sm text-ink/70" key={item}>
-                          <Check className="text-ink/45" size={16} aria-hidden="true" />
+                        <li className="grid grid-cols-[18px_1fr] gap-3 text-[15px] leading-7 text-ink/72" key={item}>
+                          <Check className="mt-1 text-primary" size={18} aria-hidden="true" />
                           {item}
                         </li>
                       ))}
@@ -243,7 +243,7 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
             </span>
             <div>
               <h3 className="m-0 font-display text-[26px] font-semibold text-ink">Satisfaction guarantee.</h3>
-              <p className="mb-0 mt-2 text-ink/65">If something important is missed, tell AE right away and the team will sort it out with you.</p>
+              <p className="mb-0 mt-2 text-[17px] leading-8 text-ink/65">If something important is missed, tell AE right away and the team will sort it out with you.</p>
             </div>
           </div>
         </Container>
@@ -258,6 +258,13 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
   );
 }
 
+// Marketing rate ranges — must match PricingPage / client-locked pricing.
+const frequencyRates: Record<string, string> = {
+  Weekly: "S$24-26/hr",
+  Fortnightly: "S$25-28/hr",
+  "One-time": "S$28-32/hr"
+};
+
 function ResidentialSubscriptionSection({ service }: { service: BookingService }) {
   const review = reviewCards[3];
 
@@ -270,7 +277,7 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
               <img loading="lazy" className="h-full w-full object-cover" src={serviceImages.subscriptionHero} alt="Professional cleaner preparing a bright residential kitchen" />
             </div>
             <div className="grid content-center gap-5">
-              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-primary-soft px-4 py-2 text-xs font-semibold tracking-[0.08em] text-primary-ink uppercase">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full bg-primary-soft px-4 py-2 text-[13px] font-semibold tracking-[0.08em] text-primary-ink uppercase">
                 <span className="font-display text-sm font-semibold text-gold-text">01</span>
                 Same-cleaner care
               </span>
@@ -278,21 +285,27 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
                 <h2 id="subscription-title" className="m-0 font-display text-[34px] font-semibold leading-tight text-ink lg:text-[44px]">
                   {service.name}
                 </h2>
-                <p className="m-0 mt-4 text-base leading-7 text-ink/65">{service.description}</p>
+                <p className="m-0 mt-4 text-[17px] leading-8 text-ink/65">{service.description}</p>
               </div>
               <ul className="grid gap-3 p-0 sm:grid-cols-2">
                 {service.keyPoints.map((item) => (
                   <CheckItem key={item}>{item}</CheckItem>
                 ))}
               </ul>
-              <div className="rounded-[24px] bg-paper p-4">
-                <p className="m-0 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink/45">Frequency options</p>
-                <div className="mt-3 flex flex-wrap gap-2">
+              <div className="rounded-[24px] bg-paper p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-ink/50">Frequency options</p>
+                  <span className="rounded-full bg-primary-soft px-3 py-1 text-[13px] font-semibold text-primary-ink">Weekly = lowest rate</span>
+                </div>
+                <div className="mt-4 grid gap-2.5">
                   {service.frequencyOptions.map((option) => (
-                    <span className="rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-ink/65" key={option}>{option}</span>
+                    <div className="flex items-center justify-between gap-3 rounded-[16px] border border-line bg-white px-4 py-3" key={option}>
+                      <p className="m-0 font-display text-base font-semibold leading-tight text-ink">{option}</p>
+                      <p className="m-0 whitespace-nowrap text-[15px] font-semibold text-primary-ink">{frequencyRates[option]}</p>
+                    </div>
                   ))}
                 </div>
-                <p className="m-0 mt-3 text-sm leading-6 text-ink/60">
+                <p className="m-0 mt-4 text-[15px] leading-7 text-ink/65">
                   AE confirms your cleaner and visit window — you pay only after the visit.
                 </p>
               </div>
@@ -302,7 +315,7 @@ function ResidentialSubscriptionSection({ service }: { service: BookingService }
           <div className="rounded-[28px] border border-line bg-white p-5 lg:p-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="m-0 text-[13px] font-semibold tracking-[0.08em] text-primary-ink uppercase">Before / after</p>
+                <p className="m-0 text-sm font-semibold tracking-[0.08em] text-primary-ink uppercase">Before / after</p>
                 <h3 className="m-0 mt-2 font-display text-[26px] font-semibold leading-tight text-ink">What changes with a regular clean</h3>
               </div>
             </div>
@@ -339,11 +352,11 @@ function MoveOutSection({ service }: { service: BookingService }) {
             <h2 id="move-title" className="m-0 mt-4 font-display text-[34px] font-semibold leading-tight text-white lg:text-[44px]">
               {service.name}
             </h2>
-            <p className="m-0 mt-5 max-w-2xl text-base leading-7 text-white/70">{service.description}</p>
+            <p className="m-0 mt-5 max-w-2xl text-[17px] leading-8 text-white/72">{service.description}</p>
           </div>
           <div className="mt-2 grid gap-3 sm:grid-cols-2">
             {["Cabinet interiors checked", "Bathrooms reset for handover", "Floors and base edges cleaned", "Access instructions noted at booking"].map((item) => (
-              <div className="rounded-[18px] border border-white/10 bg-white/7 px-4 py-3 text-sm font-semibold text-white/82" key={item}>{item}</div>
+              <div className="rounded-[18px] border border-white/10 bg-white/7 px-4 py-3.5 text-[15px] font-semibold text-white/85" key={item}>{item}</div>
             ))}
           </div>
           <BookButton serviceId={service.id}>Book move clean</BookButton>
@@ -360,10 +373,10 @@ function MoveOutSection({ service }: { service: BookingService }) {
           <div className="rounded-[24px] border border-line bg-white p-5">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <p className="m-0 text-sm text-ink/55">Starting from</p>
+                <p className="m-0 text-[15px] text-ink/55">Starting from</p>
                 <p className="m-0 mt-1 font-display text-[38px] font-semibold leading-none text-ink">{formatMoney(service.price)}</p>
               </div>
-              <p className="m-0 max-w-xl text-sm leading-6 text-ink/62">Final package price depends on home type and size. AE confirms the scope before your visit.</p>
+              <p className="m-0 max-w-xl text-[15px] leading-7 text-ink/62">Final package price depends on home type and size. AE confirms the scope before your visit.</p>
             </div>
           </div>
         </div>
@@ -395,7 +408,7 @@ function PostRenovationSection({ service }: { service: BookingService }) {
               <h2 id="reno-title" className="m-0 mt-4 font-display text-[34px] font-semibold leading-tight text-ink lg:text-[44px]">
                 {service.name}
               </h2>
-              <p className="m-0 mt-5 text-base leading-7 text-ink/68">{service.description}</p>
+              <p className="m-0 mt-5 text-[17px] leading-8 text-ink/68">{service.description}</p>
             </div>
             <div className="mt-2 grid gap-3 sm:grid-cols-2">
               {service.keyPoints.map((item) => (
@@ -413,15 +426,15 @@ function PostRenovationSection({ service }: { service: BookingService }) {
                 <article className="overflow-hidden rounded-[22px] border border-line bg-white" key={item.label}>
                   <img loading="lazy" className="aspect-[1.15] w-full object-cover" src={item.image} alt={item.label} />
                   <div className="p-4">
-                    <p className="m-0 text-sm font-semibold text-ink">{item.label}</p>
-                    <p className="m-0 mt-2 text-sm leading-6 text-ink/62">{item.caption}</p>
+                    <p className="m-0 text-base font-semibold text-ink">{item.label}</p>
+                    <p className="m-0 mt-2 text-[15px] leading-7 text-ink/62">{item.caption}</p>
                   </div>
                 </article>
               ))}
             </div>
             <div className="flex flex-wrap items-center justify-between gap-4 rounded-[24px] border border-line bg-paper p-5">
               <div>
-                <p className="m-0 text-sm text-ink/55">Starting from</p>
+                <p className="m-0 text-[15px] text-ink/55">Starting from</p>
                 <p className="m-0 mt-1 font-display text-[38px] font-semibold leading-none text-ink">{formatMoney(service.price)}</p>
               </div>
               <BookButton serviceId={service.id}>Book renovation clean</BookButton>
@@ -448,15 +461,15 @@ function PriceCard({
 }) {
   return (
     <div className="rounded-[24px] border border-line bg-white p-5">
-      <p className="m-0 text-sm text-ink/55">Starting from</p>
+      <p className="m-0 text-[15px] text-ink/55">Starting from</p>
       <div className="mt-2 flex items-end gap-1">
         <span className="font-display text-[38px] font-semibold leading-none text-ink">{formatMoney(price)}</span>
         {suffix ? <span className="pb-1 text-base text-ink/55">{suffix}</span> : null}
       </div>
-      <p className="m-0 mt-3 text-sm leading-6 text-ink/60">{note}</p>
+      <p className="m-0 mt-3 text-[15px] leading-7 text-ink/62">{note}</p>
       <BookButton serviceId={serviceId}>Book this clean</BookButton>
-      <p className="m-0 mt-4 text-sm font-semibold text-ink">{serviceName}</p>
-      <p className="m-0 mt-1 text-sm text-ink/55">AE confirms the scope first — you only pay after the visit is done.</p>
+      <p className="m-0 mt-4 text-base font-semibold text-ink">{serviceName}</p>
+      <p className="m-0 mt-1 text-[15px] leading-7 text-ink/55">AE confirms the scope first — you only pay after the visit is done.</p>
     </div>
   );
 }
@@ -478,9 +491,9 @@ function ReviewRailCard({ review, label }: { review: (typeof reviewCards)[number
         </Button>
       </div>
       <div className="mt-4 rounded-[20px] bg-paper p-4">
-        <p className="m-0 text-sm font-semibold text-ink">{review.name} · {review.city}</p>
-        <p className="m-0 mt-1 text-xs font-semibold uppercase tracking-[0.08em] text-primary-ink">{label}</p>
-        <p className="m-0 mt-3 text-sm leading-6 text-ink/70">"{review.quote}"</p>
+        <p className="m-0 text-[15px] font-semibold text-ink">{review.name} · {review.city}</p>
+        <p className="m-0 mt-1 text-[13px] font-semibold uppercase tracking-[0.08em] text-primary-ink">{label}</p>
+        <p className="m-0 mt-3 text-[15px] leading-7 text-ink/70">"{review.quote}"</p>
       </div>
     </div>
   );
@@ -495,7 +508,7 @@ function HelpCard({ serviceName }: { serviceName: string }) {
         </span>
         <div>
           <p className="m-0 text-base font-semibold text-ink">Need help?</p>
-          <p className="m-0 mt-1 text-sm leading-6 text-ink/60">Not sure which clean fits? Chat with AE before you book.</p>
+          <p className="m-0 mt-1 text-[15px] leading-7 text-ink/60">Not sure which clean fits? Chat with AE before you book.</p>
         </div>
       </div>
       <Button asChild className="mt-4 w-full border-line bg-white text-ink hover:border-ink/25 hover:bg-white" variant="secondary">
@@ -523,19 +536,19 @@ function ProofImage({
     <article className="overflow-hidden rounded-[22px] border border-line bg-white">
       <div className="relative aspect-[1.28] overflow-hidden">
         <img loading="lazy" className="h-full w-full object-cover" src={image} alt={`${label} cleaning state`} />
-        <span className={`absolute left-3 top-3 inline-flex rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] ${positive ? "bg-primary text-white" : "bg-white/94 text-ink"}`}>
+        <span className={`absolute left-3 top-3 inline-flex rounded-full px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] ${positive ? "bg-primary text-white" : "bg-white/94 text-ink"}`}>
           {label}
         </span>
       </div>
-      <p className="m-0 border-t border-line px-4 py-3 text-sm leading-6 text-ink/70">{caption}</p>
+      <p className="m-0 border-t border-line px-4 py-3.5 text-[15px] leading-7 text-ink/70">{caption}</p>
     </article>
   );
 }
 
 function CheckItem({ children }: { children: string }) {
   return (
-    <li className="grid grid-cols-[16px_1fr] gap-3 text-sm leading-6 text-current/75">
-      <Check className="mt-1 text-ink/45" size={16} aria-hidden="true" />
+    <li className="grid grid-cols-[18px_1fr] gap-3 text-[15px] leading-7 text-current/78">
+      <Check className="mt-1.5 text-primary" size={18} aria-hidden="true" />
       <span>{children}</span>
     </li>
   );

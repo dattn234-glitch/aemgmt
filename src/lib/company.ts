@@ -16,7 +16,7 @@ export const company = {
   bankName: "DBS",
   bankAccount: "", // [CLIENT TO CONFIRM]
   billingWhatsapp: "+65 6980 3559",
-  siteUrl: "", // [CLIENT TO CONFIRM production domain; falls back to window.location.origin]
+  siteUrl: "https://ae-mgmt.com",
   rates: {
     minHours: 3,
     durations: [3, 4],
