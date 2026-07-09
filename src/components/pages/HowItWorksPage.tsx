@@ -29,9 +29,9 @@ const steps = [
     title: "Enjoy & pay after",
     chip: "PayNow, no deposits",
     icon: "house" as Icon3DName,
-    copy: "You get completion photos with the checklist, then the invoice on WhatsApp. Pay by PayNow only once you're happy.",
-    youDo: "Review the photos, then settle the invoice by PayNow whenever it suits you.",
-    weDo: "Send the photo report and invoice, and fix anything important that was missed."
+    copy: "AE closes the visit against the checklist, then sends the invoice on WhatsApp. Pay by PayNow only once you're happy.",
+    youDo: "Review the completed visit, then settle the invoice by PayNow whenever it suits you.",
+    weDo: "Send the invoice, note the completed scope, and fix anything important that was missed."
   }
 ] as const;
 
@@ -39,7 +39,7 @@ const visitTimeline = [
   ["Arrival window", "Your cleaner arrives in the confirmed window — you get a heads-up if anything shifts."],
   ["Quick walkthrough", "On first visits, two minutes to align on priorities and no-go areas."],
   ["Checklist clean", "Room by room through the digital checklist, with your priorities first."],
-  ["Photo report", "Completion photos are shared so you can see the work, even from the office."],
+  ["Checklist close-out", "The completed scope is reviewed so you know what was covered."],
   ["PayNow invoice", "The invoice arrives on WhatsApp — pay after service, not before."]
 ] as const;
 

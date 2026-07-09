@@ -145,7 +145,7 @@ export const fallbackSiteContent: SiteContent = {
       promises: [
         { title: "Same cleaner", description: "Every visit where available" },
         { title: "Replacement", description: "Cleaner guarantee" },
-        { title: "Digital checklist", description: "+ photo report" },
+        { title: "Digital checklist", description: "Room by room" },
         { title: "Cashless", description: "PayNow or transfer" }
       ],
       primaryCta: "Book online",
@@ -232,7 +232,7 @@ export const fallbackSiteContent: SiteContent = {
         price: 24,
         billingLabel: "from /hr",
         frequencyOptions: ["Weekly", "Fortnightly", "One-time"],
-        keyPoints: ["3 or 4 hour sessions", "Same cleaner every visit where available", "Digital checklist", "Photo completion report"]
+        keyPoints: ["3 or 4 hour sessions", "Same cleaner every visit where available", "Digital checklist", "WhatsApp confirmation"]
       },
       {
         id: "move",
@@ -250,7 +250,7 @@ export const fallbackSiteContent: SiteContent = {
         price: 380,
         billingLabel: "from",
         frequencyOptions: ["One-time package"],
-        keyPoints: ["Packages sized up to 1,300 sq ft", "Fine dust wipe-down", "Floor and surface reset", "Photo completion report"]
+        keyPoints: ["Packages sized up to 1,300 sq ft", "Fine dust wipe-down", "Floor and surface reset", "Scope confirmed by AE"]
       }
     ],
     homeTypes: ["HDB", "Condominium", "Landed"],
@@ -268,7 +268,7 @@ export const fallbackSiteContent: SiteContent = {
     assurances: [
       { title: "Pay after service", description: "AE confirms your visit first; invoice and PayNow details appear after completion." },
       { title: "Confirmed before we come", description: "Every booking is checked and confirmed by AE on WhatsApp — no surprise arrivals." },
-      { title: "Photo completion report", description: "See the checklist and photos from every visit, even when you're not home." }
+      { title: "Checklist-led visit", description: "AE confirms your scope and visit details so the cleaner knows what matters most." }
     ]
   }
 };

@@ -14,7 +14,7 @@ export const reviewCards = [
     date: "Jul 2026"
   },
   {
-    quote: "Booked online in two minutes, got a WhatsApp confirmation the same day. The clean itself was thorough and the photo report is a nice touch.",
+    quote: "Booked online in two minutes, got a WhatsApp confirmation the same day. The clean itself was thorough and easy to review afterwards.",
     name: "Daniel T.",
     city: "Queenstown",
     service: "Fortnightly cleaning",

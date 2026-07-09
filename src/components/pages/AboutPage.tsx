@@ -20,7 +20,7 @@ const principles = [
   ],
   [
     "Dependable Service",
-    "Count on us for consistent, timely, and reliable cleaning solutions tailored to your needs, with a digital checklist and photo report on every visit."
+    "Count on us for consistent, timely, and reliable cleaning solutions tailored to your needs, with a digital checklist for every visit."
   ]
 ] as const;
 

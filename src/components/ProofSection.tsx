@@ -16,10 +16,10 @@ const proofCards = [
     copy: "No deposits, no prepayment. Settle by PayNow once the work is done and you're happy with it."
   },
   {
-    stat: "100%",
-    unit: "proof",
-    title: "Digital checklist + photo report",
-    copy: "Every visit follows a digital checklist, with completion photos when the work is done."
+    stat: "1",
+    unit: "checklist",
+    title: "Checklist-led visit, every time",
+    copy: "Every visit follows a clear room-by-room checklist, with AE confirming the scope before the cleaner arrives."
   }
 ] as const;
 
@@ -34,7 +34,7 @@ export function ProofSection() {
           <div className="grid gap-3 lg:col-span-7">
             <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">WHY AE</p>
             <h2 id="why-title" className="m-0 font-display text-h2 font-semibold text-ink">
-              The same cleaner, a backup plan, and proof it's done.
+              The same cleaner, a backup plan, and a clear visit flow.
             </h2>
           </div>
           <div className="grid gap-4 lg:col-span-5 lg:self-end">
@@ -47,7 +47,7 @@ export function ProofSection() {
               </span>
               <div>
                 <p className="m-0 text-sm font-semibold uppercase tracking-[0.08em] text-primary-ink">Residential homes only</p>
-                <p className="mb-0 mt-2 text-base leading-7 text-ink/65">AE follows MOM's Household Services Scheme — cleaners serve residential homes only, with booking records and checklists for every visit.</p>
+                <p className="mb-0 mt-2 text-base leading-7 text-ink/65">AE serves Singapore homes with confirmed bookings, visit notes, and checklist-led cleaning for every visit.</p>
               </div>
             </div>
           </div>

@@ -107,11 +107,12 @@ export function App() {
 }
 
 function normalizeSiteContent(payload: SiteContent): SiteContent {
+  const content = sanitizeUnsupportedClaims(payload) as SiteContent;
   const apiPointsField = ["high", "lights"].join("");
-  const booking = payload.booking;
+  const booking = content.booking;
 
   return {
-    ...payload,
+    ...content,
     booking: {
       ...booking,
       services: booking.services.map((service) => {
@@ -125,6 +126,31 @@ function normalizeSiteContent(payload: SiteContent): SiteContent {
       })
     }
   };
+}
+
+function sanitizeUnsupportedClaims(value: unknown): unknown {
+  if (typeof value === "string") {
+    return value
+      .replaceAll("+ photo report", "Room by room")
+      .replaceAll("Photo completion report", "Checklist-led visit")
+      .replaceAll("photo completion report", "checklist-led visit")
+      .replaceAll("Photo/checklist completion", "Checklist completion")
+      .replaceAll("Photo proof", "Scope review")
+      .replaceAll("photo report", "checklist summary")
+      .replaceAll("completion photos", "the completed scope")
+      .replaceAll("photos", "visit details")
+      .replaceAll("AE follows MOM's Household Services Scheme — ", "");
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(sanitizeUnsupportedClaims);
+  }
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, sanitizeUnsupportedClaims(entry)]));
+  }
+
+  return value;
 }
 
 function getActiveHref() {

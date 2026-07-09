@@ -97,11 +97,10 @@ export function ServicesPage({ booking, pricing }: { booking: BookingContent; pr
             Which clean does your home <em className="italic text-sky-200">need?</em>
           </h1>
           <p className="m-0 max-w-2xl text-lg leading-8 text-white/70">
-            Pick the one that fits — every service ends with a digital checklist and photo report, and you pay by
-            PayNow only after the visit.
+            Pick the one that fits — every service follows a digital checklist, and you pay by PayNow only after the visit.
           </p>
           <div className="flex flex-wrap gap-2">
-            {["Photo proof on every visit", "AE confirms first", "Pay after service"].map((chip) => (
+            {["Checklist-led visits", "AE confirms first", "Pay after service"].map((chip) => (
               <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[15px] font-medium text-white/85" key={chip}>
                 <span className="size-1.5 rounded-full bg-gold" aria-hidden="true" />
                 {chip}
@@ -392,7 +391,7 @@ function PostRenovationSection({ service }: { service: BookingService }) {
   const proofItems = [
     { label: "Before the clean", image: serviceImages.renovationBefore, caption: "Dust clings to trims, ledges, and floor edges even after contractors leave." },
     { label: "After the clean", image: serviceImages.renovationAfter, caption: "Reachable surfaces, floors, and visible corners are reset for occupancy." },
-    { label: "Photo proof", image: serviceImages.renovationReport, caption: "AE shares completion photos so you can review the work before you pay." }
+    { label: "Scope review", image: serviceImages.renovationReport, caption: "AE confirms the agreed scope so the visit is clear before you pay." }
   ];
 
   return (

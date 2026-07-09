@@ -195,9 +195,9 @@ function MobileMenu({
           <Menu size={20} aria-hidden="true" />
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-full border-l border-line bg-paper px-6 py-7 sm:max-w-none" side="right">
-        <SheetHeader className="p-0 text-left">
-          <SheetTitle className="font-display text-[28px] font-semibold text-ink">
+      <SheetContent className="flex w-full flex-col gap-0 border-l border-line bg-paper p-0 sm:max-w-none" side="right">
+        <SheetHeader className="shrink-0 px-6 pb-4 pr-14 pt-7 text-left">
+          <SheetTitle className="font-display text-[26px] font-semibold leading-tight text-ink">
             {brand.name}
           </SheetTitle>
           <SheetDescription className="text-sm text-[rgb(22_25_26_/_0.55)]">
@@ -205,7 +205,11 @@ function MobileMenu({
           </SheetDescription>
         </SheetHeader>
 
-        <div className="mt-10 grid gap-3" aria-label="Mobile site sections">
+        <div
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-6 pt-2"
+          aria-label="Mobile site sections"
+        >
+          <div className="grid gap-3">
           {navItems.map((item) => item.href === "#services" ? (
             <div className={`rounded-[24px] border bg-white p-4 transition ${servicesOpen ? "border-primary/25 shadow-[0_14px_34px_rgb(22_25_26_/_0.06)]" : "border-line"}`} key={item.href}>
               <Button
@@ -215,7 +219,7 @@ function MobileMenu({
                 type="button"
                 variant="ghost"
               >
-                <span className={`font-display text-[28px] font-semibold leading-tight transition-colors ${servicesOpen ? "text-primary-ink" : "text-ink"}`}>
+                <span className={`font-display text-[24px] font-semibold leading-tight transition-colors sm:text-[28px] ${servicesOpen ? "text-primary-ink" : "text-ink"}`}>
                   Services
                 </span>
                 <span className={`grid size-11 place-items-center rounded-full border text-primary-ink transition-transform ${servicesOpen ? "rotate-180 border-primary/30 bg-primary-soft" : "border-line bg-paper"}`}>
@@ -245,7 +249,7 @@ function MobileMenu({
             <SheetClose asChild key={item.href}>
               <a
                 aria-current={item.href === activeHref ? "page" : undefined}
-                className={`font-display text-[28px] font-semibold leading-tight transition-colors hover:text-primary-ink ${
+                className={`rounded-[18px] px-1 py-1 font-display text-[24px] font-semibold leading-tight transition-colors hover:text-primary-ink sm:text-[28px] ${
                   item.href === activeHref ? "text-primary-ink" : "text-ink"
                 }`}
                 href={item.href}
@@ -254,9 +258,10 @@ function MobileMenu({
               </a>
             </SheetClose>
           ))}
+          </div>
         </div>
 
-        <div className="mt-auto grid gap-3 pt-8">
+        <div className="shrink-0 grid gap-3 border-t border-line px-6 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           <HeaderAuthControls auth={auth} solid={true} mobile />
           <SheetClose asChild>
             <Button asChild className="size-12 p-0" variant="secondary">

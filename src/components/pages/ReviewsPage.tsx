@@ -102,8 +102,8 @@ export function ReviewsPage() {
             })}
           </div>
           <p className="mx-auto mb-0 mt-8 max-w-2xl text-center text-sm leading-6 text-ink/50">
-            Feedback collected from AE customers after completed visits. Every clean ends with a digital checklist and
-            photo report, so you can judge the work the same way they did.
+            Feedback collected from AE customers after completed visits. Every clean follows a digital checklist, so
+            the visit scope stays clear from booking to completion.
           </p>
         </Container>
       </section>

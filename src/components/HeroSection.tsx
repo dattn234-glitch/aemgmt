@@ -1,4 +1,4 @@
-import { BadgeCheck, Camera, ClipboardCheck, Users } from "lucide-react";
+import { BadgeCheck, ClipboardCheck, MessageCircle, Users } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import heroImage from "../assets/ae-hero-living-room.webp";
@@ -89,7 +89,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
             <TrustItem icon={<Users className="text-ink/45" size={15} aria-hidden="true" />} text="Same cleaner where available" />
             <TrustItem icon={<BadgeCheck className="text-ink/45" size={15} aria-hidden="true" />} text="Replacement guarantee" />
             <TrustItem icon={<ClipboardCheck className="text-ink/45" size={15} aria-hidden="true" />} text="Digital checklist" />
-            <TrustItem icon={<Camera className="text-ink/45" size={15} aria-hidden="true" />} text="Photo completion report" />
+            <TrustItem icon={<MessageCircle className="text-ink/45" size={15} aria-hidden="true" />} text="WhatsApp confirmation" />
           </div>
         </Container>
       </div>

@@ -62,7 +62,7 @@ const comparisonSections = [
     title: "Proof and protection",
     rows: [
       ["Digital cleaning checklist", "Included", "Included", "Available", "Included"],
-      ["Photo/checklist completion", "Included", "Included", "Available", "Included"],
+      ["Checklist completion", "Included", "Included", "Available", "Included"],
       ["Public-liability and damage coverage", "Covered", "Covered", "Covered", "Covered"],
       ["Weekend surcharge", "S$8-15", "S$8-15", "S$8-15", "Confirmed in quote"]
     ]
